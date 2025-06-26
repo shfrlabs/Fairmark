@@ -1,7 +1,10 @@
 ﻿using Fairmark.Helpers;
 using System;
+using Windows.UI;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Fairmark
@@ -127,6 +130,53 @@ namespace Fairmark
             var storyboard = new Storyboard();
             storyboard.Children.Add(animation);
             storyboard.Begin();
+        }
+
+        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TabView_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        {
+
+        }
+
+        private void contentFrame_Loaded(object sender, RoutedEventArgs e)
+        {
+            contentFrame.Navigate(typeof(EmptyTabPage));
+        }
+
+        private async void Page_Loading(FrameworkElement sender, object args)
+        {
+            if (!Variables.isVaultSelected)
+            {
+                this.IsEnabled = false;
+                AppWindow window = await AppWindow.TryCreateAsync();
+                var titleBar = window.TitleBar;
+                titleBar.ExtendsContentIntoTitleBar = true;
+                titleBar.BackgroundColor = Colors.Transparent;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+                titleBar.ButtonPressedBackgroundColor = Colors.Transparent;
+                titleBar.InactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                window.Title = "Vault selection";
+                ElementCompositionPreview.SetAppWindowContent(window, new OOBEPage());
+                await window.TryShowAsync();
+                window.Closed += (s, e) =>
+                {
+                    if (Variables.isVaultSelected)
+                    {
+                        this.IsEnabled = true;
+                        contentFrame.Navigate(typeof(EmptyTabPage));
+                    }
+                    else
+                    {
+                        Application.Current.Exit();
+                    }
+                };
+            }
         }
     }
 }

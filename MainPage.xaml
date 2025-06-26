@@ -5,11 +5,10 @@
     xmlns:local="using:Fairmark"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    xmlns:oldtoolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    controls:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Loading="Page_Loading">
 
     <Grid>
         <Grid.Resources>
@@ -41,11 +40,23 @@
                 </AppBarToggleButton>
                 <AppBarToggleButton Icon="Find" Label="Search" Width="50" x:Name="Search" Click="Search_Click"/>
             </CommandBar>
+            <controls:TabView
+                x:Name="TabView"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                SelectionChanged="TabView_SelectionChanged"
+                IsAddTabButtonVisible="False"
+                TabCloseRequested="TabView_TabCloseRequested"
+                CanDrag="False"
+                CanDragTabs="False"
+                CanReorderTabs="False"
+                Margin="10,0,0,0">
+            </controls:TabView>
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" x:Name="MainGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid CornerRadius="4" Margin="5" Padding="5,0" Grid.Column="0" Grid.RowSpan="2" Background="{ThemeResource LayerFillColorDefaultBrush}" x:Name="SideGrid">
@@ -62,17 +73,7 @@
                     <TextBlock>search</TextBlock>
                 </Grid>
             </Grid>
-            <ScrollViewer Grid.Column="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <oldtoolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MarkBlock" Background="Transparent" Text="{x:Bind MarkEditor.Text, Mode=OneWay}"/>
-            </ScrollViewer>
-            <Grid Grid.Column="2" Margin="15">
-                <TextBox AcceptsReturn="True" x:Name="MarkEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            </Grid>
-            <toolkit:GridSplitter
-                   Grid.Column="1"
-                   Margin="0,0,-10,0"
-                   VerticalAlignment="Center" HorizontalAlignment="Right">
-            </toolkit:GridSplitter>
+            <Frame x:Name="contentFrame" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="contentFrame_Loaded"/>
         </Grid>
     </Grid>
 </Page>
