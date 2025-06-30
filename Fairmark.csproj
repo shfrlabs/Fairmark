@@ -128,9 +128,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OOBEPage.xaml.cs">
-      <DependentUpon>OOBEPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -209,10 +206,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OOBEPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Uwp.Controls.Sizers">
@@ -229,9 +222,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fairmark.Helpers\Fairmark.Helpers.csproj">
-      <Project>{04cd76f7-c0f6-4c21-a1fc-0be431470a4b}</Project>
+    <ProjectReference Include="Fairmark.Helpers\Fairmark.Helpers.csproj">
+      <Project>{dd07202e-9a92-4b4c-a563-6ff0800d2121}</Project>
       <Name>Fairmark.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="Fairmark.Models\Fairmark.Models.csproj">
+      <Project>{3a4c2a5f-327e-4fb3-9946-b6e8342d64c8}</Project>
+      <Name>Fairmark.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

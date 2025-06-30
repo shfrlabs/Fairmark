@@ -1,10 +1,15 @@
 ﻿using Fairmark.Helpers;
 using System;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Fairmark
@@ -15,6 +20,50 @@ namespace Fairmark
         {
             this.InitializeComponent();
             Window.Current.SetTitleBar(DragRegion);
+        }
+
+        private async Task WelcomeDialog()
+        {
+            ContentDialog welcomeDialog = new ContentDialog
+            {
+                PrimaryButtonText = "OK",
+                SecondaryButtonText = "Exit app",
+                DefaultButton = ContentDialogButton.Primary
+            };
+            welcomeDialog.Content = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Orientation = Orientation.Vertical,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Welcome to Fairmark!",
+                        FontSize = 42,
+                        FontWeight = FontWeights.SemiBold,
+                        FontFamily = new FontFamily("Segoe UI Variable Display"),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        TextAlignment = TextAlignment.Center,
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Foreground = new SolidColorBrush(Color.FromArgb(143, 221, 241, 255))
+                    },
+                    new TextBlock
+                    {
+                        Text = "Thanks for your support during the Fairmark ALPHA!\nExplore a world of simple, clean notes. Enjoy!",
+                        TextWrapping = TextWrapping.Wrap,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        TextAlignment = TextAlignment.Center,
+                        Margin = new Thickness(0, 12, 0, 0)
+                    },
+                }
+            };
+            welcomeDialog.SecondaryButtonClick += (s, e) =>
+            {
+                Application.Current.Exit();
+            };
+            await welcomeDialog.ShowAsync();
         }
 
         private void DebugLoaded(object sender, RoutedEventArgs e)
@@ -144,39 +193,17 @@ namespace Fairmark
 
         private void contentFrame_Loaded(object sender, RoutedEventArgs e)
         {
+            Explorer_Click(null, null);
             contentFrame.Navigate(typeof(EmptyTabPage));
         }
 
-        private async void Page_Loading(FrameworkElement sender, object args)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!Variables.isVaultSelected)
+            if (Variables.firstStartup)
             {
-                this.IsEnabled = false;
-                AppWindow window = await AppWindow.TryCreateAsync();
-                var titleBar = window.TitleBar;
-                titleBar.ExtendsContentIntoTitleBar = true;
-                titleBar.BackgroundColor = Colors.Transparent;
-                titleBar.ButtonBackgroundColor = Colors.Transparent;
-                titleBar.ButtonHoverBackgroundColor = Colors.Transparent;
-                titleBar.ButtonPressedBackgroundColor = Colors.Transparent;
-                titleBar.InactiveBackgroundColor = Colors.Transparent;
-                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                window.Title = "Vault selection";
-                ElementCompositionPreview.SetAppWindowContent(window, new OOBEPage());
-                await window.TryShowAsync();
-                window.Closed += (s, e) =>
-                {
-                    if (Variables.isVaultSelected)
-                    {
-                        this.IsEnabled = true;
-                        contentFrame.Navigate(typeof(EmptyTabPage));
-                    }
-                    else
-                    {
-                        Application.Current.Exit();
-                    }
-                };
+                await WelcomeDialog();
             }
+            ApplicationData.Current.LocalSettings.Values["firstStartup"] = false;
         }
     }
 }

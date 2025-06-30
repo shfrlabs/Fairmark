@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" HorizontalTextAlignment="Center" FontSize="16" TextWrapping="WrapWholeWords" Margin="50">No note selected. Use the side panel to select one.</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" HorizontalTextAlignment="Center" FontSize="16" TextWrapping="WrapWholeWords" Margin="50">No note selected. Use the side panel to select or create one.</TextBlock>
     </Grid>
 </Page>
