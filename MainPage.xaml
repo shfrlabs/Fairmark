@@ -8,9 +8,15 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     xmlns:models="using:Fairmark.Models"
+    xmlns:helpers="using:Fairmark.Helpers"
+    xmlns:converters="using:Fairmark.Converters"
     controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Loaded="Page_Loaded">
 
+    <Page.Resources>
+        <converters:TagGradientConverter x:Name="TagGradientConverter"/>
+        <converters:ColorBrushConverter x:Name="ColorBrushConverter" />
+    </Page.Resources>
     <Grid>
         <Grid.Resources>
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent"/>
@@ -67,17 +73,61 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <AppBarButton Icon="ClosePane" Label="Close" Click="ClosePane_Click" LabelPosition="Collapsed" Width="50"/>
-                <Grid Background="Green" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TreeView x:Name="Tree">
-                        <TreeView.ItemTemplate>
-                            <DataTemplate x:DataType="models:TreeNode">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="{x:Bind Emoji, Mode=OneWay}" />
-                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                </StackPanel>
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="NoteList" ItemsSource="{x:Bind helpers:NoteCollectionHelper.notes, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:NoteMetadata">
+                                <Grid Background="{x:Bind Tags, Converter={StaticResource TagGradientConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Glyph="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                </Grid>
                             </DataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <AutoSuggestBox QueryIcon="Find" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags}" x:Name="TagBox" MinWidth="100" Grid.Column="0" PlaceholderText="Search tags..." TextChanged="TagBox_TextChanged" Margin="0,0,5,0">
+                            <AutoSuggestBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:NoteTag">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Background="{x:Bind Color, Converter={StaticResource ColorBrushConverter}, Mode=OneWay}" Margin="2" Width="15" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4" Grid.Column="0"/>
+                                        <TextBlock Text="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </AutoSuggestBox.ItemTemplate>
+                        </AutoSuggestBox>
+                        <Button x:Name="CreateTag" Grid.Column="1" Click="CreateTag_Click">
+                            <SymbolIcon Symbol="Add"/>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <AppBarButton Icon="Add" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click"/>
+                        <AppBarButton Icon="Rename" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" Click="RenameButton_Click"/>
+                        <AppBarButton Icon="Delete" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" Click="DeleteButton_Click"/>
+                    </Grid>
                 </Grid>
                 <Grid Background="Red" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock>search</TextBlock>

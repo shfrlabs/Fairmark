@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Fairmark.Models
 {
-    public class TreeNode : INotifyPropertyChanged
+    public class NoteMetadata : INotifyPropertyChanged
     {
-        private Guid _id;
+        private string _id;
         private string _name;
-        private bool _isFolder;
-        private ObservableCollection<TreeNode> _children;
+        private string _emoji;
+        private ObservableCollection<NoteTag> _tags;
 
-        public Guid Id
+        public string Id
         {
             get => _id;
             set
@@ -38,41 +38,30 @@ namespace Fairmark.Models
             }
         }
 
-        public bool IsFolder
+        public string Emoji
         {
-            get => _isFolder;
+            get => _emoji;
             set
             {
-                if (_isFolder != value)
+                if (_emoji != value)
                 {
-                    _isFolder = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(Emoji));
-                }
-            }
-        }
-
-        public ObservableCollection<TreeNode> Children
-        {
-            get => _children;
-            set
-            {
-                if (_children != value)
-                {
-                    _children = value;
+                    _emoji = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public string Emoji => IsFolder ? "📁" : "📄";
-
-        public TreeNode(string name, bool isFolder = false)
+        public ObservableCollection<NoteTag> Tags
         {
-            _id = Guid.NewGuid();
-            _name = name;
-            _isFolder = isFolder;
-            _children = new ObservableCollection<TreeNode>();
+            get => _tags;
+            set
+            {
+                if (_tags != value)
+                {
+                    _tags = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

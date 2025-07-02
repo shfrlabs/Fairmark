@@ -120,8 +120,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EmojiHelper.cs" />
     <Compile Include="GridLengthAnimationHelper.cs" />
-    <Compile Include="TreeStructureHelper.cs" />
+    <Compile Include="NoteCollectionHelper.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Fairmark.Helpers.rd.xml" />
@@ -129,6 +130,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>9.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Unicode.net">
+      <Version>2.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

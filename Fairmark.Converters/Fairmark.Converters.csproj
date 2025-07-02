@@ -4,12 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3A4C2A5F-327E-4FB3-9946-B6E8342D64C8}</ProjectGuid>
+    <ProjectGuid>{1B68F495-3E45-40E8-BCDB-9F12E17685A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fairmark.Models</RootNamespace>
-    <AssemblyName>Fairmark.Models</AssemblyName>
+    <RootNamespace>Fairmark.Converters</RootNamespace>
+    <AssemblyName>Fairmark.Converters</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
+    <LangVersion>9.0</LangVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -120,15 +121,21 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="NoteMetadata.cs" />
-    <Compile Include="NoteTag.cs" />
+    <Compile Include="ColorBrushConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Fairmark.Models.rd.xml" />
+    <Compile Include="TagGradientConverter.cs" />
+    <EmbeddedResource Include="Properties\Fairmark.Converters.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fairmark.Models\Fairmark.Models.csproj">
+      <Project>{3a4c2a5f-327e-4fb3-9946-b6e8342d64c8}</Project>
+      <Name>Fairmark.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

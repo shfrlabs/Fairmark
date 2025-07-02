@@ -222,6 +222,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Fairmark.Converters\Fairmark.Converters.csproj">
+      <Project>{1b68f495-3e45-40e8-bcdb-9f12e17685a1}</Project>
+      <Name>Fairmark.Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="Fairmark.Helpers\Fairmark.Helpers.csproj">
       <Project>{dd07202e-9a92-4b4c-a563-6ff0800d2121}</Project>
       <Name>Fairmark.Helpers</Name>
