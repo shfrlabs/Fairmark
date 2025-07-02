@@ -28,7 +28,7 @@ namespace Fairmark.Converters
                     brush.GradientStops.Add(new GradientStop()
                     {
                         Color = tag.Color,
-                        Offset = brush.GradientStops.Count
+                        Offset = brush.GradientStops.Count/1.6
                     });
                 }
                 return brush;

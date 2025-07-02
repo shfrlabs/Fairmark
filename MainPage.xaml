@@ -82,7 +82,7 @@
                     <ListView x:Name="NoteList" ItemsSource="{x:Bind helpers:NoteCollectionHelper.notes, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteMetadata">
-                                <Grid Background="{x:Bind Tags, Converter={StaticResource TagGradientConverter}}">
+                                <Grid Background="{x:Bind Tags, Converter={StaticResource TagGradientConverter}}" Margin="-12, -4, -8, -4" Padding="12, 4, 8, 4" CornerRadius="4">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30"/>
                                         <ColumnDefinition Width="*"/>

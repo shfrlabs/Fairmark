@@ -302,7 +302,7 @@ namespace Fairmark
                 {
                     if (!string.IsNullOrWhiteSpace(box.Text))
                     {
-                        NoteMetadata meta = new NoteMetadata { Name = box.Text, Emoji = emojiButton.Content.ToString(), Id = Guid.NewGuid().ToString() };
+                        NoteMetadata meta = new NoteMetadata { Name = box.Text, Emoji = emojiButton.Content.ToString(), Id = Guid.NewGuid().ToString(), Tags = NoteCollectionHelper.tags };
                         NoteCollectionHelper.notes.Add(meta);
                         await NoteCollectionHelper.SaveNotes();
                         contentFrame.Navigate(typeof(FileEditorPage), meta);
