@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml.Media;
 
 namespace Fairmark.Converters
@@ -19,11 +20,11 @@ namespace Fairmark.Converters
             {
                 LinearGradientBrush brush = new LinearGradientBrush()
                 {
-                    Opacity = 0.2,
+                    Opacity = 0.09,
                     StartPoint = new Windows.Foundation.Point(0, 0),
                     EndPoint = new Windows.Foundation.Point(((ObservableCollection<NoteTag>)value).Count, 0)
                 };
-                foreach (NoteTag tag in (ObservableCollection<NoteTag>)value)
+                foreach (NoteTag tag in ((ObservableCollection<NoteTag>)value).OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase))
                 {
                     brush.GradientStops.Add(new GradientStop()
                     {

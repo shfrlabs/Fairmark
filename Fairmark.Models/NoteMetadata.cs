@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -11,6 +12,12 @@ namespace Fairmark.Models
         private string _name;
         private string _emoji;
         private ObservableCollection<NoteTag> _tags;
+
+        public NoteMetadata()
+        {
+            _tags = new ObservableCollection<NoteTag>();
+            _tags.CollectionChanged += Tags_CollectionChanged;
+        }
 
         public string Id
         {
@@ -58,10 +65,19 @@ namespace Fairmark.Models
             {
                 if (_tags != value)
                 {
+                    if (_tags != null)
+                        _tags.CollectionChanged -= Tags_CollectionChanged;
                     _tags = value;
+                    if (_tags != null)
+                        _tags.CollectionChanged += Tags_CollectionChanged;
                     OnPropertyChanged();
                 }
             }
+        }
+
+        private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Tags));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

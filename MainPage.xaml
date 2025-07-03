@@ -15,7 +15,10 @@
 
     <Page.Resources>
         <converters:TagGradientConverter x:Name="TagGradientConverter"/>
-        <converters:ColorBrushConverter x:Name="ColorBrushConverter" />
+        <converters:ColorBrushConverter x:Name="ColorBrushConverter"/>
+        <converters:ColorGradientConverter x:Name="ColorGradientConverter"/>
+        <converters:NullBooleanConverter x:Name="NullBooleanConverter"/>
+        <converters:CountVisibilityConverter x:Name="CountVisibilityConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.Resources>
@@ -79,10 +82,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <TextBlock x:Name="NoNoteText" Visibility="Collapsed" Text="No notes here! Create one using the button below." Margin="20" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                     <ListView x:Name="NoteList" ItemsSource="{x:Bind helpers:NoteCollectionHelper.notes, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteMetadata">
-                                <Grid Background="{x:Bind Tags, Converter={StaticResource TagGradientConverter}}" Margin="-12, -4, -8, -4" Padding="12, 4, 8, 4" CornerRadius="4">
+                                <Grid Background="{Binding Tags, Converter={StaticResource TagGradientConverter}, Mode=OneWay}" Margin="-12, -4, -8, -4" Padding="12, 4, 8, 4" CornerRadius="4">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30"/>
                                         <ColumnDefinition Width="*"/>
@@ -98,24 +102,23 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
-                        <AutoSuggestBox QueryIcon="Find" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags}" x:Name="TagBox" MinWidth="100" Grid.Column="0" PlaceholderText="Search tags..." TextChanged="TagBox_TextChanged" Margin="0,0,5,0">
+                        <AutoSuggestBox QueryIcon="Find" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags, Mode=OneWay}" x:Name="TagBox" MinWidth="100" Grid.Column="0" PlaceholderText="Search tags..." TextChanged="TagBox_TextChanged" Margin="0,0,5,0" SuggestionChosen="TagBox_SuggestionChosen" BorderThickness="0">
                             <AutoSuggestBox.ItemTemplate>
                                 <DataTemplate x:DataType="models:NoteTag">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="30"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Grid Background="{x:Bind Color, Converter={StaticResource ColorBrushConverter}, Mode=OneWay}" Margin="2" Width="15" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4" Grid.Column="0"/>
-                                        <TextBlock Text="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <Grid Background="{x:Bind Color, Converter={StaticResource ColorGradientConverter}, Mode=OneWay}" Margin="-15, -12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                        <TextBlock Text="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </Grid>
                                 </DataTemplate>
                             </AutoSuggestBox.ItemTemplate>
                         </AutoSuggestBox>
-                        <Button x:Name="CreateTag" Grid.Column="1" Click="CreateTag_Click">
-                            <SymbolIcon Symbol="Add"/>
+                        <Button x:Name="CreateTag" Grid.Column="1" Click="CreateTag_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <FontIcon FontSize="14" Glyph="&#xE710;" />
                         </Button>
                     </Grid>
                     <Grid Grid.Row="2">
@@ -123,10 +126,27 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <AppBarButton Icon="Add" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click"/>
-                        <AppBarButton Icon="Rename" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" Click="RenameButton_Click"/>
-                        <AppBarButton Icon="Delete" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" Click="DeleteButton_Click"/>
+                        <AppBarButton Icon="Add" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click"/>
+                        <AppBarButton Icon="Rename" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" Click="RenameButton_Click"/>
+                        <AppBarButton Icon="Delete" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" Click="DeleteButton_Click"/>
+                        <AppBarButton Icon="More" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Change emoji">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE899;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSubItem Text="Assign tags" Loaded="MenuFlyoutSubItem_Loaded">
+                                        <MenuFlyoutSubItem.Icon>
+                                            <FontIcon Glyph="&#xE8EC;" />
+                                        </MenuFlyoutSubItem.Icon>
+                                    </MenuFlyoutSubItem>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                     </Grid>
                 </Grid>
                 <Grid Background="Red" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

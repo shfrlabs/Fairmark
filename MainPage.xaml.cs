@@ -1,6 +1,11 @@
-﻿using Fairmark.Helpers;
+﻿using Fairmark.Converters;
+using Fairmark.Helpers;
 using Fairmark.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
@@ -26,6 +31,7 @@ namespace Fairmark
             Window.Current.SetTitleBar(DragRegion);
         }
 
+        private NoteTag currentTag = null;
         private async Task WelcomeDialog()
         {
             ContentDialog welcomeDialog = new ContentDialog
@@ -198,7 +204,7 @@ namespace Fairmark
         private void contentFrame_Loaded(object sender, RoutedEventArgs e)
         {
             Explorer_Click(null, null);
-            contentFrame.Navigate(typeof(EmptyTabPage));
+            if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -209,18 +215,19 @@ namespace Fairmark
             }
             await NoteCollectionHelper.Initialize();
             ApplicationData.Current.LocalSettings.Values["firstStartup"] = false;
+            if (NoteCollectionHelper.notes.Count == 0)
+            {
+                NoNoteText.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoNoteText.Visibility = Visibility.Collapsed;
+            }
         }
 
-        // Pseudocode:
-        // 1. The issue is likely caused by the emojiButton being placed before the box in the grid's Children collection.
-        // 2. In a Grid, the last child in the Children collection is rendered on top if they share the same cell.
-        // 3. Since both emojiButton and box are in the same row and column, emojiButton overlays box, blocking input.
-        // 4. Solution: Set Grid.SetColumn(emojiButton, 0) and Grid.SetColumn(box, 1) to place them in separate columns.
-
-        private async void CreateButton_Click(object sender, RoutedEventArgs e)
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog mainflyout = new ContentDialog();
-            mainflyout.Title = "Create a new note (THIS WILL BY A FLYOUT I JUST CANT TYPE INTO TEXTBOXES IN FLYOUTS FOR SOME REASON)";
+            Flyout mainFlyout = new Flyout();
             TextBox box = new TextBox()
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
@@ -254,16 +261,16 @@ namespace Fairmark
                 Height = 40,
                 Margin = new Thickness(-10),
                 ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(45) },
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
-                }
+        {
+            new ColumnDefinition { Width = new GridLength(45) },
+            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }
+        }
             };
             grid.Children.Add(emojiButton);
             grid.Children.Add(box);
-            mainflyout.Content = grid;
+            mainFlyout.Content = grid;
 
-            // Emoji
+            // Emoji flyout setup
             Flyout flyout = new Flyout();
             StackPanel emojiPanel = new StackPanel() { Orientation = Orientation.Vertical };
             var gridView = new GridView();
@@ -294,7 +301,6 @@ namespace Fairmark
             emojiPanel.Children.Add(gridView);
             flyout.Content = emojiPanel;
             emojiButton.Flyout = flyout;
-            // end Emoji
 
             box.KeyDown += async (s, args) =>
             {
@@ -302,11 +308,27 @@ namespace Fairmark
                 {
                     if (!string.IsNullOrWhiteSpace(box.Text))
                     {
-                        NoteMetadata meta = new NoteMetadata { Name = box.Text, Emoji = emojiButton.Content.ToString(), Id = Guid.NewGuid().ToString(), Tags = NoteCollectionHelper.tags };
+                        NoNoteText.Visibility = Visibility.Collapsed;
+                        string newId;
+                        do
+                        {
+                            newId = Guid.NewGuid().ToString();
+                        }
+                        while (NoteCollectionHelper.notes.Any(n => n.Id == newId));
+
+                        NoteMetadata meta = new NoteMetadata
+                        {
+                            Name = box.Text,
+                            Emoji = emojiButton.Content.ToString(),
+                            Id = newId,
+                            Tags = new ObservableCollection<NoteTag>()
+                        };
+                        if (currentTag != null) meta.Tags.Add(currentTag);
                         NoteCollectionHelper.notes.Add(meta);
                         await NoteCollectionHelper.SaveNotes();
+                        NoteList.SelectedItem = meta;
                         contentFrame.Navigate(typeof(FileEditorPage), meta);
-                        mainflyout.Hide();
+                        mainFlyout.Hide();
                     }
                     else
                     {
@@ -315,8 +337,12 @@ namespace Fairmark
                 }
             };
 
-            await mainflyout.ShowAsync();
+            if (sender is FrameworkElement fe)
+                mainFlyout.ShowAt(fe);
+            else
+                mainFlyout.ShowAt(this);
         }
+
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
         {
@@ -366,7 +392,15 @@ namespace Fairmark
                 {
                     NoteCollectionHelper.notes.Remove(selectedNote);
                     await NoteCollectionHelper.SaveNotes();
-                    contentFrame.Navigate(typeof(EmptyTabPage));
+                    if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
+                    if (NoteCollectionHelper.notes.Count == 0)
+                    {
+                        NoNoteText.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        NoNoteText.Visibility = Visibility.Collapsed;
+                    }
                 };
                 await deleteDialog.ShowAsync();
             }
@@ -374,7 +408,33 @@ namespace Fairmark
 
         private void TagBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                NoNoteText.Visibility = Visibility.Collapsed;
+                var query = sender.Text?.ToLower() ?? string.Empty;
+                var filtered = NoteCollectionHelper.tags
+                    .Where(tag => tag.Name != null && tag.Name.ToLower().Contains(query))
+                    .ToList();
 
+                sender.ItemsSource = filtered;
+            }
+            else
+            {
+                sender.ItemsSource = NoteCollectionHelper.tags;
+            }
+            if (sender.Text == string.Empty)
+            {
+                NoteList.ItemsSource = NoteCollectionHelper.notes;
+                currentTag = null;
+                if (NoteCollectionHelper.notes.Count == 0)
+{
+    NoNoteText.Visibility = Visibility.Visible;
+}
+else
+{
+    NoNoteText.Visibility = Visibility.Collapsed;
+}
+            }
         }
 
         private async void CreateTag_Click(object sender, RoutedEventArgs e)
@@ -509,6 +569,58 @@ namespace Fairmark
             };
 
             await mainflyout.ShowAsync();
+        }
+
+        private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if (args.SelectedItem is NoteTag selectedTag)
+            {
+                sender.Text = selectedTag.Name;
+                currentTag = selectedTag;
+                ObservableCollection<NoteMetadata> filteredNotes = new ObservableCollection<NoteMetadata>();
+                NoteList.ItemsSource = filteredNotes;
+                foreach (NoteMetadata note in NoteCollectionHelper.notes)
+                {
+                    if (note.Tags != null && note.Tags.Any(t => t.Name == selectedTag.Name && t.Color == selectedTag.Color && t.Emoji == selectedTag.Emoji))
+                    {
+                        filteredNotes.Add(note); 
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            MenuFlyoutSubItem item = sender as MenuFlyoutSubItem;
+            item.Items.Clear();
+            foreach (NoteTag tag in NoteCollectionHelper.tags)
+            {
+                MenuFlyoutItem mfi = new MenuFlyoutItem()
+                {
+                    Text = tag.Emoji + " " + tag.Name,
+                    Background = (new ColorGradientConverter()).Convert(tag.Color, null, null, null) as LinearGradientBrush,
+                };
+                mfi.Click += async (s, a) =>
+                {
+                    if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note)
+                    {
+                        if (!note.Tags.Any(t => t.Name == tag.Name && t.Color == tag.Color && t.Emoji == tag.Emoji))
+                        {
+                            note.Tags.Add(tag);
+                            await NoteCollectionHelper.SaveNotes();
+                        }
+                        else
+                        {
+                            var toRemove = note.Tags.FirstOrDefault(t => t.Name == tag.Name && t.Color == tag.Color && t.Emoji == tag.Emoji);
+                            if (toRemove != null)
+                                note.Tags.Remove(toRemove);
+                            await NoteCollectionHelper.SaveNotes();
+                        };
+                    }
+                };
+                item.Items.Add(mfi);
+            }
         }
     }
 }
