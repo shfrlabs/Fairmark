@@ -269,7 +269,7 @@ namespace Fairmark
             grid.Children.Add(emojiButton);
             grid.Children.Add(box);
             mainFlyout.Content = grid;
-
+               
             // Emoji flyout setup
             Flyout flyout = new Flyout();
             StackPanel emojiPanel = new StackPanel() { Orientation = Orientation.Vertical };
