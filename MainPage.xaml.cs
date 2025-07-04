@@ -32,6 +32,8 @@ namespace Fairmark
         }
 
         private NoteTag currentTag = null;
+        private List<Microsoft.UI.Xaml.Controls.TabViewItem> openTabs = new List<Microsoft.UI.Xaml.Controls.TabViewItem>();
+
         private async Task WelcomeDialog()
         {
             ContentDialog welcomeDialog = new ContentDialog
@@ -85,7 +87,7 @@ namespace Fairmark
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 300)) {
+            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 250)) {
                 ClosePane_Click(null, null);
             }
             else
@@ -106,7 +108,7 @@ namespace Fairmark
                 var animation = new DoubleAnimation
                 {
                     From = 0,
-                    To = 300,
+                    To = 250,
                     Duration = new Duration(TimeSpan.FromMilliseconds(100)),
                     EnableDependentAnimation = true,
                     EasingFunction = new CubicEase
@@ -126,7 +128,7 @@ namespace Fairmark
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 300)) {
+            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 250)) {
                 ClosePane_Click(null, null);
             }
             else
@@ -147,7 +149,7 @@ namespace Fairmark
                 var animation = new DoubleAnimation
                 {
                     From = 0,
-                    To = 300,
+                    To = 250,
                     Duration = new Duration(TimeSpan.FromMilliseconds(100)),
                     EnableDependentAnimation = true,
                     EasingFunction = new CubicEase
@@ -172,12 +174,12 @@ namespace Fairmark
             var helper = new GridLengthAnimationHelper
             {
                 TargetColumn = MainGrid.ColumnDefinitions[0],
-                AnimatedValue = 300
+                AnimatedValue = 250
             };
 
             var animation = new DoubleAnimation
             {
-                From = 300,
+                From = 250,
                 To = 0,
                 Duration = new Duration(TimeSpan.FromMilliseconds(100)),
                 EnableDependentAnimation = true
@@ -193,12 +195,43 @@ namespace Fairmark
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var tab = TabView.SelectedItem as Microsoft.UI.Xaml.Controls.TabViewItem;
+            if (tab != null && tab.Tag is NoteMetadata data)
+            {
+                NoteList.SelectedItem = data;
+                contentFrame.Navigate(typeof(FileEditorPage), data);
+            }
+            else
+            {
+                NoteList.SelectedItem = null;
+                contentFrame.Navigate(typeof(EmptyTabPage));
+            }
         }
 
         private void TabView_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
-
+            var closingTab = args.Tab as Microsoft.UI.Xaml.Controls.TabViewItem;
+            if (closingTab != null)
+            {
+                openTabs.Remove(closingTab);
+                try {
+                    TabView.TabItems.Remove(closingTab);
+                }
+                catch { }
+                if (TabView.TabItems.Count > 0)
+                {
+                    try { 
+                        TabView.SelectedItem = TabView.TabItems[TabView.TabItems.Count - 1];
+                    }
+                    catch { }
+                }
+                else
+                {
+                    NoteList.SelectedItem = null;
+                    contentFrame.Navigate(typeof(EmptyTabPage));
+                }
+                TabView_SizeChanged(TabView, null);
+            }
         }
 
         private void contentFrame_Loaded(object sender, RoutedEventArgs e)
@@ -344,34 +377,40 @@ namespace Fairmark
         }
 
 
-        private async void RenameButton_Click(object sender, RoutedEventArgs e)
+        private void RenameButton_Click(object sender, RoutedEventArgs e)
         {
             if (NoteList.SelectedItem != null)
             {
                 NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
-                ContentDialog renameDialog = new ContentDialog
-                {
-                    Title = "Rename note THIS WILL BE A FLYOUT",
-                    PrimaryButtonText = "Rename",
-                    SecondaryButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary
-                };
+                Flyout renameFlyout = new Flyout();
                 TextBox renameBox = new TextBox
                 {
                     Text = selectedNote.Name,
+                    Height = 32,
+                    Width = 200,
+                    FontSize = 13,
+                    VerticalContentAlignment = VerticalAlignment.Bottom,
                     PlaceholderText = "Enter new name",
-                    Margin = new Thickness(0, 0, 0, 10)
+                    Margin = new Thickness(-10)
                 };
-                renameDialog.Content = renameBox;
-                renameDialog.PrimaryButtonClick += async (s, args) =>
+                renameFlyout.Content = renameBox;
+                renameBox.KeyDown += async (s, args) =>
                 {
-                    if (!string.IsNullOrWhiteSpace(renameBox.Text))
+                    if (args.Key == Windows.System.VirtualKey.Enter)
                     {
-                        selectedNote.Name = renameBox.Text;
-                        await NoteCollectionHelper.SaveNotes();
+                        if (!string.IsNullOrWhiteSpace(renameBox.Text))
+                        {
+                            selectedNote.Name = renameBox.Text;
+                            await NoteCollectionHelper.SaveNotes();
+                            renameFlyout.Hide();
+                        }
+                        else
+                        {
+                            renameBox.PlaceholderText = "Enter a name.";
+                        }
                     }
                 };
-                await renameDialog.ShowAsync();
+                renameFlyout.ShowAt(sender as FrameworkElement);
             };
         }
 
@@ -393,6 +432,15 @@ namespace Fairmark
                     NoteCollectionHelper.notes.Remove(selectedNote);
                     await NoteCollectionHelper.SaveNotes();
                     if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
+                    if (TabView.TabItems.Count > 0)
+                    {
+                        var tab = TabView.TabItems.FirstOrDefault(t => t is Microsoft.UI.Xaml.Controls.TabViewItem item && item.Tag is NoteMetadata n && n.Id == selectedNote.Id);
+                        if (tab != null)
+                        {
+                            TabView.TabItems.Remove(tab);
+                            openTabs.Remove(tab as Microsoft.UI.Xaml.Controls.TabViewItem);
+                        }
+                    }
                     if (NoteCollectionHelper.notes.Count == 0)
                     {
                         NoNoteText.Visibility = Visibility.Visible;
@@ -406,41 +454,9 @@ namespace Fairmark
             }
         }
 
-        private void TagBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void CreateTag_Click(object sender, RoutedEventArgs e)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                NoNoteText.Visibility = Visibility.Collapsed;
-                var query = sender.Text?.ToLower() ?? string.Empty;
-                var filtered = NoteCollectionHelper.tags
-                    .Where(tag => tag.Name != null && tag.Name.ToLower().Contains(query))
-                    .ToList();
-
-                sender.ItemsSource = filtered;
-            }
-            else
-            {
-                sender.ItemsSource = NoteCollectionHelper.tags;
-            }
-            if (sender.Text == string.Empty)
-            {
-                NoteList.ItemsSource = NoteCollectionHelper.notes;
-                currentTag = null;
-                if (NoteCollectionHelper.notes.Count == 0)
-{
-    NoNoteText.Visibility = Visibility.Visible;
-}
-else
-{
-    NoNoteText.Visibility = Visibility.Collapsed;
-}
-            }
-        }
-
-        private async void CreateTag_Click(object sender, RoutedEventArgs e)
-        {
-            ContentDialog mainflyout = new ContentDialog();
-            mainflyout.Title = "Create a new tag (THIS WILL BY A FLYOUT I JUST CANT TYPE INTO TEXTBOXES IN FLYOUTS FOR SOME REASON)";
+            Flyout mainflyout = new Flyout();
             TextBox box = new TextBox()
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
@@ -466,7 +482,7 @@ else
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Height = 40,
                 FontSize = 20,
-                Margin = new Thickness(0, 0, 0, 10)
+                Margin = new Thickness(5, 0, 5, 0)
             };
             Grid.SetColumn(emojiButton, 1);
 
@@ -518,7 +534,7 @@ else
 
             Grid grid = new Grid
             {
-                Width = 200,
+                Width = 300,
                 Height = 40,
                 Margin = new Thickness(-10),
                 ColumnDefinitions =
@@ -568,26 +584,7 @@ else
                 }
             };
 
-            await mainflyout.ShowAsync();
-        }
-
-        private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            if (args.SelectedItem is NoteTag selectedTag)
-            {
-                sender.Text = selectedTag.Name;
-                currentTag = selectedTag;
-                ObservableCollection<NoteMetadata> filteredNotes = new ObservableCollection<NoteMetadata>();
-                NoteList.ItemsSource = filteredNotes;
-                foreach (NoteMetadata note in NoteCollectionHelper.notes)
-                {
-                    if (note.Tags != null && note.Tags.Any(t => t.Name == selectedTag.Name && t.Color == selectedTag.Color && t.Emoji == selectedTag.Emoji))
-                    {
-                        filteredNotes.Add(note); 
-                        break;
-                    }
-                }
-            }
+            mainflyout.ShowAt(sender as FrameworkElement);
         }
 
         private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e)
@@ -620,6 +617,146 @@ else
                     }
                 };
                 item.Items.Add(mfi);
+            }
+        }
+
+        private void MenuFlyoutItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            Flyout flyout = new Flyout();
+            StackPanel emojiPanel = new StackPanel() { Orientation = Orientation.Vertical };
+            var gridView = new GridView();
+            gridView.ItemsPanel = (ItemsPanelTemplate)Application.Current.Resources["WrapGridPanel"];
+            gridView.ItemTemplate = (DataTemplate)Application.Current.Resources["EmojiBlock"];
+            gridView.ItemsSource = new EmojiHelper.IncrementalEmojiSource();
+            gridView.SelectionMode = ListViewSelectionMode.Single;
+            gridView.SelectionChanged += async (s, args) =>
+            {
+                NoteCollectionHelper.notes.Where(t => t.Id == ((NoteMetadata)NoteList.SelectedItem).Id).FirstOrDefault().Emoji = gridView.SelectedItem.ToString();
+                await NoteCollectionHelper.SaveNotes();
+                flyout.Hide();
+            };
+            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = "Search for an emoji...", Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
+            searchBox.TextChanged += (s, args) =>
+            {
+                if (string.IsNullOrWhiteSpace(searchBox.Text))
+                {
+                    gridView.ItemsSource = new EmojiHelper.IncrementalEmojiSource();
+                }
+                else
+                {
+                    var searchTerm = searchBox.Text.ToLower();
+                    gridView.ItemsSource = EmojiHelper.Emojis.Where(emoji => emoji.SearchTerms.Any(term => term.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
+                        .ToList();
+                }
+            };
+            emojiPanel.Children.Add(searchBox);
+            emojiPanel.Children.Add(gridView);
+            flyout.Content = emojiPanel;
+            (sender as MenuFlyoutItem).Click += (s, a) =>
+            {
+                flyout.ShowAt(MoreBtn);
+            };
+        }
+
+        private void NoteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (NoteList.SelectedItem != null)
+            {
+                NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
+                var tab = openTabs.FirstOrDefault(t => t.Tag is NoteMetadata n && n.Id == selectedNote.Id);
+                if (tab == null)
+                {
+                    tab = new Microsoft.UI.Xaml.Controls.TabViewItem
+                    {
+                        Header = new Grid {
+                            Margin = new Thickness(-10),
+                            Padding = new Thickness(10),
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            Children =
+                            {
+                                new StackPanel
+                                {
+                                    Orientation = Orientation.Horizontal,
+                                    Children =
+                                    {
+                                        new FontIcon
+                                        {
+                                            Glyph = selectedNote.Emoji,
+                                            FontFamily = new FontFamily("Segoe UI Emoji"),
+                                            Margin = new Thickness(0, 0, 6, 0),
+                                            FontSize = 13
+                                        },
+                                        new TextBlock
+                                        {
+                                            Text = selectedNote.Name,
+                                            VerticalAlignment = VerticalAlignment.Center,
+                                            TextTrimming = TextTrimming.CharacterEllipsis,
+                                            Margin = new Thickness(0, 0, 10, 0)
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        Tag = selectedNote,
+                    };
+                    openTabs.Add(tab);
+                    TabView.TabItems.Add(tab);
+                    TabView_SizeChanged(TabView, null);
+                }
+                TabView.SelectedItem = tab;
+                contentFrame.Navigate(typeof(FileEditorPage), selectedNote);
+            }
+            else
+            {
+                contentFrame.Navigate(typeof(EmptyTabPage));
+                TabView.SelectedItem = null;
+            }
+        }
+
+        private void TagBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedItem is NoteTag selectedTag)
+            {
+                (sender as ComboBox).SelectedItem = selectedTag;
+                currentTag = selectedTag;
+                ObservableCollection<NoteMetadata> filteredNotes = new ObservableCollection<NoteMetadata>();
+                NoteList.ItemsSource = filteredNotes;
+                foreach (NoteMetadata note in NoteCollectionHelper.notes)
+                {
+                    if (note.Tags != null && note.Tags.Any(t => t.Name == selectedTag.Name && t.Color == selectedTag.Color && t.Emoji == selectedTag.Emoji))
+                    {
+                        filteredNotes.Add(note);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                currentTag = null;
+                NoteList.ItemsSource = NoteCollectionHelper.notes;
+            }
+        }
+
+        private void ClearTags_Click(object sender, RoutedEventArgs e)
+        {
+            currentTag = null;
+            TagBox.SelectedItem = null;
+            NoteList.ItemsSource = NoteCollectionHelper.notes;
+        }
+
+        private void TabView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if ((sender as Microsoft.UI.Xaml.Controls.TabView).TabItems.Count > 0) {
+                if ((sender as Microsoft.UI.Xaml.Controls.TabView).ActualWidth < 300) {
+                    (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 0;
+                }
+                else {
+                    (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 1;
+                }
+            }
+            else
+            {
+                (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 0;
             }
         }
     }

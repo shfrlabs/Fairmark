@@ -20,16 +20,19 @@ namespace Fairmark.Converters
             {
                 LinearGradientBrush brush = new LinearGradientBrush()
                 {
-                    Opacity = 0.09,
+                    Opacity = 0.07,
                     StartPoint = new Windows.Foundation.Point(0, 0),
-                    EndPoint = new Windows.Foundation.Point(((ObservableCollection<NoteTag>)value).Count, 0)
+                    EndPoint = new Windows.Foundation.Point(1, 0)
                 };
-                foreach (NoteTag tag in ((ObservableCollection<NoteTag>)value).OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase))
+                var orderedTags = ((ObservableCollection<NoteTag>)value).OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase).ToList();
+                for (int i = 0; i < orderedTags.Count; i++)
                 {
+                    var tag = orderedTags[i];
+                    double offset = (orderedTags.Count == 1) ? 0.5 : (double)i / (orderedTags.Count - 1);
                     brush.GradientStops.Add(new GradientStop()
                     {
                         Color = tag.Color,
-                        Offset = brush.GradientStops.Count/1.6
+                        Offset = offset
                     });
                 }
                 return brush;
