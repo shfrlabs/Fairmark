@@ -9,25 +9,80 @@
     xmlns:oldtoolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-
-    <ScrollViewer>
-        <TextBlock x:Name="placeholder">Editor:</TextBlock>
-    </ScrollViewer>
-    <!--<Grid>
+    <Page.Resources>
+        <AcrylicBrush
+            x:Key="NoteEditorBackground"
+            BackgroundSource="HostBackdrop"
+            TintColor="{ThemeResource SystemColorBackgroundColor}"
+            TintOpacity="0.95"
+        />
+        <AcrylicBrush
+            x:Key="NotePreviewBackground"
+            BackgroundSource="HostBackdrop"
+            TintColor="{ThemeResource SystemColorBackgroundColor}"
+            TintOpacity="0.99"
+        />
+        <SolidColorBrush
+            x:Key="NoteEditorBorder"
+            Color="{ThemeResource SystemBaseHighColor}"
+            Opacity=".05"
+        />
+    </Page.Resources>
+    <Grid
+        Margin="5"
+        CornerRadius="4"
+        BorderThickness="1"
+        BorderBrush="{ThemeResource NoteEditorBorder}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <oldtoolkit:MarkdownTextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="MarkBlock" Background="Transparent" Text="{x:Bind MarkEditor.Text, Mode=OneWay}"/>
+        <ScrollViewer
+            Background="{ThemeResource NotePreviewBackground}"
+            CornerRadius="4,0,0,4"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <oldtoolkit:MarkdownTextBlock
+                Background="Transparent"
+                Padding="10, 8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                x:Name="MarkBlock"
+                BorderThickness="0"
+                Text="{x:Bind MarkEditor.Text, Mode=OneWay}"/>
         </ScrollViewer>
-        <Grid Grid.Column="2" Margin="15">
-            <TextBox AcceptsReturn="True" x:Name="MarkEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid
+            Grid.Column="1"
+            BorderBrush="{ThemeResource NoteEditorBorder}"
+            BorderThickness="1,0,0,0"
+            CornerRadius="0,4,4,0"
+            Background="{ThemeResource NoteEditorBackground}">
+            <TextBox
+                Padding="10,8"
+                AcceptsReturn="True"
+                ScrollViewer.VerticalScrollMode="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                TextWrapping="Wrap"
+                x:Name="MarkEditor"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CornerRadius="0"
+                FontFamily="Consolas" 
+                BorderThickness="0"
+                TextChanged="MarkEditor_TextChanged">
+                <TextBox.Resources>
+                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TextControlBackground" Color="Transparent"/>
+                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                </TextBox.Resources>
+            </TextBox>
         </Grid>
         <toolkit:GridSplitter
            Grid.Column="1"
            Margin="0,0,-10,0"
            VerticalAlignment="Center" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
-    </Grid>-->
+    </Grid>
 </Page>

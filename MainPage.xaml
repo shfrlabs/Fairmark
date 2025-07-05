@@ -28,13 +28,12 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Rectangle Fill="Transparent" x:Name="DragRegion" HorizontalAlignment="Stretch" Canvas.ZIndex="-1"/>
         <Grid x:Name="AppTitleBar" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Margin="5,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>
@@ -43,7 +42,7 @@
                     <TextBlock Text="DEBUG" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10" Padding="2,0" FontWeight="Bold" FontFamily="Segoe UI Variable"/>
                 </Grid>
             </StackPanel>
-            <CommandBar x:Name="MainCommands" VerticalAlignment="Center" Grid.Column="1" Margin="3,0,0,0" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Collapsed">
+            <CommandBar x:Name="MainCommands" VerticalAlignment="Center" Grid.Column="1" Margin="3,0,-10,0" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Collapsed">
                 <AppBarToggleButton Label="Files" Width="50" x:Name="Explorer" Click="Explorer_Click">
                     <AppBarToggleButton.Icon>
                         <FontIcon Glyph="&#xEC50;" />
@@ -52,22 +51,20 @@
                 <AppBarToggleButton Icon="Find" Label="Search" Width="50" x:Name="Search" Click="Search_Click"/>
             </CommandBar>
             <controls:TabView
-                SizeChanged="TabView_SizeChanged"
+                MinWidth="0"
                 x:Name="TabView"
                 BorderThickness="0"
                 Grid.Column="2"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 SelectionChanged="TabView_SelectionChanged"
                 IsAddTabButtonVisible="False"
                 TabCloseRequested="TabView_TabCloseRequested"
                 CanDrag="False"
                 CanDragTabs="False"
-                CanReorderTabs="False"
-                Margin="-5,-5,0,0">
-                <controls:TabView.Resources>
-                </controls:TabView.Resources>
-            </controls:TabView>
+                CanReorderTabs="False">
+             </controls:TabView>
+            <Rectangle Grid.ColumnSpan="4" x:Name="DragRegion" HorizontalAlignment="Stretch" Canvas.ZIndex="-1" Fill="Transparent"/>
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" x:Name="MainGrid">
             <Grid.ColumnDefinitions>

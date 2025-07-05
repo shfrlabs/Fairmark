@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -20,14 +21,19 @@ namespace Fairmark
 {
     public sealed partial class FileEditorPage : Page
     {
+        public string noteId = null;
         public FileEditorPage()
         {
             this.InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
-            placeholder.Text += JsonSerializer.Serialize(e.Parameter, new JsonSerializerOptions { WriteIndented = true });
-            placeholder.Text += "\n Does file exist?" + await NoteFileHandlingHelper.NoteExists((e.Parameter as NoteMetadata).Id); 
+            noteId = (e.Parameter as NoteMetadata).Id;
+            MarkEditor.Text = await NoteFileHandlingHelper.ReadNoteFileAsync(noteId);
+        }
+
+        private void MarkEditor_TextChanged(object sender, TextChangedEventArgs e) {
+            NoteFileHandlingHelper.WriteNoteFileAsync(noteId, MarkEditor.Text);
         }
     }
 }

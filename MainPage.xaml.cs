@@ -232,7 +232,6 @@ namespace Fairmark
                     NoteList.SelectedItem = null;
                     contentFrame.Navigate(typeof(EmptyTabPage));
                 }
-                TabView_SizeChanged(TabView, null);
             }
         }
 
@@ -668,42 +667,49 @@ namespace Fairmark
                 var tab = openTabs.FirstOrDefault(t => t.Tag is NoteMetadata n && n.Id == selectedNote.Id);
                 if (tab == null)
                 {
+                    // Create header with bindings
+                    var header = new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                    };
+                    var fontIcon = new FontIcon
+                    {
+                        FontFamily = new FontFamily("Segoe UI Emoji"),
+                        Margin = new Thickness(0, 0, 6, 0),
+                        FontSize = 13
+                    };
+                    var emojiBinding = new Windows.UI.Xaml.Data.Binding
+                    {
+                        Path = new PropertyPath("Emoji"),
+                        Source = selectedNote,
+                        Mode = Windows.UI.Xaml.Data.BindingMode.OneWay
+                    };
+                    fontIcon.SetBinding(FontIcon.GlyphProperty, emojiBinding);
+
+                    var textBlock = new TextBlock
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                        TextTrimming = TextTrimming.CharacterEllipsis,
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
+                    var nameBinding = new Windows.UI.Xaml.Data.Binding
+                    {
+                        Path = new PropertyPath("Name"),
+                        Source = selectedNote,
+                        Mode = Windows.UI.Xaml.Data.BindingMode.OneWay
+                    };
+                    textBlock.SetBinding(TextBlock.TextProperty, nameBinding);
+
+                    header.Children.Add(fontIcon);
+                    header.Children.Add(textBlock);
+
                     tab = new Microsoft.UI.Xaml.Controls.TabViewItem
                     {
-                        Header = new Grid {
-                            Margin = new Thickness(-10),
-                            Padding = new Thickness(10),
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            Children =
-                            {
-                                new StackPanel
-                                {
-                                    Orientation = Orientation.Horizontal,
-                                    Children =
-                                    {
-                                        new FontIcon
-                                        {
-                                            Glyph = selectedNote.Emoji,
-                                            FontFamily = new FontFamily("Segoe UI Emoji"),
-                                            Margin = new Thickness(0, 0, 6, 0),
-                                            FontSize = 13
-                                        },
-                                        new TextBlock
-                                        {
-                                            Text = selectedNote.Name,
-                                            VerticalAlignment = VerticalAlignment.Center,
-                                            TextTrimming = TextTrimming.CharacterEllipsis,
-                                            Margin = new Thickness(0, 0, 10, 0)
-                                        }
-                                    }
-                                }
-                            }
-                        },
+                        Header = header,
                         Tag = selectedNote,
                     };
                     openTabs.Add(tab);
                     TabView.TabItems.Add(tab);
-                    TabView_SizeChanged(TabView, null);
                 }
                 TabView.SelectedItem = tab;
                 contentFrame.Navigate(typeof(FileEditorPage), selectedNote);
@@ -744,22 +750,6 @@ namespace Fairmark
             currentTag = null;
             TagBox.SelectedItem = null;
             NoteList.ItemsSource = NoteCollectionHelper.notes;
-        }
-
-        private void TabView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if ((sender as Microsoft.UI.Xaml.Controls.TabView).TabItems.Count > 0) {
-                if ((sender as Microsoft.UI.Xaml.Controls.TabView).ActualWidth < 300) {
-                    (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 0;
-                }
-                else {
-                    (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 1;
-                }
-            }
-            else
-            {
-                (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 0;
-            }
         }
 
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) {
