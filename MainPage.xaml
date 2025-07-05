@@ -64,7 +64,7 @@
                 CanDrag="False"
                 CanDragTabs="False"
                 CanReorderTabs="False"
-                Margin="35,-5,0,0">
+                Margin="-5,-5,0,0">
                 <controls:TabView.Resources>
                 </controls:TabView.Resources>
             </controls:TabView>
@@ -158,8 +158,38 @@
                         </AppBarButton>
                     </Grid>
                 </Grid>
-                <Grid Background="Red" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock>search</TextBlock>
+                <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel>
+                        <AutoSuggestBox
+                            x:Name="SearchBox"
+                            PlaceholderText="Search notes..."
+                            QueryIcon="Find"
+                            Margin="2,0,2,0"
+                            Height="40"
+                            VerticalContentAlignment="Center"
+                            BorderThickness="0"
+                            QuerySubmitted="SearchBox_QuerySubmitted"/>
+                        <ListView
+                            x:Name="SearchResults"
+                            SelectionMode="None"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,10,0,0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:NoteMetadata">
+                                    <Button Tag="{Binding}" Click="SearchResult_Click" BorderThickness="0" Margin="-15,0,-10,0" Background="{Binding Tags, Converter={StaticResource TagGradientConverter}, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="35" CornerRadius="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="25"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <FontIcon Glyph="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
+                                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" FontSize="11" Margin="5,0,0,0"/>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
                 </Grid>
             </Grid>
             <Frame x:Name="contentFrame" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="contentFrame_Loaded"/>

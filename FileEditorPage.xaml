@@ -10,7 +10,9 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <TextBlock x:Name="placeholder">Editor: </TextBlock>
+    <ScrollViewer>
+        <TextBlock x:Name="placeholder">Editor:</TextBlock>
+    </ScrollViewer>
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

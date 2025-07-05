@@ -163,6 +163,8 @@ namespace Fairmark
 
                 var storyboard = new Storyboard();
                 storyboard.Children.Add(animation);
+                SearchBox.Text = string.Empty;
+                SearchResults.ItemsSource = null;
                 storyboard.Begin();
             }
         }
@@ -758,6 +760,24 @@ namespace Fairmark
             {
                 (sender as Microsoft.UI.Xaml.Controls.TabView).Opacity = 0;
             }
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) {
+            List<NoteMetadata> filteredNotes = new List<NoteMetadata>();
+            if (!string.IsNullOrEmpty(args.QueryText)) {
+                SearchResults.ItemsSource = NoteCollectionHelper.notes.Where(n => n.Name.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            } else {
+                SearchResults.ItemsSource = null;
+            }
+        }
+
+        private void SearchResult_Click(object sender, RoutedEventArgs e) {
+            ClearTags_Click(null, null);
+            NoteList.SelectedItem = (sender as Button).Tag as NoteMetadata;
+            contentFrame.Navigate(typeof(FileEditorPage), NoteList.SelectedItem);
+            Explorer_Click(null, null);
+            SearchBox.Text = string.Empty;
+            SearchResults.ItemsSource = null;
         }
     }
 }

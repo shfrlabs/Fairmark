@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Fairmark.Helpers;
+using Fairmark.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,8 +25,9 @@ namespace Fairmark
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e) {
+        protected override async void OnNavigatedTo(NavigationEventArgs e) {
             placeholder.Text += JsonSerializer.Serialize(e.Parameter, new JsonSerializerOptions { WriteIndented = true });
+            placeholder.Text += "\n Does file exist?" + await NoteFileHandlingHelper.NoteExists((e.Parameter as NoteMetadata).Id); 
         }
     }
 }
