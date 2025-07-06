@@ -21,7 +21,7 @@ namespace Fairmark {
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            if (e.Parameter.ToString() == "OOBE") {
+            if (e.Parameter != null && e.Parameter.ToString() == "OOBE") {
                 this.Background = new SolidColorBrush(Windows.UI.Colors.Red);
             }
         }

@@ -10,6 +10,7 @@
     xmlns:models="using:Fairmark.Models"
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Loaded="Page_Loaded">
 
@@ -38,17 +39,24 @@
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>
                 <TextBlock Text="Fairmark" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
-                <Grid CornerRadius="2" Background="{StaticResource SystemAccentColorLight2}" Margin="8,0,0,0" Visibility="Collapsed" Loaded="DebugLoaded" VerticalAlignment="Center">
-                    <TextBlock Text="DEBUG" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10" Padding="2,0" FontWeight="Bold" FontFamily="Segoe UI Variable"/>
-                </Grid>
             </StackPanel>
-            <CommandBar x:Name="MainCommands" VerticalAlignment="Center" Grid.Column="1" Margin="3,0,-10,0" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Collapsed">
+            <CommandBar x:Name="MainCommands" VerticalAlignment="Center" Grid.Column="1" Margin="5,0,-10,0" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Collapsed">
                 <AppBarToggleButton Label="Files" Width="50" x:Name="Explorer" Click="Explorer_Click">
                     <AppBarToggleButton.Icon>
                         <FontIcon Glyph="&#xEC50;" />
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
                 <AppBarToggleButton Icon="Find" Label="Search" Width="50" x:Name="Search" Click="Search_Click"/>
+                <AppBarButton Width="48" Loaded="Settings_Loaded" Click="Settings_Click" x:Name="Settings" Height="46" VerticalAlignment="Center" Margin="-1,0,0,0" controls:AnimatedIcon.State="Normal" PointerEntered="AppBarButton_PointerEntered" PointerExited="AppBarButton_PointerExited">
+                    <AppBarButton.Icon>
+                        <controls:AnimatedIcon>
+                            <controls:AnimatedIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                            </controls:AnimatedIcon.RenderTransform>
+                            <animatedvisuals:AnimatedSettingsVisualSource/>
+                        </controls:AnimatedIcon>
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar>
             <controls:TabView
                 MinWidth="0"
@@ -63,7 +71,7 @@
                 CanDrag="False"
                 CanDragTabs="False"
                 CanReorderTabs="False">
-             </controls:TabView>
+            </controls:TabView>
             <Rectangle Grid.ColumnSpan="4" x:Name="DragRegion" HorizontalAlignment="Stretch" Canvas.ZIndex="-1" Fill="Transparent"/>
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" x:Name="MainGrid">
@@ -78,7 +86,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <AppBarButton Icon="ClosePane" Label="Close" Click="ClosePane_Click" LabelPosition="Collapsed" Width="50"/>
-                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="235">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
@@ -155,7 +163,7 @@
                         </AppBarButton>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="235">
                     <StackPanel>
                         <AutoSuggestBox
                             x:Name="SearchBox"

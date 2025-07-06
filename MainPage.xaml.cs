@@ -1,6 +1,8 @@
-﻿using Fairmark.Converters;
+﻿using CommunityToolkit.WinUI.Media;
+using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,15 +14,19 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using CommunityToolkit.WinUI.Media;
+using ColorPicker = Microsoft.UI.Xaml.Controls.ColorPicker;
+using ColorSpectrumShape = Microsoft.UI.Xaml.Controls.ColorSpectrumShape;
 
 namespace Fairmark
 {
@@ -30,6 +36,11 @@ namespace Fairmark
         {
             this.InitializeComponent();
             Window.Current.SetTitleBar(DragRegion);
+            Settings.AddHandler(UIElement.PointerPressedEvent,
+                new PointerEventHandler(AppBarButton_PointerPressed), true);
+            Settings.AddHandler(UIElement.PointerReleasedEvent,
+                new PointerEventHandler(AppBarButton_PointerReleased), true);
+
         }
 
         private NoteTag currentTag = null;
@@ -68,16 +79,9 @@ namespace Fairmark
             await dialog.ShowAsync();
         }
 
-        private void DebugLoaded(object sender, RoutedEventArgs e)
-        {
-#if DEBUG
-            (sender as Grid).Visibility = Visibility.Visible;
-#endif
-        }
-
         private void Explorer_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 250)) {
+            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255)) {
                 ClosePane_Click(null, null);
             }
             else
@@ -98,7 +102,7 @@ namespace Fairmark
                 var animation = new DoubleAnimation
                 {
                     From = 0,
-                    To = 250,
+                    To = 255,
                     Duration = new Duration(TimeSpan.FromMilliseconds(100)),
                     EnableDependentAnimation = true,
                     EasingFunction = new CubicEase
@@ -118,7 +122,7 @@ namespace Fairmark
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 250)) {
+            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255)) {
                 ClosePane_Click(null, null);
             }
             else
@@ -139,7 +143,7 @@ namespace Fairmark
                 var animation = new DoubleAnimation
                 {
                     From = 0,
-                    To = 250,
+                    To = 255,
                     Duration = new Duration(TimeSpan.FromMilliseconds(100)),
                     EnableDependentAnimation = true,
                     EasingFunction = new CubicEase
@@ -758,6 +762,45 @@ namespace Fairmark
             Explorer_Click(null, null);
             SearchBox.Text = string.Empty;
             SearchResults.ItemsSource = null;
+        }
+
+        private void AppBarButton_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "PointerOver");
+        }
+
+        private void AppBarButton_PointerPressed(object sender, PointerRoutedEventArgs e) {
+            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Pressed");
+        }
+
+        private void AppBarButton_PointerReleased(object sender, PointerRoutedEventArgs e) {
+            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Normal");
+        }
+
+        private void AppBarButton_PointerExited(object sender, PointerRoutedEventArgs e) {
+            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Normal");
+        }
+
+        private void Settings_Loaded(object sender, RoutedEventArgs e) {
+            Settings.KeyboardAccelerators.Add(new KeyboardAccelerator
+            {
+                Key = (VirtualKey)188,
+                Modifiers = VirtualKeyModifiers.Control,
+                IsEnabled = true
+            });
+        }
+
+        private async void Settings_Click(object sender, RoutedEventArgs e) {
+            AppWindow window = await AppWindow.TryCreateAsync();
+            Frame f = new Frame();
+            f.Margin = new Thickness(0, 50, 0, 0);
+            f.Navigate(typeof(SettingsPage));
+            window.Title = "Settings";
+            ElementCompositionPreview.SetAppWindowContent(window, f);
+            await window.TryShowAsync();
+            Settings.IsEnabled = false;
+            window.Closed += (s, a) => {
+                Settings.IsEnabled = true;
+            };
         }
     }
 }
