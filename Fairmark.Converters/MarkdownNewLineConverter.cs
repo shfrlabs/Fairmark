@@ -24,8 +24,7 @@ namespace Fairmark.Converters {
                 }
             }
 
-            var result = sb.ToString().TrimEnd(); // Remove trailing newlines
-            System.Diagnostics.Debug.WriteLine($"[MarkdownNewLineConverter] Converted:\n{result}");
+            var result = sb.ToString().TrimEnd();
             return result;
         }
 

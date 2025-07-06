@@ -50,6 +50,7 @@ namespace Fairmark
                 {
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+                ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
                 Window.Current.Activate();
                 var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
                 coreTitleBar.ExtendViewIntoTitleBar = true;

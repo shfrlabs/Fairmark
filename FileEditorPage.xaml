@@ -32,8 +32,8 @@
         Margin="5"
         CornerRadius="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer
             Background="{ThemeResource NotePreviewBackground}"
@@ -78,9 +78,11 @@
             </TextBox>
         </Grid>
         <toolkit:GridSplitter
-           Grid.Column="1"
-           Margin="0,0,-10,0"
-           VerticalAlignment="Center" HorizontalAlignment="Right">
+           Grid.Column="0"
+           Opacity="0.5"
+           IsThumbVisible="False"
+           Margin="0,0,-4.2,0"
+           VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
     </Grid>
 </Page>
