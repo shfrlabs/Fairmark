@@ -13,13 +13,13 @@
         <AcrylicBrush
             x:Key="NoteEditorBackground"
             BackgroundSource="HostBackdrop"
-            TintColor="{ThemeResource SystemColorBackgroundColor}"
+            TintColor="{ThemeResource SystemColorWindowColor}"
             TintOpacity="0.95"
         />
         <AcrylicBrush
             x:Key="NotePreviewBackground"
             BackgroundSource="HostBackdrop"
-            TintColor="{ThemeResource SystemColorBackgroundColor}"
+            TintColor="{ThemeResource SystemColorWindowColor}"
             TintOpacity="0.99"
         />
         <SolidColorBrush

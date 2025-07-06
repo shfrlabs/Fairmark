@@ -13,7 +13,7 @@ namespace Fairmark.Helpers
 #if !DEBUG
         public static bool firstStartup => localSettings.Values.ContainsKey("firstStartup") ? (bool)localSettings.Values["firstStartup"] : true;
 #else
-        public static bool firstStartup => false;
+        public static bool firstStartup => true;
 #endif
     }
 }

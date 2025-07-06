@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using CommunityToolkit.WinUI.Media;
 
 namespace Fairmark
 {
@@ -34,48 +35,39 @@ namespace Fairmark
         private NoteTag currentTag = null;
         private List<Microsoft.UI.Xaml.Controls.TabViewItem> openTabs = new List<Microsoft.UI.Xaml.Controls.TabViewItem>();
 
-        private async Task WelcomeDialog()
-        {
-            ContentDialog welcomeDialog = new ContentDialog
-            {
-                PrimaryButtonText = "OK",
-                SecondaryButtonText = "Exit app",
-                DefaultButton = ContentDialogButton.Primary
-            };
-            welcomeDialog.Content = new StackPanel
-            {
+        private async Task WelcomeDialog() {
+
+            var overlay = new Windows.UI.Xaml.Shapes.Rectangle {
+                Fill = Application.Current.Resources["OverlayBrush"] as Brush,
+                Opacity = 1,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                Orientation = Orientation.Vertical,
-                Children =
-                {
-                    new TextBlock
-                    {
-                        Text = "Welcome to Fairmark!",
-                        FontSize = 42,
-                        FontWeight = FontWeights.SemiBold,
-                        FontFamily = new FontFamily("Segoe UI Variable Display"),
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        TextAlignment = TextAlignment.Center,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Foreground = new SolidColorBrush(Color.FromArgb(143, 221, 241, 255))
-                    },
-                    new TextBlock
-                    {
-                        Text = "Thanks for your support during the Fairmark ALPHA!\nExplore a world of simple, clean notes. Enjoy!",
-                        TextWrapping = TextWrapping.Wrap,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        TextAlignment = TextAlignment.Center,
-                        Margin = new Thickness(0, 12, 0, 0)
-                    },
-                }
+                VerticalAlignment = VerticalAlignment.Stretch
             };
-            welcomeDialog.SecondaryButtonClick += (s, e) =>
-            {
-                Application.Current.Exit();
+            ContentGrid.Children.Add(overlay);
+            Grid.SetRowSpan(overlay, ContentGrid.RowDefinitions.Count > 0 ? ContentGrid.RowDefinitions.Count : 1);
+            Grid.SetColumnSpan(overlay, ContentGrid.ColumnDefinitions.Count > 0 ? ContentGrid.ColumnDefinitions.Count : 1);
+
+            ContentDialog dialog = new OOBEFrameContentDialog();
+            dialog.Closed += async (s, a) => {
+                var storyboard = new Storyboard();
+                var fadeOut = new DoubleAnimation {
+                    From = 1,
+                    To = 0,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(200)),
+                    EnableDependentAnimation = true
+                };
+                Storyboard.SetTarget(fadeOut, overlay);
+                Storyboard.SetTargetProperty(fadeOut, "Opacity");
+                storyboard.Children.Add(fadeOut);
+
+                var tcs = new TaskCompletionSource<bool>();
+                storyboard.Completed += (snd, evt) => tcs.SetResult(true);
+                storyboard.Begin();
+                await tcs.Task;
+
+                ContentGrid.Children.Remove(overlay);
             };
-            await welcomeDialog.ShowAsync();
+            await dialog.ShowAsync();
         }
 
         private void DebugLoaded(object sender, RoutedEventArgs e)

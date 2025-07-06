@@ -10,6 +10,30 @@
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
                 <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <Color x:Key="DialogBGColor">#FFFFFFFF</Color>
+                            <Color x:Key="OverlayBrushTintColor">#FFFFFFFF</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <Color x:Key="DialogBGColor">#FF1E1E1E</Color>
+                            <Color x:Key="OverlayBrushTintColor">#FF000000</Color>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                    <AcrylicBrush x:Key="OverlayBrush"
+                        BackgroundSource="HostBackdrop"
+                        TintColor="{ThemeResource OverlayBrushTintColor}"
+                        TintLuminosityOpacity="0.8"
+                        TintOpacity="0"
+                        FallbackColor="{ThemeResource OverlayBrushTintColor}" />
+                    <SolidColorBrush x:Key="DialogBG" Color="{ThemeResource DialogBGColor}" Opacity="0.7" />
+                    <LinearGradientBrush  
+                        x:Key="OOBEFrameBackground"  
+                        StartPoint="0,0"  
+                        EndPoint="1,1">
+                        <GradientStop Color="#AF72D3" Offset="0"/>
+                        <GradientStop Color="#8FDDF1" Offset="1"/>
+                    </LinearGradientBrush>
                     <ItemsPanelTemplate
                         x:Key="WrapGridPanel">
                         <WrapGrid

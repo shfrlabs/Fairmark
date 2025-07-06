@@ -1,0 +1,41 @@
+﻿<ContentDialog  
+    x:Class="Fairmark.OOBEFrameContentDialog"  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+    xmlns:local="using:Fairmark"  
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxm="using:Microsoft.UI.Xaml.Media"
+    mc:Ignorable="d"  
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"  
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"  
+    CornerRadius="16"
+    Background="{ThemeResource DialogBG}"
+    BorderBrush="{ThemeResource OOBEFrameBackground}" BorderThickness="50">
+    <ContentDialog.Shadow>
+        <ThemeShadow>
+            <ThemeShadow.Receivers>
+                <Grid x:Name="ShadowReceiver" Background="{ThemeResource OOBEFrameBackground}"/>
+            </ThemeShadow.Receivers>
+        </ThemeShadow>
+    </ContentDialog.Shadow>
+    <ContentDialog.Resources>
+        <muxm:RadialGradientBrush
+            x:Key="SystemControlPageBackgroundMediumAltMediumBrush"
+            Center="0.5,0.5" RadiusX="0.5" RadiusY="0.6" Opacity="0.2">
+            <GradientStop Color="#AF72D3" Offset="0.4"/>
+            <GradientStop Color="#8FDDF1" Offset="1"/>
+        </muxm:RadialGradientBrush>
+    </ContentDialog.Resources>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Frame x:Name="contentFrame" Loaded="contentFrame_Loaded" MinWidth="400" MinHeight="300"/>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="0, 5" Height="60">
+            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="ContinueButton" Click="ContinueButton_Click">Continue</Button>
+            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="FinishButton" Click="FinishButton_Click">Finish</Button> 
+        </Grid>
+     </Grid>
+</ContentDialog>

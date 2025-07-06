@@ -20,7 +20,7 @@
         <converters:NullBooleanConverter x:Name="NullBooleanConverter"/>
         <converters:CountVisibilityConverter x:Name="CountVisibilityConverter"/>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="ContentGrid">
         <Grid.Resources>
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent"/>
         </Grid.Resources>
@@ -105,7 +105,7 @@
                             <ColumnDefinition Width="45"/>
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags, Mode=OneWay}" x:Name="TagBox" MinWidth="100" Grid.Column="0" PlaceholderText="Filter by tag" Margin="0,0,5,0" BorderThickness="0" SelectionChanged="TagBox_SelectionChanged" HorizontalAlignment="Stretch">
+                        <ComboBox ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags, Mode=OneWay}" x:Name="TagBox" MinWidth="100" Grid.Column="0" PlaceholderText="Filter by tag" Margin="0,0,5,0" SelectionChanged="TagBox_SelectionChanged" HorizontalAlignment="Stretch">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="models:NoteTag">
                                     <Grid>
