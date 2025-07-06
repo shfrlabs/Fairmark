@@ -8,31 +8,29 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:oldtoolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:Fairmark.Converters"
     mc:Ignorable="d">
     <Page.Resources>
-        <AcrylicBrush
+        <converters:MarkdownNewLineConverter x:Name="MDNewLineConverter"/>
+        <SolidColorBrush
             x:Key="NoteEditorBackground"
-            BackgroundSource="HostBackdrop"
-            TintColor="{ThemeResource SystemColorWindowColor}"
-            TintOpacity="0.95"
+            Color="{ThemeResource LayerFillColorDefault}"
+            Opacity="0.3"
         />
-        <AcrylicBrush
+        <SolidColorBrush
             x:Key="NotePreviewBackground"
-            BackgroundSource="HostBackdrop"
-            TintColor="{ThemeResource SystemColorWindowColor}"
-            TintOpacity="0.99"
+            Color="{ThemeResource LayerFillColorDefault}"
+            Opacity="0.8"
         />
         <SolidColorBrush
             x:Key="NoteEditorBorder"
-            Color="{ThemeResource SystemBaseHighColor}"
-            Opacity=".05"
+            Color="Transparent"
+            Opacity=".2"
         />
     </Page.Resources>
     <Grid
         Margin="5"
-        CornerRadius="4"
-        BorderThickness="1"
-        BorderBrush="{ThemeResource NoteEditorBorder}">
+        CornerRadius="4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -50,7 +48,7 @@
                 VerticalAlignment="Stretch"
                 x:Name="MarkBlock"
                 BorderThickness="0"
-                Text="{x:Bind MarkEditor.Text, Mode=OneWay}"/>
+                Text="{x:Bind MarkEditor.Text, Mode=OneWay, Converter={StaticResource MDNewLineConverter}}"/>
         </ScrollViewer>
         <Grid
             Grid.Column="1"

@@ -36,7 +36,6 @@ namespace Fairmark
         private List<Microsoft.UI.Xaml.Controls.TabViewItem> openTabs = new List<Microsoft.UI.Xaml.Controls.TabViewItem>();
 
         private async Task WelcomeDialog() {
-
             var overlay = new Windows.UI.Xaml.Shapes.Rectangle {
                 Fill = Application.Current.Resources["OverlayBrush"] as Brush,
                 Opacity = 1,
@@ -64,7 +63,6 @@ namespace Fairmark
                 storyboard.Completed += (snd, evt) => tcs.SetResult(true);
                 storyboard.Begin();
                 await tcs.Task;
-
                 ContentGrid.Children.Remove(overlay);
             };
             await dialog.ShowAsync();

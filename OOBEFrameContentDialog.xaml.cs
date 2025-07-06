@@ -29,7 +29,7 @@ namespace Fairmark {
         }
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e) {
-            contentFrame.Navigate(typeof(InitSettings));
+            contentFrame.Navigate(typeof(SettingsPage), "OOBE");
             ContinueButton.Visibility = Visibility.Collapsed;
             FinishButton.Visibility = Visibility.Visible;
         }
