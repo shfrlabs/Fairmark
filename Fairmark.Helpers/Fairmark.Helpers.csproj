@@ -124,6 +124,7 @@
     <Compile Include="GridLengthAnimationHelper.cs" />
     <Compile Include="NoteCollectionHelper.cs" />
     <Compile Include="NoteFileHandlingHelper.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Fairmark.Helpers.rd.xml" />

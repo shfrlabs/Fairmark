@@ -17,6 +17,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Text;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,12 @@ namespace Fairmark
                 new PointerEventHandler(AppBarButton_PointerPressed), true);
             Settings.AddHandler(UIElement.PointerReleasedEvent,
                 new PointerEventHandler(AppBarButton_PointerReleased), true);
+            if ((new Settings()).HideFromRecall) {
+                ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = false;
+            }
+            else {
+                ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = true;
+            }
 
         }
 
@@ -795,12 +802,28 @@ namespace Fairmark
             f.Margin = new Thickness(0, 50, 0, 0);
             f.Navigate(typeof(SettingsPage));
             window.Title = "Settings";
+            window.TitleBar.ExtendsContentIntoTitleBar = true;
+            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             ElementCompositionPreview.SetAppWindowContent(window, f);
             await window.TryShowAsync();
             Settings.IsEnabled = false;
             window.Closed += (s, a) => {
                 Settings.IsEnabled = true;
             };
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e) {
+            if (ApplicationView.GetForCurrentView().IsFullScreenMode) {
+                ClosePane_Click(null, null);
+                ContentGrid.RowDefinitions[0].Height = new GridLength(0);
+                this.Background = Application.Current.Resources["ZenBG"] as SolidColorBrush;
+            }
+            else
+            {
+                ContentGrid.RowDefinitions[0].Height = new GridLength(48);
+                this.Background = new SolidColorBrush(Colors.Transparent);
+            }
         }
     }
 }

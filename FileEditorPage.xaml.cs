@@ -9,6 +9,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Composition;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,11 +21,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Fairmark
 {
-    public sealed partial class FileEditorPage : Page
-    {
+    public sealed partial class FileEditorPage : Page {
         public string noteId = null;
-        public FileEditorPage()
-        {
+        public FileEditorPage() {
             this.InitializeComponent();
         }
 
@@ -32,8 +32,18 @@ namespace Fairmark
             MarkEditor.Text = await NoteFileHandlingHelper.ReadNoteFileAsync(noteId);
         }
 
-        private void MarkEditor_TextChanged(object sender, TextChangedEventArgs e) {
-            NoteFileHandlingHelper.WriteNoteFileAsync(noteId, MarkEditor.Text);
+        private async void MarkEditor_TextChanged(object sender, TextChangedEventArgs e) {
+            await NoteFileHandlingHelper.WriteNoteFileAsync(noteId, MarkEditor.Text);
+        }
+
+        public ApplicationView currentView => ApplicationView.GetForCurrentView();
+        private void AppBarToggleButton_Click(object sender, RoutedEventArgs e) {
+            if (currentView.IsFullScreenMode) {
+                currentView.ExitFullScreenMode();
+            }
+            else {
+                currentView.TryEnterFullScreenMode();
+            }
         }
     }
 }

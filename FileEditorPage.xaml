@@ -8,6 +8,8 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:oldtoolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:models="using:Fairmark.Models"
+    xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
     mc:Ignorable="d">
     <Page.Resources>
@@ -48,6 +50,9 @@
                 VerticalAlignment="Stretch"
                 x:Name="MarkBlock"
                 BorderThickness="0"
+                DataContext="{StaticResource Settings}"
+                FontSize="{Binding PreviewFontSize, Mode=OneWay}"
+                FontFamily="{Binding PreviewFontFamily, Mode=OneWay}"
                 Text="{x:Bind MarkEditor.Text, Mode=OneWay, Converter={StaticResource MDNewLineConverter}}"/>
         </ScrollViewer>
         <Grid
@@ -56,6 +61,15 @@
             BorderThickness="1,0,0,0"
             CornerRadius="0,4,4,0"
             Background="{ThemeResource NoteEditorBackground}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+            <CommandBar Grid.Row="1" Height="70" HorizontalAlignment="Left" OverflowButtonVisibility="Collapsed">
+                <AppBarToggleButton Label="Zen" Width="50" Click="AppBarToggleButton_Click" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
+                    <FontIcon Glyph="&#xE708;" />
+                </AppBarToggleButton>
+            </CommandBar>
             <TextBox
                 Padding="10,8"
                 AcceptsReturn="True"
@@ -66,7 +80,9 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CornerRadius="0"
-                FontFamily="Consolas" 
+                DataContext="{StaticResource Settings}"
+                FontFamily="{Binding EditorFontFamily}"
+                FontSize="{Binding EditorFontSize}"
                 BorderThickness="0"
                 TextChanged="MarkEditor_TextChanged">
                 <TextBox.Resources>

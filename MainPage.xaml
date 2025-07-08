@@ -12,7 +12,8 @@
     xmlns:converters="using:Fairmark.Converters"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    Loaded="Page_Loaded">
+    Loaded="Page_Loaded"
+    SizeChanged="Page_SizeChanged">
 
     <Page.Resources>
         <converters:TagGradientConverter x:Name="TagGradientConverter"/>

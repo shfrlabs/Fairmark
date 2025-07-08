@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fairmark.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Fairmark
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
+        public event EventHandler FullScreenModeChanged;
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;

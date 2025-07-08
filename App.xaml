@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Fairmark"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:helpers="using:Fairmark.Helpers"
     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)">
     <Application.Resources>
@@ -20,6 +21,7 @@
                             <Color x:Key="OverlayBrushTintColor">#FF000000</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
+                    <helpers:Settings x:Key="Settings"/>
                     <AcrylicBrush x:Key="OverlayBrush"
                         BackgroundSource="HostBackdrop"
                         TintColor="{ThemeResource OverlayBrushTintColor}"
@@ -27,6 +29,7 @@
                         TintOpacity="0"
                         FallbackColor="{ThemeResource OverlayBrushTintColor}" />
                     <SolidColorBrush x:Key="DialogBG" Color="{ThemeResource DialogBGColor}" Opacity="0.7" />
+                    <SolidColorBrush x:Key="ZenBG" Color="{ThemeResource DialogBGColor}" Opacity="1" />
                     <LinearGradientBrush  
                         x:Key="OOBEFrameBackground"  
                         StartPoint="0,0"  

@@ -5,13 +5,16 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.Security.Credentials.UI;
 using Windows.UI.Xaml.Navigation;
+using Fairmark.Helpers;
 
 
 namespace Fairmark {
@@ -22,7 +25,14 @@ namespace Fairmark {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             if (e.Parameter != null && e.Parameter.ToString() == "OOBE") {
-                this.Background = new SolidColorBrush(Windows.UI.Colors.Red);
+                RootGrid.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
+            }
+        }
+
+        private async void ToggleSwitch_Loaded(object sender, RoutedEventArgs e) {
+            if (await Windows.Security.Credentials.UI.UserConsentVerifier.CheckAvailabilityAsync() != Windows.Security.Credentials.UI.UserConsentVerifierAvailability.Available) {
+                (sender as ToggleSwitch).IsOn = false;
+                (sender as ToggleSwitch).IsEnabled = false;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +16,7 @@ namespace Fairmark.Helpers
 #else
         public static bool firstStartup => false;
 #endif
+        public static string exportFolder => ApplicationData.Current.LocalFolder.Path;
+
     }
 }
