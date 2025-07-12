@@ -13,6 +13,7 @@ using System.Resources;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
+using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -41,11 +42,25 @@ namespace Fairmark
                 new PointerEventHandler(AppBarButton_PointerPressed), true);
             Settings.AddHandler(UIElement.PointerReleasedEvent,
                 new PointerEventHandler(AppBarButton_PointerReleased), true);
-            if ((new Settings()).HideFromRecall) {
+            Helpers.Settings s = new Settings();
+            if (s.HideFromRecall) {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = false;
             }
             else {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = true;
+            }
+            if (s.AuthenticationEnabled) {
+                if (UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result == UserConsentVerifierAvailability.Available) {
+                    UserConsentVerifier.RequestVerificationAsync("Fairmark needs your permission to continue. You can turn this off in Settings.").AsTask();
+                }
+                else {
+                    ContentDialog dialog = new ContentDialog();
+                    dialog.Title = "Authentication was turned off due to a problem with Windows Hello.";
+                    dialog.Content = "Make sure you didn't turn off your PIN/password/biometrics in Windows Settings.";
+                    s.AuthenticationEnabled = false;
+                    dialog.PrimaryButtonText = "OK";
+                    dialog.ShowAsync().AsTask();
+                }
             }
 
         }

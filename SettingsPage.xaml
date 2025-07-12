@@ -5,14 +5,8 @@
     xmlns:local="using:Fairmark"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    xmlns:helpers="using:Fairmark.Helpers"
-    xmlns:converters="using:Fairmark.Converters"
-    xmlns:win2d="using:Microsoft.Graphics.Canvas.Text"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converters:FontFamilyToNameConverter x:Name="FontFamilyToName" />
-    </Page.Resources>
     <Grid x:Name="RootGrid" Margin="0,-50,0,0">
         <Grid.Background>
             <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{StaticResource DialogBGColor}" FallbackColor="{ThemeResource DialogBGColor}"/>
@@ -32,67 +26,43 @@
                 <TextBlock Text="Settings" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
             </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}" Margin="18,0,18,0">
-                <toolkit:SettingsCard Header="App theme" Description="Select what theme the app applies.">
-                    <toolkit:SettingsCard.HeaderIcon>
+        <controls:NavigationView
+            IsSettingsVisible="False"
+            x:Name="SettingsNav"
+            SelectionChanged="NavigationView_SelectionChanged"
+            IsPaneOpen="True"
+            OpenPaneLength="250"
+            Grid.Row="1">
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem Content="Fairmark AI" Tag="AI">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF4A5;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Appearance" Tag="Display">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        ItemsSource="{Binding AvailableThemes}"
-                        SelectedItem="{Binding Theme, Mode=TwoWay}"
-                        PlaceholderText="Select theme" HorizontalAlignment="Right">
-                    </ComboBox>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Editor font family" Description="Select what font is used by the note editor.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE8D2;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
-                        SelectedItem="{Binding EditorFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                        PlaceholderText="Select font" HorizontalAlignment="Right">
-                    </ComboBox>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Editor font size" Description="Select the font size used by the note editor.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE8E9;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <Slider StepFrequency="1" Minimum="10" Maximum="60" HorizontalAlignment="Right" Value="{Binding EditorFontSize, Mode=TwoWay}"/>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Preview font family" Description="Select what font is used by the Markdown note preview.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE8D2;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
-                        SelectedItem="{Binding PreviewFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                        PlaceholderText="Select font" HorizontalAlignment="Right">
-                    </ComboBox>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Preview font size" Description="Select the font size used by the Markdown note preview.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE8E9;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <Slider StepFrequency="1" Minimum="10" Maximum="60" HorizontalAlignment="Right" Value="{Binding PreviewFontSize, Mode=TwoWay}"/>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Hide from screenshots" Description="Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE733;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <ToggleSwitch
-                        IsOn="{Binding HideFromRecall, Mode=TwoWay}" HorizontalAlignment="Right">
-                    </ToggleSwitch>
-                </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Authentication" Description="Select whether the app should require biometrics before opening.">
-                    <toolkit:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE72E;" />
-                    </toolkit:SettingsCard.HeaderIcon>
-                    <ToggleSwitch
-                        IsOn="{Binding AuthenticationEnabled, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded" HorizontalAlignment="Right">
-                    </ToggleSwitch>
-                </toolkit:SettingsCard>
-            </StackPanel>
-        </ScrollViewer>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Features" Tag="Features">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE74C;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Access logs" Tag="Logs">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA37;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Import/Export" Tag="ImExport">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8B5;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+            </controls:NavigationView.MenuItems>
+            <controls:NavigationView.Content>
+                <Frame x:Name="settingsFrame" Loaded="settingsFrame_Loaded" />
+            </controls:NavigationView.Content>
+        </controls:NavigationView>
     </Grid>
 </Page>

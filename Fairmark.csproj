@@ -138,6 +138,21 @@
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsPages\AccessLogsPage.xaml.cs">
+      <DependentUpon>AccessLogsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\AIPage.xaml.cs">
+      <DependentUpon>AIPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\DisplayPage.xaml.cs">
+      <DependentUpon>DisplayPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\FeaturesPage.xaml.cs">
+      <DependentUpon>FeaturesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\ImportExportPage.xaml.cs">
+      <DependentUpon>ImportExportPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -224,6 +239,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\AccessLogsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\AIPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\DisplayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\FeaturesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\ImportExportPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

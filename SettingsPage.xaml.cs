@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.Security.Credentials.UI;
 using Windows.UI.Xaml.Navigation;
 using Fairmark.Helpers;
+using Fairmark.SettingsPages;
 
 
 namespace Fairmark {
@@ -27,13 +28,28 @@ namespace Fairmark {
             if (e.Parameter != null && e.Parameter.ToString() == "OOBE") {
                 RootGrid.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
             }
+            SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
         }
 
-        private async void ToggleSwitch_Loaded(object sender, RoutedEventArgs e) {
-            if (await Windows.Security.Credentials.UI.UserConsentVerifier.CheckAvailabilityAsync() != Windows.Security.Credentials.UI.UserConsentVerifierAvailability.Available) {
-                (sender as ToggleSwitch).IsOn = false;
-                (sender as ToggleSwitch).IsEnabled = false;
+        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args) {
+            switch ((args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag as string) {
+                case "AI":
+                    settingsFrame.Navigate(typeof(AIPage)); break;
+                case "Display":
+                    settingsFrame.Navigate(typeof(DisplayPage)); break;
+                case "Features":
+                    settingsFrame.Navigate(typeof(FeaturesPage)); break;
+                case "ImExport":
+                    settingsFrame.Navigate(typeof(ImportExportPage)); break;
+                case "Logs":
+                    settingsFrame.Navigate(typeof(AccessLogsPage)); break;
+                default:
+                    settingsFrame.Content = null; break;
             }
+        }
+
+        private void settingsFrame_Loaded(object sender, RoutedEventArgs e) {
+            settingsFrame.Navigate(typeof(AIPage));
         }
     }
 }

@@ -42,6 +42,7 @@
             CornerRadius="4,0,0,4"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
+            x:Name="previewsv"
             VerticalAlignment="Stretch">
             <oldtoolkit:MarkdownTextBlock
                 Background="Transparent"

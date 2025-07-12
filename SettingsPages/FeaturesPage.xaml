@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="Fairmark.SettingsPages.FeaturesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fairmark.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+
+    <ScrollViewer DataContext="{StaticResource Settings}" Padding="20">
+        <StackPanel Orientation="Vertical">
+            <toolkit:SettingsCard Header="Hide from screenshots" Description="Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline.">
+                <toolkit:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE733;" />
+                </toolkit:SettingsCard.HeaderIcon>
+                <ToggleSwitch
+                IsOn="{Binding HideFromRecall, Mode=TwoWay}" HorizontalAlignment="Right">
+                </ToggleSwitch>
+            </toolkit:SettingsCard>
+            <toolkit:SettingsCard Header="Authentication" Description="Select whether the app should require biometrics before opening.">
+                <toolkit:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE72E;" />
+                </toolkit:SettingsCard.HeaderIcon>
+                <ToggleSwitch
+                IsOn="{Binding AuthenticationEnabled, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded" HorizontalAlignment="Right">
+                </ToggleSwitch>
+            </toolkit:SettingsCard>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

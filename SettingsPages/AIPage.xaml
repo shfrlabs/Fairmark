@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Fairmark.SettingsPages.AIPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fairmark.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:helpers="using:Fairmark.Helpers"
+    xmlns:converters="using:Fairmark.Converters"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.Text"
+    mc:Ignorable="d">
+
+    <ScrollViewer Padding="20">
+        <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
+            <TextBlock>Fairmark AI Settings</TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
