@@ -13,7 +13,13 @@
 
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
-            <TextBlock>Access logs</TextBlock>
+            <toolkit:SettingsCard
+                IsEnabled="False"
+                Header="Log app access"
+                Description="Log the last 100 events in the app (opening the app, reading a note, etc) here to protect your privacy. Logs cannot be cleared."
+                HeaderIcon="List">
+                <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}"/>
+            </toolkit:SettingsCard>
         </StackPanel>
     </ScrollViewer>
 </Page>

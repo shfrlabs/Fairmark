@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    <Grid x:Name="RootGrid" Margin="0,-50,0,0">
+    <Grid x:Name="RootGrid" Margin="0,-51,0,0">
         <Grid.Background>
             <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{StaticResource DialogBGColor}" FallbackColor="{ThemeResource DialogBGColor}"/>
         </Grid.Background>
@@ -32,6 +32,8 @@
             SelectionChanged="NavigationView_SelectionChanged"
             IsPaneOpen="True"
             OpenPaneLength="250"
+            IsBackEnabled="False"
+            PaneDisplayMode="LeftCompact"
             Grid.Row="1">
             <controls:NavigationView.MenuItems>
                 <controls:NavigationViewItem Content="Fairmark AI" Tag="AI">
@@ -59,6 +61,12 @@
                         <FontIcon Glyph="&#xE8B5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Stats" Tag="Stats">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE9D2;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                
             </controls:NavigationView.MenuItems>
             <controls:NavigationView.Content>
                 <Frame x:Name="settingsFrame" Loaded="settingsFrame_Loaded" />

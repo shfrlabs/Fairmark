@@ -13,7 +13,14 @@
 
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
-            <TextBlock>Fairmark AI Settings</TextBlock>
+            <toolkit:SettingsCard IsEnabled="False" Header="Fairmark AI" Description="Allow local AI models to process your notes. No data ever leaves your device.">
+                <toolkit:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xF4A5;" />
+                </toolkit:SettingsCard.HeaderIcon>
+                <ToggleSwitch IsOn="{Binding AI, Mode=TwoWay}"/>
+            </toolkit:SettingsCard>
+            <TextBlock Text="Select and download models" FontSize="13" FontWeight="SemiBold" Margin="2,10,0,7"/>
+            <Grid HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

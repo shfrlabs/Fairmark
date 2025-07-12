@@ -102,6 +102,39 @@ namespace Fairmark.Helpers {
             }
         }
 
+        public bool AI {
+            get {
+                bool current = _localSettings.Values.TryGetValue("fairmarkAI", out object hideObj)
+                               && hideObj is bool b && b;
+                Debug.WriteLine($"[Settings] Get AI -> {current}");
+                return current;
+            }
+            set {
+                var old = AI;
+                if (old != value) {
+                    Debug.WriteLine($"[Settings] Set AI: {value} (was {old})");
+                    _localSettings.Values["fairmarkAI"] = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AI)));
+                }
+            }
+        }
+        public bool AccessLogs {
+            get {
+                bool current = _localSettings.Values.TryGetValue("accessLogs", out object hideObj)
+                               && hideObj is bool b && b;
+                Debug.WriteLine($"[Settings] Get AccessLogs -> {current}");
+                return current;
+            }
+            set {
+                var old = AccessLogs;
+                if (old != value) {
+                    Debug.WriteLine($"[Settings] Set AccessLogs: {value} (was {old})");
+                    _localSettings.Values["accessLogs"] = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccessLogs)));
+                }
+            }
+        }
+
         public bool AuthenticationEnabled {
             get {
                 bool current = _localSettings.Values.TryGetValue("authenticationEnabled", out object authObj)

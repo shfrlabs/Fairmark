@@ -43,6 +43,8 @@ namespace Fairmark {
                     settingsFrame.Navigate(typeof(ImportExportPage)); break;
                 case "Logs":
                     settingsFrame.Navigate(typeof(AccessLogsPage)); break;
+                case "Stats":
+                    settingsFrame.Navigate(typeof(StatsPage)); break;
                 default:
                     settingsFrame.Content = null; break;
             }
