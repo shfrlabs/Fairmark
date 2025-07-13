@@ -1,26 +1,31 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.UI.Text;
 
 namespace Fairmark.Helpers {
     public static class NoteFileHandlingHelper {
         public static async Task<bool> NoteExists(string noteId) {
-            return (await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".md")) != null;
+            return (await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".rtf")) != null;
         }
 
-        public static async Task<string> ReadNoteFileAsync(string noteId) {
-            var file = await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".md") as StorageFile;
+        public static async Task<IRandomAccessStream> ReadNoteStreamAsync(string noteId) {
+            var file = await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".rtf") as StorageFile;
             if (file != null) {
-                return await FileIO.ReadTextAsync(file);
+                return await file.OpenAsync(FileAccessMode.Read);
             }
             return null;
         }
 
-        public static async Task WriteNoteFileAsync(string noteId, string content) {
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(noteId + ".md", CreationCollisionOption.OpenIfExists);
+        public static async Task WriteNoteFileAsync(string noteId, RichEditTextDocument document) {
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(noteId + ".rtf", CreationCollisionOption.OpenIfExists);
             try {
                 await RunWithLockAsync(noteId, async () => {
-                    await FileIO.WriteTextAsync(file, content);
+                    using (var outStream = await file.OpenAsync(FileAccessMode.ReadWrite)) {
+                        outStream.Size = 0;
+                        document.SaveToStream(TextGetOptions.FormatRtf, outStream);
+                    }
                 });
             }
             catch (System.IO.IOException) {

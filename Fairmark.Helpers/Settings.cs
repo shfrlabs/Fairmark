@@ -61,29 +61,6 @@ namespace Fairmark.Helpers {
             }
         }
 
-        public FontFamily PreviewFontFamily {
-            get {
-                FontFamily current;
-                if (_localSettings.Values.TryGetValue("previewFontFamily", out object fontObj)) {
-                    current = new FontFamily(fontObj.ToString());
-                }
-                else {
-                    current = new FontFamily("Segoe UI Variable Text");
-                }
-
-                Debug.WriteLine($"[Settings] Get PreviewFontFamily -> {current.Source}");
-                return current;
-            }
-            set {
-                var old = PreviewFontFamily;
-                if (old.Source != value.Source) {
-                    Debug.WriteLine($"[Settings] Set PreviewFontFamily: {value.Source} (was {old.Source})");
-                    _localSettings.Values["previewFontFamily"] = value.Source;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreviewFontFamily)));
-                }
-            }
-        }
-
         public bool HideFromRecall {
             get {
                 bool current = _localSettings.Values.TryGetValue("hideFromRecall", out object hideObj)
@@ -148,48 +125,6 @@ namespace Fairmark.Helpers {
                     Debug.WriteLine($"[Settings] Set AuthenticationEnabled: {value} (was {old})");
                     _localSettings.Values["authenticationEnabled"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AuthenticationEnabled)));
-                }
-            }
-        }
-
-        public int EditorFontSize {
-            get {
-                int current = 14;
-                if (_localSettings.Values.TryGetValue("editorFontSize", out object sizeObj)
-                    && int.TryParse(sizeObj.ToString(), out int parsed)) {
-                    current = parsed;
-                }
-
-                Debug.WriteLine($"[Settings] Get EditorFontSize -> {current}");
-                return current;
-            }
-            set {
-                var old = EditorFontSize;
-                if (old != value) {
-                    Debug.WriteLine($"[Settings] Set EditorFontSize: {value} (was {old})");
-                    _localSettings.Values["editorFontSize"] = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EditorFontSize)));
-                }
-            }
-        }
-
-        public int PreviewFontSize {
-            get {
-                int current = 14;
-                if (_localSettings.Values.TryGetValue("previewFontSize", out object sizeObj)
-                    && int.TryParse(sizeObj.ToString(), out int parsed)) {
-                    current = parsed;
-                }
-
-                Debug.WriteLine($"[Settings] Get PreviewFontSize -> {current}");
-                return current;
-            }
-            set {
-                var old = PreviewFontSize;
-                if (old != value) {
-                    Debug.WriteLine($"[Settings] Set PreviewFontSize: {value} (was {old})");
-                    _localSettings.Values["previewFontSize"] = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreviewFontSize)));
                 }
             }
         }

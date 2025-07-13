@@ -64,14 +64,14 @@ namespace Fairmark.Helpers
 
             foreach (var id in newIds) {
                 if (!oldIds.Contains(id)) {
-                    await ApplicationData.Current.LocalFolder.CreateFileAsync($"{id}.md", CreationCollisionOption.OpenIfExists);
+                    await ApplicationData.Current.LocalFolder.CreateFileAsync($"{id}.rtf", CreationCollisionOption.OpenIfExists);
                 }
             }
 
             foreach (var id in oldIds) {
                 if (!newIds.Contains(id)) {
                     try {
-                        StorageFile fileToDelete = await ApplicationData.Current.LocalFolder.GetFileAsync($"{id}.md");
+                        StorageFile fileToDelete = await ApplicationData.Current.LocalFolder.GetFileAsync($"{id}.rtf");
                         await fileToDelete.DeleteAsync();
                     }
                     catch {

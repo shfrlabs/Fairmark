@@ -11,9 +11,12 @@
     xmlns:models="using:Fairmark.Models"
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.Text"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:MarkdownNewLineConverter x:Name="MDNewLineConverter"/>
+        <converters:FontFamilyToNameConverter x:Name="FontFamilyToName" />
+        <converters:MarkdownNewLineConverter x:Name="MDNewLineConverter" />
+        <converters:EditorSizeConverter x:Name="EditorSizeConverter" />
         <SolidColorBrush
             x:Key="NoteEditorBackground"
             Color="{ThemeResource LayerFillColorDefault}"
@@ -33,29 +36,6 @@
     <Grid
         Margin="5"
         CornerRadius="4">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer
-            Background="{ThemeResource NotePreviewBackground}"
-            CornerRadius="4,0,0,4"
-            Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            x:Name="previewsv"
-            VerticalAlignment="Stretch">
-            <oldtoolkit:MarkdownTextBlock
-                Background="Transparent"
-                Padding="10, 8"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                x:Name="MarkBlock"
-                BorderThickness="0"
-                DataContext="{StaticResource Settings}"
-                FontSize="{Binding PreviewFontSize, Mode=OneWay}"
-                FontFamily="{Binding PreviewFontFamily, Mode=OneWay}"
-                Text="{x:Bind MarkEditor.Text, Mode=OneWay, Converter={StaticResource MDNewLineConverter}}"/>
-        </ScrollViewer>
         <Grid
             Grid.Column="1"
             BorderBrush="{ThemeResource NoteEditorBorder}"
@@ -67,11 +47,83 @@
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
             <CommandBar Grid.Row="1" Height="70" HorizontalAlignment="Left" OverflowButtonVisibility="Collapsed">
-                <AppBarToggleButton Label="Zen" Width="50" Click="AppBarToggleButton_Click" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
+                <AppBarButton Label="Undo"
+                        Icon="Undo"
+                        Width="50"
+                        x:Name="UndoButton"
+                        Click="UndoButton_Click"
+                        IsEnabled="{x:Bind CanUndo, Mode=OneWay}" />
+                <AppBarButton Label="RedoButton"
+                        Icon="Redo"
+                        Width="50"
+                        x:Name="RedoButton"
+                        Click="RedoButton_Click"
+                        IsEnabled="{x:Bind CanRedo, Mode=OneWay}" />
+                <AppBarSeparator/>
+                <AppBarToggleButton Label="Bold"
+                        Width="50"
+                        x:Name="BoldToggle"
+                        Icon="Bold"
+                        IsChecked="{x:Bind IsSelectionBold, Mode=TwoWay}" />
+                <AppBarToggleButton Label="Italic"
+                        Width="50"
+                        x:Name="ItalicToggle"
+                        Icon="Italic"
+                        IsChecked="{x:Bind IsSelectionItalic, Mode=TwoWay}" />
+                <AppBarToggleButton Label="Underline"
+                        Width="50"
+                        Icon="Underline"
+                        x:Name="UnderlineToggle"
+                        IsChecked="{x:Bind IsSelectionUnderline, Mode=TwoWay}" />
+                <AppBarToggleButton Label="Strikethrough"
+                        Width="50"
+                        x:Name="StrikeToggle"
+                        IsChecked="{x:Bind IsSelectionStrikethrough, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon Glyph="&#xEDE0;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarSeparator/>
+                <AppBarButton Label="Cut"
+                        Icon="Cut"
+                        Width="50"
+                        x:Name="CutButton"
+                        IsEnabled="{x:Bind CanCopy, Mode=OneWay}"
+                        Click="CutButton_Click" />
+                <AppBarButton Label="Copy"
+                        Icon="Copy"
+                        Width="50"
+                        x:Name="CopyButton"
+                        IsEnabled="{x:Bind CanCopy, Mode=OneWay}"
+                        Click="CopyButton_Click" />
+                <AppBarButton Label="Paste"
+                        Icon="Paste"
+                        Width="50"
+                        x:Name="PasteButton"
+                        IsEnabled="{x:Bind CanPaste, Mode=OneWay}"
+                        Click="PasteButton_Click" />
+                <AppBarSeparator/>
+                <AppBarElementContainer>
+                    <controls:NumberBox
+                        x:Name="NumberBox"
+                        Background="Transparent" 
+                        Margin="5,0,5,0"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Value="{x:Bind MarkEditor.Document.Selection.CharacterFormat.Size, Mode=OneTime, Converter={StaticResource EditorSizeConverter}}"
+                        ValueChanged="NumberBox_ValueChanged"
+                        Minimum="10"
+                        Maximum="80"/>
+                </AppBarElementContainer>
+                <AppBarSeparator/>
+                <AppBarToggleButton Label="Zen"
+                        Width="50"
+                        Click="AppBarToggleButton_Click"
+                        IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
                     <FontIcon Glyph="&#xE708;" />
                 </AppBarToggleButton>
             </CommandBar>
-            <TextBox
+            <RichEditBox
                 Padding="10,8"
                 AcceptsReturn="True"
                 ScrollViewer.VerticalScrollMode="Auto"
@@ -83,23 +135,15 @@
                 CornerRadius="0"
                 DataContext="{StaticResource Settings}"
                 FontFamily="{Binding EditorFontFamily}"
-                FontSize="{Binding EditorFontSize}"
                 BorderThickness="0"
                 TextChanged="MarkEditor_TextChanged">
-                <TextBox.Resources>
+                <RichEditBox.Resources>
                     <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
                     <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
                     <SolidColorBrush x:Key="TextControlBackground" Color="Transparent"/>
                     <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
-                </TextBox.Resources>
-            </TextBox>
+                </RichEditBox.Resources>
+            </RichEditBox>
         </Grid>
-        <toolkit:GridSplitter
-           Grid.Column="0"
-           Opacity="0.5"
-           IsThumbVisible="False"
-           Margin="0,0,-4.2,0"
-           VerticalAlignment="Stretch" HorizontalAlignment="Right">
-        </toolkit:GridSplitter>
     </Grid>
 </Page>

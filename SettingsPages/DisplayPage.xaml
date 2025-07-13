@@ -35,28 +35,6 @@
                 PlaceholderText="Select font" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Editor font size" Description="Select the font size used by the note editor.">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE8E9;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <Slider StepFrequency="1" Minimum="10" Maximum="60" HorizontalAlignment="Right" Value="{Binding EditorFontSize, Mode=TwoWay}"/>
-            </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Preview font family" Description="Select what font is used by the Markdown note preview.">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE8D2;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <ComboBox
-                ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
-                SelectedItem="{Binding PreviewFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                PlaceholderText="Select font" HorizontalAlignment="Right">
-                </ComboBox>
-            </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Preview font size" Description="Select the font size used by the Markdown note preview.">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xE8E9;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <Slider StepFrequency="1" Minimum="10" Maximum="60" HorizontalAlignment="Right" Value="{Binding PreviewFontSize, Mode=TwoWay}"/>
-            </toolkit:SettingsCard>
         </StackPanel>
     </ScrollViewer>
 </Page>
