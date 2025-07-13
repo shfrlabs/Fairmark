@@ -135,10 +135,9 @@ namespace Fairmark
 
                 Storyboard.SetTarget(animation, helper);
                 Storyboard.SetTargetProperty(animation, "AnimatedValue");
-
                 var storyboard = new Storyboard();
                 storyboard.Children.Add(animation);
-                storyboard.Begin();
+                destoryboard.Begin();
             }
         }
 

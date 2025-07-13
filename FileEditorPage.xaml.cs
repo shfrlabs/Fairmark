@@ -1,7 +1,9 @@
 ﻿using Fairmark.Helpers;
 using Fairmark.Models;
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Reflection.Metadata.Ecma335;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -113,10 +115,27 @@ namespace Fairmark {
         private void UndoButton_Click(object sender, RoutedEventArgs e) => MarkEditor.Document.Undo();
         private void RedoButton_Click(object sender, RoutedEventArgs e) => MarkEditor.Document.Redo();
 
-        private void NumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
-        {
-            if (_suppressNumberBoxValueChanged) return;
-            MarkEditor.Document.Selection.CharacterFormat.Size = (float)(EditorSizeConverter.ConvertBack(NumberBox.Value, typeof(float), null, null));
+        private void NumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args) {
+            if (_suppressNumberBoxValueChanged)
+                return;
+
+            double value = sender.Value;
+
+            if (double.IsNaN(value) || value < sender.Minimum || value == 0) {
+                value = sender.Minimum;
+                _suppressNumberBoxValueChanged = true;
+                sender.Value = value;
+                _suppressNumberBoxValueChanged = false;
+            }
+            else if (value > sender.Maximum) {
+                value = sender.Maximum;
+                _suppressNumberBoxValueChanged = true;
+                sender.Value = value;
+                _suppressNumberBoxValueChanged = false;
+            }
+
+            float finalSize = (float)value;
+            MarkEditor.Document.Selection.CharacterFormat.Size = finalSize;
         }
     }
 }

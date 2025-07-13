@@ -103,12 +103,16 @@
                         IsEnabled="{x:Bind CanPaste, Mode=OneWay}"
                         Click="PasteButton_Click" />
                 <AppBarSeparator/>
-                <AppBarElementContainer>
+                <AppBarElementContainer Height="70">
                     <controls:NumberBox
                         x:Name="NumberBox"
+                        SmallChange="1"
+                        LargeChange="5"
+                        SpinButtonPlacementMode="Inline"
                         Background="Transparent" 
-                        Margin="5,0,5,0"
-                        VerticalAlignment="Center"
+                        Margin="5,7,5,7"
+                        FontSize="16"
+                        Height="35"
                         VerticalContentAlignment="Center"
                         Value="{x:Bind MarkEditor.Document.Selection.CharacterFormat.Size, Mode=OneTime, Converter={StaticResource EditorSizeConverter}}"
                         ValueChanged="NumberBox_ValueChanged"
@@ -133,6 +137,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 CornerRadius="0"
+                Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
                 DataContext="{StaticResource Settings}"
                 FontFamily="{Binding EditorFontFamily}"
                 BorderThickness="0"
