@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FileEditorBox.cs" />
     <Compile Include="EmptyTabPage.xaml.cs">
       <DependentUpon>EmptyTabPage.xaml</DependentUpon>
     </Compile>
@@ -268,6 +269,10 @@
     <Page Include="SettingsPages\StatsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

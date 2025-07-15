@@ -11,6 +11,7 @@
     xmlns:models="using:Fairmark.Models"
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
+    xmlns:customcontrols="using:Fairmark.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:MarkdownNewLineConverter x:Name="MDNewLineConverter"/>
@@ -71,28 +72,7 @@
                     <FontIcon Glyph="&#xE708;" />
                 </AppBarToggleButton>
             </CommandBar>
-            <TextBox
-                Padding="10,8"
-                AcceptsReturn="True"
-                ScrollViewer.VerticalScrollMode="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                TextWrapping="Wrap"
-                x:Name="MarkEditor"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                CornerRadius="0"
-                DataContext="{StaticResource Settings}"
-                FontFamily="{Binding EditorFontFamily}"
-                FontSize="{Binding EditorFontSize}"
-                BorderThickness="0"
-                TextChanged="MarkEditor_TextChanged">
-                <TextBox.Resources>
-                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
-                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
-                    <SolidColorBrush x:Key="TextControlBackground" Color="Transparent"/>
-                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
-                </TextBox.Resources>
-            </TextBox>
+            <customcontrols:FileEditorBox x:Name="MarkEditor" Grid.Row="0" NoteID="{x:Bind noteId}"/>
         </Grid>
         <toolkit:GridSplitter
            Grid.Column="0"
