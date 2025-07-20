@@ -130,6 +130,9 @@
     <EmbeddedResource Include="Properties\Fairmark.Helpers.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock">
+      <Version>0.1.250703-build.2173</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>

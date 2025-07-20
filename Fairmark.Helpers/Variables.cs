@@ -16,6 +16,7 @@ namespace Fairmark.Helpers
 #else
         public static bool firstStartup => false;
 #endif
+
         public static string exportFolder => ApplicationData.Current.LocalFolder.Path;
 
     }

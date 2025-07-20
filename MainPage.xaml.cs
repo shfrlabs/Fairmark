@@ -97,8 +97,60 @@ namespace Fairmark
                 storyboard.Begin();
                 await tcs.Task;
                 ContentGrid.Children.Remove(overlay);
+                FirstRunTips();
             };
             await dialog.ShowAsync();
+        }
+
+
+        public TeachingTip addnotetip = new TeachingTip() {
+            Title = "Create your first note.",
+            Subtitle = "Use this button to create a note.",
+            IsOpen = false
+        };
+        public TeachingTip addtagtip = new TeachingTip() {
+            Title = "Create your first tag.",
+            Subtitle = "Use this button to create a tag. You can use tags to organize and filter notes.",
+            IsOpen = false
+        };
+        private void FirstRunTips() {
+            addnotetip.Target = CreateButton;
+            addtagtip.Target = CreateTag;
+            MainGrid.Children.Add(addnotetip);
+            MainGrid.Children.Add(addtagtip);
+
+            addnotetip.IsOpen = true;
+            CreateButton.Click += (s, e) => {
+                addnotetip.IsOpen = false;
+            };
+
+            NoteList.SelectionChanged += FirstNoteDialog;
+
+            addnotetip.Closed += AddNoteTip_Closed;
+
+        }
+
+        private void AddNoteTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args) {
+            if (!mainFlyout.IsOpen) { addtagtip.IsOpen = true; }
+            else {
+                mainFlyout.Closed += (s, e) => {
+                    addtagtip.IsOpen = true;
+                };
+            }
+            addnotetip.Closed -= AddNoteTip_Closed;
+        }
+
+        private void FirstNoteDialog(object sender, SelectionChangedEventArgs e) {
+            TeachingTip scrolltip = new TeachingTip() {
+                Title = "Use the editor to scroll across your note.",
+                Subtitle = "The preview will scroll automatically.",
+                PreferredPlacement = TeachingTipPlacementMode.BottomRight,
+                IsOpen = false
+            };
+            MainGrid.Children.Add(scrolltip);
+            NoteList.SelectionChanged -= FirstNoteDialog;
+            addtagtip.IsOpen = false;
+            scrolltip.IsOpen = true;
         }
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
@@ -275,9 +327,9 @@ namespace Fairmark
             }
         }
 
+        public Flyout mainFlyout = new Flyout();
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            Flyout mainFlyout = new Flyout();
             TextBox box = new TextBox()
             {
                 VerticalAlignment = VerticalAlignment.Stretch,
@@ -473,6 +525,7 @@ namespace Fairmark
 
         private void CreateTag_Click(object sender, RoutedEventArgs e)
         {
+            addtagtip.IsOpen = false;
             Flyout mainflyout = new Flyout();
             TextBox box = new TextBox()
             {

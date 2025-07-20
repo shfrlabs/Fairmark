@@ -125,7 +125,6 @@
     <Compile Include="ColorGradientConverter.cs" />
     <Compile Include="CountVisibilityConverter.cs" />
     <Compile Include="FontFamilyToNameConverter.cs" />
-    <Compile Include="MarkdownNewLineConverter.cs" />
     <Compile Include="NullBooleanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagGradientConverter.cs" />

@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    xmlns:oldtoolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:labstoolkit="using:CommunityToolkit.Labs.WinUI.MarkdownTextBlock"
+    xmlns:toolkitrns="using:CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:models="using:Fairmark.Models"
     xmlns:helpers="using:Fairmark.Helpers"
@@ -14,7 +15,6 @@
     xmlns:customcontrols="using:Fairmark.Controls"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:MarkdownNewLineConverter x:Name="MDNewLineConverter"/>
         <SolidColorBrush
             x:Key="NoteEditorBackground"
             Color="{ThemeResource LayerFillColorDefault}"
@@ -38,15 +38,23 @@
             <ColumnDefinition Width="*" MinWidth="200"/>
             <ColumnDefinition Width="*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="48"/>
+        </Grid.RowDefinitions>
+        <Grid
             Background="{ThemeResource NotePreviewBackground}"
             CornerRadius="4,0,0,4"
-            Grid.Column="0"
+            Grid.Column="0">
+            <ScrollViewer
             HorizontalAlignment="Stretch"
             x:Name="previewsv"
-            VerticalAlignment="Stretch">
-            <oldtoolkit:MarkdownTextBlock
-                Background="Transparent"
+            VerticalAlignment="Stretch"
+            VerticalScrollBarVisibility="Disabled">
+                <labstoolkit:MarkdownTextBlock
+                IsTextScaleFactorEnabled="False"
+                UseSoftlineBreakAsHardlineBreak="True"
+                UseTaskLists="False"
                 Padding="10, 8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -55,23 +63,16 @@
                 DataContext="{StaticResource Settings}"
                 FontSize="{Binding PreviewFontSize, Mode=OneWay}"
                 FontFamily="{Binding PreviewFontFamily, Mode=OneWay}"
-                Text="{x:Bind MarkEditor.Text, Mode=OneWay, Converter={StaticResource MDNewLineConverter}}"/>
-        </ScrollViewer>
+                Text="{x:Bind MarkEditor.Text, Mode=OneWay}">
+                </labstoolkit:MarkdownTextBlock>
+            </ScrollViewer>
+        </Grid>
         <Grid
             Grid.Column="1"
             BorderBrush="{ThemeResource NoteEditorBorder}"
             BorderThickness="1,0,0,0"
             CornerRadius="0,4,4,0"
             Background="{ThemeResource NoteEditorBackground}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="48"/>
-            </Grid.RowDefinitions>
-            <CommandBar Grid.Row="1" Height="70" HorizontalAlignment="Left" OverflowButtonVisibility="Collapsed">
-                <AppBarToggleButton Label="Zen" Width="50" Click="AppBarToggleButton_Click" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
-                    <FontIcon Glyph="&#xE708;" />
-                </AppBarToggleButton>
-            </CommandBar>
             <customcontrols:FileEditorBox x:Name="MarkEditor" Grid.Row="0" NoteID="{x:Bind noteId}"/>
         </Grid>
         <toolkit:GridSplitter
@@ -81,5 +82,39 @@
            Margin="0,0,-4.2,0"
            VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Height="70" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Zen" Width="50" Click="AppBarToggleButton_Click" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
+                    <FontIcon Glyph="&#xE708;" />
+                </AppBarToggleButton>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Bold" Width="50" Icon="Bold" IsChecked="{x:Bind MarkEditor.IsSelectionBold, Mode=TwoWay}"/>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Italic" Width="50" Icon="Italic" IsChecked="{x:Bind MarkEditor.IsSelectionItalic, Mode=TwoWay}"/>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Strikethrough" Width="50" IsChecked="{x:Bind MarkEditor.IsSelectionStrikethrough, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon Glyph="&#xEDE0;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Code" Width="50" IsChecked="{x:Bind MarkEditor.IsSelectionCode, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon Glyph="&#xE943;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 1" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading1, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 2" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading2, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H2"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 3" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading3, Mode=TwoWay}">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H3"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

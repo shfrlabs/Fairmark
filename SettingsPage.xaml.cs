@@ -27,6 +27,8 @@ namespace Fairmark {
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             if (e.Parameter != null && e.Parameter.ToString() == "OOBE") {
                 RootGrid.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
+                SettingsNav.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top;
+                settingsFrame.Height = 400;
             }
             SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
         }

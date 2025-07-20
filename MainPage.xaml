@@ -21,6 +21,7 @@
         <converters:ColorGradientConverter x:Name="ColorGradientConverter"/>
         <converters:NullBooleanConverter x:Name="NullBooleanConverter"/>
         <converters:CountVisibilityConverter x:Name="CountVisibilityConverter"/>
+        <helpers:GridLengthAnimationHelper x:Name="Dummy"/> <!-- .net native will strip the whole thing without this here apparently -->
     </Page.Resources>
     <Grid x:Name="ContentGrid">
         <Grid.Resources>

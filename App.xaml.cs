@@ -73,5 +73,9 @@ namespace Fairmark
             var deferral = e.SuspendingOperation.GetDeferral();
             deferral.Complete();
         }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+
+        }
     }
 }

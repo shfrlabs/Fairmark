@@ -25,13 +25,13 @@ namespace Fairmark.Helpers {
                     current = "Default";
                 }
 
-                Debug.WriteLine($"[Settings] Get Theme -> {current}");
+                // Debug.WriteLine($"[Settings] Get Theme -> {current}");
                 return current;
             }
             set {
                 var old = Theme;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set Theme: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set Theme: {value} (was {old})");
                     _localSettings.Values["theme"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
                 }
@@ -48,13 +48,13 @@ namespace Fairmark.Helpers {
                     current = new FontFamily("Consolas");
                 }
 
-                Debug.WriteLine($"[Settings] Get EditorFontFamily -> {current.Source}");
+                // Debug.WriteLine($"[Settings] Get EditorFontFamily -> {current.Source}");
                 return current;
             }
             set {
                 var old = EditorFontFamily;
                 if (old.Source != value.Source) {
-                    Debug.WriteLine($"[Settings] Set EditorFontFamily: {value.Source} (was {old.Source})");
+                    // Debug.WriteLine($"[Settings] Set EditorFontFamily: {value.Source} (was {old.Source})");
                     _localSettings.Values["editorFontFamily"] = value.Source;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EditorFontFamily)));
                 }
@@ -71,13 +71,13 @@ namespace Fairmark.Helpers {
                     current = new FontFamily("Segoe UI Variable Text");
                 }
 
-                Debug.WriteLine($"[Settings] Get PreviewFontFamily -> {current.Source}");
+                // Debug.WriteLine($"[Settings] Get PreviewFontFamily -> {current.Source}");
                 return current;
             }
             set {
                 var old = PreviewFontFamily;
                 if (old.Source != value.Source) {
-                    Debug.WriteLine($"[Settings] Set PreviewFontFamily: {value.Source} (was {old.Source})");
+                    // Debug.WriteLine($"[Settings] Set PreviewFontFamily: {value.Source} (was {old.Source})");
                     _localSettings.Values["previewFontFamily"] = value.Source;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreviewFontFamily)));
                 }
@@ -88,13 +88,13 @@ namespace Fairmark.Helpers {
             get {
                 bool current = _localSettings.Values.TryGetValue("hideFromRecall", out object hideObj)
                                && hideObj is bool b && b;
-                Debug.WriteLine($"[Settings] Get HideFromRecall -> {current}");
+                // Debug.WriteLine($"[Settings] Get HideFromRecall -> {current}");
                 return current;
             }
             set {
                 var old = HideFromRecall;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set HideFromRecall: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set HideFromRecall: {value} (was {old})");
                     _localSettings.Values["hideFromRecall"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HideFromRecall)));
                 }
@@ -106,13 +106,13 @@ namespace Fairmark.Helpers {
             get {
                 bool current = _localSettings.Values.TryGetValue("fairmarkAI", out object hideObj)
                                && hideObj is bool b && b;
-                Debug.WriteLine($"[Settings] Get AI -> {current}");
+                // Debug.WriteLine($"[Settings] Get AI -> {current}");
                 return current;
             }
             set {
                 var old = AI;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set AI: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set AI: {value} (was {old})");
                     _localSettings.Values["fairmarkAI"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AI)));
                 }
@@ -122,13 +122,13 @@ namespace Fairmark.Helpers {
             get {
                 bool current = _localSettings.Values.TryGetValue("accessLogs", out object hideObj)
                                && hideObj is bool b && b;
-                Debug.WriteLine($"[Settings] Get AccessLogs -> {current}");
+                // Debug.WriteLine($"[Settings] Get AccessLogs -> {current}");
                 return current;
             }
             set {
                 var old = AccessLogs;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set AccessLogs: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set AccessLogs: {value} (was {old})");
                     _localSettings.Values["accessLogs"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccessLogs)));
                 }
@@ -139,13 +139,13 @@ namespace Fairmark.Helpers {
             get {
                 bool current = _localSettings.Values.TryGetValue("authenticationEnabled", out object authObj)
                                && authObj is bool a && a;
-                Debug.WriteLine($"[Settings] Get AuthenticationEnabled -> {current}");
+                // Debug.WriteLine($"[Settings] Get AuthenticationEnabled -> {current}");
                 return current;
             }
             set {
                 var old = AuthenticationEnabled;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set AuthenticationEnabled: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set AuthenticationEnabled: {value} (was {old})");
                     _localSettings.Values["authenticationEnabled"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AuthenticationEnabled)));
                 }
@@ -160,13 +160,13 @@ namespace Fairmark.Helpers {
                     current = parsed;
                 }
 
-                Debug.WriteLine($"[Settings] Get EditorFontSize -> {current}");
+                // Debug.WriteLine($"[Settings] Get EditorFontSize -> {current}");
                 return current;
             }
             set {
                 var old = EditorFontSize;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set EditorFontSize: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set EditorFontSize: {value} (was {old})");
                     _localSettings.Values["editorFontSize"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EditorFontSize)));
                 }
@@ -181,13 +181,13 @@ namespace Fairmark.Helpers {
                     current = parsed;
                 }
 
-                Debug.WriteLine($"[Settings] Get PreviewFontSize -> {current}");
+                // Debug.WriteLine($"[Settings] Get PreviewFontSize -> {current}");
                 return current;
             }
             set {
                 var old = PreviewFontSize;
                 if (old != value) {
-                    Debug.WriteLine($"[Settings] Set PreviewFontSize: {value} (was {old})");
+                    // Debug.WriteLine($"[Settings] Set PreviewFontSize: {value} (was {old})");
                     _localSettings.Values["previewFontSize"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PreviewFontSize)));
                 }
