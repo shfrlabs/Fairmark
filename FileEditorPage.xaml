@@ -50,7 +50,7 @@
             HorizontalAlignment="Stretch"
             x:Name="previewsv"
             VerticalAlignment="Stretch"
-            VerticalScrollBarVisibility="Disabled">
+            IsHitTestVisible="False">
                 <labstoolkit:MarkdownTextBlock
                 IsTextScaleFactorEnabled="False"
                 UseSoftlineBreakAsHardlineBreak="True"

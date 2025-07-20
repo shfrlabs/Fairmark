@@ -1,8 +1,6 @@
-﻿// Replace your entire FileEditorBox.cs with this optimized version
-using Fairmark.Helpers;
+﻿using Fairmark.Helpers;
 using System;
 using System.Diagnostics;
-using System.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -100,7 +98,6 @@ namespace Fairmark.Controls {
                 _innerBox.PointerPressed += InnerBox_PointerPressed;
                 _innerBox.KeyDown += InnerBox_KeyDown;
 
-                // Initialize with current values
                 _lastSelectionStart = _innerBox.SelectionStart;
                 _lastSelectionLength = _innerBox.SelectionLength;
                 UpdateSelectionProperties();
@@ -179,13 +176,9 @@ namespace Fairmark.Controls {
 
             try {
                 _updatingSelection = true;
-                Debug.WriteLine($"[#{_instanceId}] UPDATING SELECTION PROPERTIES");
-
-                // Update selection status
                 bool hasSelection = _innerBox.SelectionLength > 0;
                 SetValue(HasSelectionProperty, hasSelection);
 
-                // Update text formatting properties
                 SetValue(IsSelectionBoldProperty, IsFormattedAtPosition("**", false));
                 SetValue(IsSelectionItalicProperty, IsFormattedAtPosition("*", true));
                 SetValue(IsSelectionStrikethroughProperty, IsFormattedAtPosition("~~", false));
@@ -207,7 +200,6 @@ namespace Fairmark.Controls {
                 int cursorPosition = _innerBox.SelectionStart;
                 (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
 
-                // If cursor is between lines (at a newline position), get the next line
                 if (lineText == "" && cursorPosition < _innerBox.Text.Length &&
                     (_innerBox.Text[cursorPosition] == '\n' || _innerBox.Text[cursorPosition] == '\r')) {
                     (lineStart, lineEnd, lineText, lineNumber) = GetCurrentLine(cursorPosition + 1);
@@ -215,7 +207,6 @@ namespace Fairmark.Controls {
 
                 Debug.WriteLine($"[#{_instanceId}] Updating headings: cursor={cursorPosition}, lastLine={_lastCursorLineStart}, newLine={lineStart}");
 
-                // Existing heading detection logic
                 int headingLevel = 0;
                 if (lineText.StartsWith("### "))
                     headingLevel = 3;
@@ -228,21 +219,18 @@ namespace Fairmark.Controls {
                 SetValue(IsHeading2Property, headingLevel == 2);
                 SetValue(IsHeading3Property, headingLevel == 3);
 
-                // Fire event if cursor moved to a new line
                 if (lineStart != _lastCursorLineStart) {
                     Debug.WriteLine($"[#{_instanceId}] Line changed: {_lastCursorLineNumber} -> {lineNumber}");
 
-                    // Fire event with BOTH previous and current line numbers
                     CursorLineChanged?.Invoke(this, new CursorLineChangedEventArgs(
                         lineStart,
                         lineEnd,
                         lineText,
-                        lineNumber,          // Current line number
-                        _lastCursorLineNumber, // Previous line number
+                        lineNumber,
+                        _lastCursorLineNumber,
                         headingLevel
                     ));
 
-                    // Update tracking variables AFTER firing event
                     _lastCursorLineStart = lineStart;
                     _lastCursorLineNumber = lineNumber;
                 }
@@ -257,13 +245,10 @@ namespace Fairmark.Controls {
             if (string.IsNullOrEmpty(text))
                 return (0, 0, "", 0);
 
-            // Clamp position to valid range
             position = Math.Clamp(position, 0, text.Length);
-
             int lineStart = position;
             int lineEnd = position;
 
-            // Find start of line by searching backwards for newline
             for (int i = position; i >= 0; i--) {
                 if (i == 0) {
                     lineStart = 0;
@@ -276,7 +261,6 @@ namespace Fairmark.Controls {
                 }
             }
 
-            // Find end of line by searching forwards for newline
             for (int i = position; i <= text.Length; i++) {
                 if (i == text.Length || text[i] == '\n' || text[i] == '\r') {
                     lineEnd = i;
@@ -284,7 +268,6 @@ namespace Fairmark.Controls {
                 }
             }
 
-            // Count ALL lines from start of text to lineStart
             int lineNumber = 1;
             for (int i = 0; i < lineStart; i++) {
                 if (text[i] == '\n' || text[i] == '\r') {
@@ -292,13 +275,13 @@ namespace Fairmark.Controls {
                 }
             }
 
-            // Extract line text
             int length = lineEnd - lineStart;
             string lineText = length > 0 ? text.Substring(lineStart, length) : "";
 
             Debug.WriteLine($"[#{_instanceId}] GetCurrentLine: pos={position}, start={lineStart}, end={lineEnd}, line={lineNumber}, text='{lineText}'");
             return (lineStart, lineEnd, lineText, lineNumber);
         }
+
         private bool IsFormattedAtPosition(string pattern, bool isItalic) {
             if (_innerBox == null || string.IsNullOrEmpty(_innerBox.Text))
                 return false;
@@ -307,13 +290,10 @@ namespace Fairmark.Controls {
             string text = _innerBox.Text;
             int patternLength = pattern.Length;
 
-            // Handle special case for italic inside bold
             if (isItalic) {
-                // Check if we're inside bold formatting
                 if (pos > 0 && pos < text.Length - 1) {
-                    // If we're between two asterisks that form bold formatting
                     if (text[pos - 1] == '*' && text[pos] == '*') {
-                        return false; // It's bold, not italic
+                        return false;
                     }
                 }
             }
@@ -321,11 +301,9 @@ namespace Fairmark.Controls {
             int openIndex = -1;
             int closeIndex = -1;
 
-            // Find opening pattern (search backwards from cursor)
             for (int i = Math.Min(pos, text.Length - patternLength); i >= 0; i--) {
                 if (i + patternLength <= text.Length &&
                     text.Substring(i, patternLength) == pattern) {
-                    // Skip if this is part of a longer pattern (like ** for bold)
                     if (isItalic && pattern == "*" &&
                         i < text.Length - 1 && text[i + 1] == '*') {
                         continue;
@@ -338,10 +316,8 @@ namespace Fairmark.Controls {
             if (openIndex == -1)
                 return false;
 
-            // Find closing pattern (search forward from cursor)
             for (int i = Math.Max(openIndex + patternLength, pos); i <= text.Length - patternLength; i++) {
                 if (text.Substring(i, patternLength) == pattern) {
-                    // Skip if this is part of a longer pattern
                     if (isItalic && pattern == "*" &&
                         i > 0 && text[i - 1] == '*') {
                         continue;
@@ -354,14 +330,11 @@ namespace Fairmark.Controls {
             if (closeIndex == -1)
                 return false;
 
-            // For cursor position
             if (_innerBox.SelectionLength == 0) {
-                // Cursor must be strictly between the markers
                 return (openIndex + patternLength < closeIndex) &&
                        (pos > openIndex + patternLength - 1) &&
                        (pos < closeIndex);
             }
-            // For selection
             else {
                 int start = _innerBox.SelectionStart;
                 int end = start + _innerBox.SelectionLength;
@@ -394,7 +367,6 @@ namespace Fairmark.Controls {
         }
 
         private static void OnHeadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            Debug.WriteLine("Heading property changed");
             var control = (FileEditorBox)d;
             if (control._updatingHeadings || !(bool)e.NewValue)
                 return;
@@ -415,8 +387,6 @@ namespace Fairmark.Controls {
 
             try {
                 _updatingText = true;
-
-                // Get current line and heading level
                 int cursorPosition = _innerBox.SelectionStart;
                 (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
 
@@ -434,29 +404,22 @@ namespace Fairmark.Controls {
                 int headingPrefixLength = 0;
 
                 if (currentLevel == targetLevel) {
-                    // Remove heading if clicking the same level again
                     newLineText = lineText.Substring(currentLevel + 1);
                 }
                 else if (currentLevel > 0) {
-                    // Replace existing heading
                     newLineText = new string('#', targetLevel) + " " + lineText.Substring(currentLevel + 1);
                     headingPrefixLength = targetLevel + 1;
                 }
                 else {
-                    // Add new heading
                     newLineText = new string('#', targetLevel) + " " + lineText;
                     headingPrefixLength = targetLevel + 1;
                 }
 
-                // Calculate new text
                 string newText = _innerBox.Text.Substring(0, lineStart) +
                                 newLineText +
                                 _innerBox.Text.Substring(lineEnd);
 
-                // Update text and adjust cursor position
                 Text = newText;
-
-                // Position cursor after heading prefix
                 int newCursorPosition = lineStart + headingPrefixLength;
                 _innerBox.SelectionStart = newCursorPosition;
                 _innerBox.SelectionLength = 0;
@@ -485,14 +448,11 @@ namespace Fairmark.Controls {
                 int newLength = length;
 
                 if (isCurrentlyFormatted) {
-                    // Remove formatting
                     int openIndex = -1;
                     int closeIndex = -1;
 
-                    // Find opening pattern
                     for (int i = Math.Min(start, text.Length - patternLength); i >= 0; i--) {
                         if (i + patternLength <= text.Length && text.Substring(i, patternLength) == pattern) {
-                            // Skip if part of longer pattern (bold markers)
                             if (isItalic && pattern == "*" && i < text.Length - 1 && text[i + 1] == '*')
                                 continue;
 
@@ -501,11 +461,9 @@ namespace Fairmark.Controls {
                         }
                     }
 
-                    // Find closing pattern
                     if (openIndex != -1) {
                         for (int i = Math.Max(openIndex + patternLength, start + length); i <= text.Length - patternLength; i++) {
                             if (i + patternLength <= text.Length && text.Substring(i, patternLength) == pattern) {
-                                // Skip if part of longer pattern
                                 if (isItalic && pattern == "*" && i > 0 && text[i - 1] == '*')
                                     continue;
 
@@ -522,11 +480,10 @@ namespace Fairmark.Controls {
                         newLength = (closeIndex - openIndex - patternLength);
                     }
                     else {
-                        return; // Abort if markers not found
+                        return;
                     }
                 }
                 else {
-                    // Add formatting
                     newText = text.Substring(0, start) +
                                pattern +
                                selectedText +
@@ -549,7 +506,6 @@ namespace Fairmark.Controls {
 
         #region Property Accessors
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var control = (FileEditorBox)d;
         }
 
         public string Text {

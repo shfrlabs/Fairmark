@@ -11,8 +11,6 @@
                     <TextBox
                         x:Name="MarkEditor"
                         AcceptsReturn="True"
-                        ScrollViewer.VerticalScrollMode="Auto"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
                         TextWrapping="Wrap"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
