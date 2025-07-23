@@ -102,6 +102,21 @@ namespace Fairmark.Helpers {
             }
         }
 
+        public bool AutoEmbed {
+            get {
+                bool current = _localSettings.Values.TryGetValue("autoEmbed", out object hideObj)
+                               && hideObj is bool b && b;
+                return current;
+            }
+            set {
+                var old = AutoEmbed;
+                if (old != value) {
+                    _localSettings.Values["autoEmbed"] = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AutoEmbed)));
+                }
+            }
+        }
+
         public bool AI {
             get {
                 bool current = _localSettings.Values.TryGetValue("fairmarkAI", out object hideObj)

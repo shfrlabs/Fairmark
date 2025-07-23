@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.WinUI.Media;
+﻿using CommunityToolkit.WinUI.Controls;
+using CommunityToolkit.WinUI.Media;
 using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
@@ -672,14 +673,14 @@ namespace Fairmark
                 {
                     if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note)
                     {
-                        if (!note.Tags.Any(t => t.Name == tag.Name && t.Color == tag.Color && t.Emoji == tag.Emoji))
+                        if (!note.Tags.Any(t => t.GUID == tag.GUID))
                         {
                             note.Tags.Add(tag);
                             await NoteCollectionHelper.SaveNotes();
                         }
                         else
                         {
-                            var toRemove = note.Tags.FirstOrDefault(t => t.Name == tag.Name && t.Color == tag.Color && t.Emoji == tag.Emoji);
+                            var toRemove = note.Tags.FirstOrDefault(t => t.GUID == tag.GUID);
                             if (toRemove != null)
                                 note.Tags.Remove(toRemove);
                             await NoteCollectionHelper.SaveNotes();
@@ -800,7 +801,7 @@ namespace Fairmark
                 NoteList.ItemsSource = filteredNotes;
                 foreach (NoteMetadata note in NoteCollectionHelper.notes)
                 {
-                    if (note.Tags != null && note.Tags.Any(t => t.Name == selectedTag.Name && t.Color == selectedTag.Color && t.Emoji == selectedTag.Emoji))
+                    if (note.Tags != null && note.Tags.Any(t => t.GUID == selectedTag.GUID))
                     {
                         filteredNotes.Add(note);
                         break;
@@ -892,6 +893,24 @@ namespace Fairmark
                 ContentGrid.RowDefinitions[0].Height = new GridLength(48);
                 this.Background = new SolidColorBrush(Colors.Transparent);
             }
+        }
+
+        private void TagBox_TextChanged(ComboBox sender, SelectionChangedEventArgs args) {
+            if (!string.IsNullOrWhiteSpace(sender.Text)) {
+
+                TagBox.ItemsSource = NoteCollectionHelper.tags
+                    .Where(t => t.Name.Contains(sender.Text, StringComparison.InvariantCultureIgnoreCase))
+                    .Where(t => !((sender.SelectedItem as NoteTag).GUID == t.GUID));
+            }
+            else {
+                TagBox.ItemsSource = NoteCollectionHelper.tags
+                    .Where(t => !((sender.SelectedItem as NoteTag).GUID == t.GUID));
+            }
+        }
+
+        private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) {
+            sender.Text = string.Empty;
+            TagBox.ItemsSource = NoteCollectionHelper.tags;
         }
     }
 }

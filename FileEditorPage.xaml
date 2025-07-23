@@ -49,8 +49,7 @@
             <ScrollViewer
             HorizontalAlignment="Stretch"
             x:Name="previewsv"
-            VerticalAlignment="Stretch"
-            IsHitTestVisible="False">
+            VerticalAlignment="Stretch">
                 <labstoolkit:MarkdownTextBlock
                 IsTextScaleFactorEnabled="False"
                 UseSoftlineBreakAsHardlineBreak="True"

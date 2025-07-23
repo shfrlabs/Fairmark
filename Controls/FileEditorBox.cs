@@ -1,6 +1,7 @@
 ﻿using Fairmark.Helpers;
 using System;
 using System.Diagnostics;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -79,6 +80,7 @@ namespace Fairmark.Controls {
                 _innerBox.SelectionChanged -= InnerBox_SelectionChanged;
                 _innerBox.PointerPressed -= InnerBox_PointerPressed;
                 _innerBox.KeyDown -= InnerBox_KeyDown;
+                _innerBox.Paste -= InnerBox_Paste;
             }
 
             _innerBox = GetTemplateChild("MarkEditor") as TextBox;
@@ -97,6 +99,7 @@ namespace Fairmark.Controls {
                 _innerBox.SelectionChanged += InnerBox_SelectionChanged;
                 _innerBox.PointerPressed += InnerBox_PointerPressed;
                 _innerBox.KeyDown += InnerBox_KeyDown;
+                _innerBox.Paste += InnerBox_Paste;
 
                 _lastSelectionStart = _innerBox.SelectionStart;
                 _lastSelectionLength = _innerBox.SelectionLength;
@@ -104,6 +107,35 @@ namespace Fairmark.Controls {
             }
             else {
                 Debug.WriteLine($"[#{_instanceId}] ERROR: Inner box not found!");
+            }
+        }
+
+        private async void InnerBox_Paste(object sender, TextControlPasteEventArgs e) {
+            // TODO
+            if ((Application.Current.Resources["Settings"] as Settings).AutoEmbed) {
+                e.Handled = true;
+                DataPackageView pkg = Clipboard.GetContent();
+                try {
+                    string link = await pkg.GetTextAsync();
+                    DataPackage dataPackage = new DataPackage();
+                    if (link != null) {
+                        if (link.Contains("figma.com/design/")) {
+                            dataPackage.SetText($"""
+                        <iframe height="450" src="{link.Replace("figma.com/design/", "embed.figma.com/design/")}" allowfullscreen></iframe>
+                        """);
+                            Clipboard.SetContent(dataPackage);
+                            (sender as TextBox).PasteFromClipboard();
+                            Clipboard.Clear();
+                        }
+                    }
+                    else {
+                        (sender as TextBox).PasteFromClipboard();
+                    }
+                }
+                catch {
+                    Debug.WriteLine($"[#{_instanceId}] ERROR: Not trying to paste text");
+                    (sender as TextBox).PasteFromClipboard();
+                }
             }
         }
 

@@ -8,6 +8,7 @@ namespace Fairmark.Models
     {
         private string _name;
         private string _emoji;
+        private string _guid;
         private Color _color;
 
         public string Name
@@ -44,6 +45,16 @@ namespace Fairmark.Models
                 if (_color != value)
                 {
                     _color = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string GUID {
+            get => _guid;
+            set {
+                if (_guid != value) {
+                    _guid = value;
                     OnPropertyChanged();
                 }
             }
