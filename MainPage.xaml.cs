@@ -39,10 +39,6 @@ namespace Fairmark
         {
             this.InitializeComponent();
             Window.Current.SetTitleBar(DragRegion);
-            Settings.AddHandler(UIElement.PointerPressedEvent,
-                new PointerEventHandler(AppBarButton_PointerPressed), true);
-            Settings.AddHandler(UIElement.PointerReleasedEvent,
-                new PointerEventHandler(AppBarButton_PointerReleased), true);
             Helpers.Settings s = new Settings();
             if (s.HideFromRecall) {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = false;
@@ -840,29 +836,13 @@ namespace Fairmark
             SearchResults.ItemsSource = null;
         }
 
-        private void AppBarButton_PointerEntered(object sender, PointerRoutedEventArgs e) {
-            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "PointerOver");
-        }
-
-        private void AppBarButton_PointerPressed(object sender, PointerRoutedEventArgs e) {
-            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Pressed");
-        }
-
-        private void AppBarButton_PointerReleased(object sender, PointerRoutedEventArgs e) {
-            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Normal");
-        }
-
-        private void AppBarButton_PointerExited(object sender, PointerRoutedEventArgs e) {
-            Microsoft.UI.Xaml.Controls.AnimatedIcon.SetState((UIElement)sender, "Normal");
-        }
-
         private void Settings_Loaded(object sender, RoutedEventArgs e) {
-            Settings.KeyboardAccelerators.Add(new KeyboardAccelerator
-            {
-                Key = (VirtualKey)188,
-                Modifiers = VirtualKeyModifiers.Control,
-                IsEnabled = true
-            });
+            //Settings.KeyboardAccelerators.Add(new KeyboardAccelerator
+            //{
+            //    Key = (VirtualKey)188,
+            //    Modifiers = VirtualKeyModifiers.Control,
+            //    IsEnabled = true
+            //});
         }
 
         private async void Settings_Click(object sender, RoutedEventArgs e) {
@@ -876,8 +856,16 @@ namespace Fairmark
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             ElementCompositionPreview.SetAppWindowContent(window, f);
             await window.TryShowAsync();
-            Settings.IsEnabled = false;
+            TopMore.Flyout.Opening += (s, a) => {
+                if (window != null) {
+                    Settings.IsEnabled = false;
+                }
+                else {
+                    Settings.IsEnabled = true;
+                }
+            };
             window.Closed += (s, a) => {
+                window = null;
                 Settings.IsEnabled = true;
             };
         }

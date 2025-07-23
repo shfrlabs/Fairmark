@@ -1,6 +1,8 @@
 ﻿using Fairmark.Helpers;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -110,34 +112,130 @@ namespace Fairmark.Controls {
             }
         }
 
-        private async void InnerBox_Paste(object sender, TextControlPasteEventArgs e) {
-            // TODO
-            if ((Application.Current.Resources["Settings"] as Settings).AutoEmbed) {
-                e.Handled = true;
-                DataPackageView pkg = Clipboard.GetContent();
-                try {
-                    string link = await pkg.GetTextAsync();
-                    DataPackage dataPackage = new DataPackage();
-                    if (link != null) {
-                        if (link.Contains("figma.com/design/")) {
-                            dataPackage.SetText($"""
-                        <iframe height="450" src="{link.Replace("figma.com/design/", "embed.figma.com/design/")}" allowfullscreen></iframe>
-                        """);
-                            Clipboard.SetContent(dataPackage);
-                            (sender as TextBox).PasteFromClipboard();
-                            Clipboard.Clear();
-                        }
-                    }
-                    else {
-                        (sender as TextBox).PasteFromClipboard();
-                    }
+        private void InnerBox_Paste(object sender, TextControlPasteEventArgs e) {
+            Debug.WriteLine(">> InnerBox_Paste fired");
+
+            // 1. Early settings check
+            var settings = (Application.Current.Resources["Settings"] as Settings);
+            Debug.WriteLine($"AutoEmbed setting: {settings?.AutoEmbed}");
+            if (settings?.AutoEmbed != true) {
+                Debug.WriteLine("AutoEmbed disabled → normal paste");
+                return;
+            }
+
+            // 2. See if there's text at all
+            var dp = Clipboard.GetContent();
+            if (!dp.Contains(StandardDataFormats.Text)) {
+                Debug.WriteLine("No text on clipboard → normal paste");
+                return;
+            }
+
+            // 3. At this point we know we want to intercept
+            e.Handled = true;
+            Debug.WriteLine("Default paste canceled (e.Handled = true)");
+
+            // 4. Fire-and-forget the async embed logic
+            if (sender is TextBox tb) {
+                _ = EmbedLinkAsync(tb);
+            }
+            else {
+                Debug.WriteLine("Sender isn’t a TextBox – can’t embed");
+            }
+
+            Debug.WriteLine("<< InnerBox_Paste exit");
+        }
+
+        /// <summary>
+        /// Runs async (off the paste handler) to fetch the text, detect
+        /// an embed link, and then splice it into the TextBox.
+        /// </summary>
+        private async Task EmbedLinkAsync(TextBox tb) {
+            try {
+                // 1. Pull the text
+                var dp = Clipboard.GetContent();
+                var raw = (await dp.GetTextAsync()).Trim();
+                Debug.WriteLine($"Clipboard text: '{raw}'");
+                if (string.IsNullOrWhiteSpace(raw)) {
+                    Debug.WriteLine("Empty/whitespace → nothing to embed");
+                    return;
                 }
-                catch {
-                    Debug.WriteLine($"[#{_instanceId}] ERROR: Not trying to paste text");
-                    (sender as TextBox).PasteFromClipboard();
+
+                // 2. Detect and normalize
+                if (!TryGetEmbedLink(raw, out var url)) {
+                    Debug.WriteLine("Not a Spotify/Figma link → nothing to embed");
+                    return;
                 }
+                Debug.WriteLine($"Embed URL: {url}");
+
+                // 3. Wrap in emoji
+                const string emoji = "🔗";
+                var embedText = $"{emoji}{url}{emoji}";
+                Debug.WriteLine($"Embed text: '{embedText}'");
+
+                // 4. Back on UI thread: splice into the TextBox
+                await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    var start = tb.SelectionStart;
+                    var len = tb.SelectionLength;
+                    var orig = tb.Text ?? string.Empty;
+
+                    var updated = orig.Remove(start, len)
+                                      .Insert(start, embedText);
+
+                    tb.Text = updated;
+                    tb.SelectionStart = start + embedText.Length;
+                    tb.SelectionLength = 0;
+
+                    Debug.WriteLine($"After insert – textLen={tb.Text.Length}, caret={tb.SelectionStart}");
+                });
+            }
+            catch (Exception ex) {
+                Debug.WriteLine($"EmbedLinkAsync failed: {ex}");
             }
         }
+
+        private bool TryGetEmbedLink(string text, out string link) {
+            Debug.WriteLine($">> TryGetEmbedLink('{text}')");
+
+            // auto‐prepend HTTPS if missing
+            if (!text.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                !text.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) {
+                text = "https://" + text;
+                Debug.WriteLine($"  → Prefixed scheme: '{text}'");
+            }
+
+            link = text;
+            if (!Uri.TryCreate(link, UriKind.Absolute, out var uri)) {
+                Debug.WriteLine("  → Uri.TryCreate failed");
+                return false;
+            }
+
+            var host = uri.Host.ToLowerInvariant();
+            var segments = uri.AbsolutePath
+                              .Trim('/')
+                              .Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            Debug.WriteLine($"  → host='{host}', segments=[{string.Join(", ", segments)}]");
+
+            var isSpotify = host == "open.spotify.com"
+                         && segments.Length > 0
+                         && new[] { "track", "album", "playlist", "artist" }
+                             .Contains(segments[0]);
+            Debug.WriteLine($"  → isSpotify? {isSpotify}");
+
+            var isFigma = (host == "figma.com" || host.EndsWith(".figma.com"))
+                       && segments.Length > 0
+                       && segments[0] == "design";
+            Debug.WriteLine($"  → isFigma? {isFigma}");
+
+            var ok = isSpotify || isFigma;
+            Debug.WriteLine($"<< TryGetEmbedLink returns {ok}");
+            return ok;
+        }
+
+
+
+
 
         private void InnerBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e) {
             UpdateSelectionProperties();

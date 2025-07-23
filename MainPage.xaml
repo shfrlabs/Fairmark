@@ -50,15 +50,19 @@
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
                 <AppBarToggleButton Icon="Find" Label="Search" Width="50" x:Name="Search" Click="Search_Click"/>
-                <AppBarButton Width="48" Loaded="Settings_Loaded" Click="Settings_Click" x:Name="Settings" Height="46" VerticalAlignment="Center" Margin="-1,0,0,0" controls:AnimatedIcon.State="Normal" PointerEntered="AppBarButton_PointerEntered" PointerExited="AppBarButton_PointerExited">
-                    <AppBarButton.Icon>
-                        <controls:AnimatedIcon>
-                            <controls:AnimatedIcon.RenderTransform>
-                                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                            </controls:AnimatedIcon.RenderTransform>
-                            <animatedvisuals:AnimatedSettingsVisualSource/>
-                        </controls:AnimatedIcon>
-                    </AppBarButton.Icon>
+                <AppBarButton Width="48" Icon="More" Height="46" VerticalAlignment="Center" Margin="-1,0,0,0" x:Name="TopMore">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Settings" Icon="Setting" Click="Settings_Click" x:Name="Settings" Loaded="Settings_Loaded"/>
+                            <MenuFlyoutItem Text="About">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE946;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <!--TODO-->
+                            <MenuFlyoutItem Text="Contact me" Icon="ContactInfo"/> <!--TODO-->
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
                 </AppBarButton>
             </CommandBar>
             <controls:TabView
