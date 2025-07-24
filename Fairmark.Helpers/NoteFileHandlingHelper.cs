@@ -1,4 +1,10 @@
+﻿using Fairmark.Models;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -27,6 +33,114 @@ namespace Fairmark.Helpers {
                 return;
             }
         }
+
+        public static async Task<StorageFile> GetVaultBackupFileAsync() {
+            var localFolder = ApplicationData.Current.LocalFolder;
+
+            var tempFolder = ApplicationData.Current.TemporaryFolder;
+            var zipFile = await tempFolder
+                .CreateFileAsync("VaultBackup.fmbkp", CreationCollisionOption.ReplaceExisting);
+            using (var zipStream = await zipFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (var outStream = zipStream.GetOutputStreamAt(0))
+            using (var archiveStream = outStream.AsStreamForWrite())
+            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: false)) {
+                var items = await localFolder.GetItemsAsync();
+                var files = items.OfType<StorageFile>();
+
+                foreach (var file in files) {
+                    var entry = archive.CreateEntry(file.Name, CompressionLevel.Optimal);
+                    using (var entryStream = entry.Open())
+                    using (var fileStream = await file.OpenStreamForReadAsync()) {
+                        await fileStream.CopyToAsync(entryStream);
+                    }
+                }
+            }
+
+            return zipFile;
+        }
+
+        public static async Task<bool> RestoreNotes(StorageFile backup) {
+            if (!backup.FileType.Contains("fmbkp", StringComparison.OrdinalIgnoreCase)
+                || !backup.IsAvailable) {
+                return false;
+            }
+            var tempFolder = await ApplicationData.Current.TemporaryFolder
+                .CreateFolderAsync("FairmarkRestore", CreationCollisionOption.ReplaceExisting);
+
+            using (var zipStreamRef = await backup.OpenAsync(FileAccessMode.Read))
+            using (var zipStream = zipStreamRef.AsStreamForRead())
+            using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Read)) {
+                foreach (var entry in archive.Entries) {
+                    if (string.IsNullOrEmpty(entry.Name)) {
+                        continue;
+                    }
+
+                    var dest = await tempFolder.CreateFileAsync(
+                        entry.FullName,
+                        CreationCollisionOption.ReplaceExisting);
+
+                    using (var entryStream = entry.Open())
+                    using (var fileStream = await dest.OpenStreamForWriteAsync()) {
+                        await entryStream.CopyToAsync(fileStream);
+                    }
+                }
+            }
+
+            try {
+                var jsonFile = await tempFolder.GetFileAsync("notes.json");
+                var jsonText = await FileIO.ReadTextAsync(jsonFile);
+
+                var noteList = JsonSerializer.Deserialize<List<NoteMetadata>>(jsonText);
+                if (noteList == null) {
+                    return false;
+                }
+
+                var notesFolder = ApplicationData.Current.LocalFolder;
+
+                // 5. Reassign IDs, rename .md files, copy into local notes folder
+                foreach (var meta in noteList) {
+                    meta.Tags.Clear();
+
+                    var oldId = meta.Id;
+                    meta.Id = Guid.NewGuid().ToString();
+
+                    // find the .md file in temp
+                    StorageFile extractedMd;
+                    try {
+                        extractedMd = await tempFolder.GetFileAsync($"{oldId}.md");
+                    }
+                    catch (Exception) {
+                        // missing markdown file → skip
+                        continue;
+                    }
+
+                    // rename inside temp folder
+                    await extractedMd.RenameAsync($"{meta.Id}.md", NameCollisionOption.ReplaceExisting);
+
+                    // copy into your persistent notes folder
+                    await extractedMd.CopyAsync(
+                        notesFolder,
+                        $"{meta.Id}.md",
+                        NameCollisionOption.ReplaceExisting);
+
+                    // now that the file lives in LocalFolder\notes, add metadata
+                    if (await NoteFileHandlingHelper.NoteExists(meta.Id)) {
+                        NoteCollectionHelper.notes.Add(meta);
+                    }
+                }
+
+                // 6. Persist the updated metadata list
+                await NoteCollectionHelper.SaveNotes();
+                return true;
+            }
+            catch {
+                // any parse/copy error → abort
+                return false;
+            }
+        
+        }
+
+
 
         private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, System.Threading.SemaphoreSlim> _locks =
             new System.Collections.Concurrent.ConcurrentDictionary<string, System.Threading.SemaphoreSlim>();

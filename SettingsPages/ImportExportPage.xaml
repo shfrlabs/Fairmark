@@ -16,8 +16,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Import vault" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Import all notes and tags from a previous vault. If an imported tag already exists, it will be skipped and its notes will be attached to the previous tag. If an imported note's name is not unique, it will have a suffix. Use a *.fmbkp file here." Opacity="0.7"/>
-                <Button Margin="0,15,0,0" IsEnabled="False" Grid.Row="2" Content="Import vault" Style="{ThemeResource AccentButtonStyle}"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Import all notes from a previous vault. Tags are stripped. Use a *.fmbkp file here." Opacity="0.7"/>
+                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" Content="Import vault" Style="{ThemeResource AccentButtonStyle}" x:Name="ImportVault" Click="ImportVault_Click"/>
             </Grid>
             
             <Grid Margin="0,0,0,15">
@@ -39,7 +39,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="Export vault" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
                 <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Export all notes and tags to to a *.fmbkp file here." Opacity="0.7"/>
-                <Button Margin="0,15,0,0" IsEnabled="False" Grid.Row="2" Content="Export vault" Style="{ThemeResource AccentButtonStyle}"/>
+                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" Content="Export vault" Style="{ThemeResource AccentButtonStyle}" x:Name="ExportVault" Click="ExportVault_Click"/>
             </Grid>
             
         </StackPanel>

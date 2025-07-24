@@ -278,7 +278,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock">
-      <Version>0.1.250703-build.2173</Version>
+      <Version>0.1.250721-build.2183</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls">
       <Version>8.2.250402</Version>
