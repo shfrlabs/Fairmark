@@ -166,11 +166,7 @@ namespace Fairmark.Controls {
                     return;
                 }
                 Debug.WriteLine($"Embed URL: {url}");
-
-                // 3. Wrap in emoji
-                const string emoji = "🔗";
-                var embedText = $"{emoji}{url}{emoji}";
-                Debug.WriteLine($"Embed text: '{embedText}'");
+                Debug.WriteLine($"Embed text: '{url}'");
 
                 // 4. Back on UI thread: splice into the TextBox
                 await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -180,10 +176,10 @@ namespace Fairmark.Controls {
                     var orig = tb.Text ?? string.Empty;
 
                     var updated = orig.Remove(start, len)
-                                      .Insert(start, embedText);
+                                      .Insert(start, url);
 
                     tb.Text = updated;
-                    tb.SelectionStart = start + embedText.Length;
+                    tb.SelectionStart = start + url.Length;
                     tb.SelectionLength = 0;
 
                     Debug.WriteLine($"After insert – textLen={tb.Text.Length}, caret={tb.SelectionStart}");
@@ -196,6 +192,7 @@ namespace Fairmark.Controls {
 
         private bool TryGetEmbedLink(string text, out string link) {
             Debug.WriteLine($">> TryGetEmbedLink('{text}')");
+            link = null;
 
             // auto‐prepend HTTPS if missing
             if (!text.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
@@ -203,9 +200,7 @@ namespace Fairmark.Controls {
                 text = "https://" + text;
                 Debug.WriteLine($"  → Prefixed scheme: '{text}'");
             }
-
-            link = text;
-            if (!Uri.TryCreate(link, UriKind.Absolute, out var uri)) {
+            if (!Uri.TryCreate(text, UriKind.Absolute, out var uri)) {
                 Debug.WriteLine("  → Uri.TryCreate failed");
                 return false;
             }
@@ -227,6 +222,13 @@ namespace Fairmark.Controls {
                        && segments.Length > 0
                        && segments[0] == "design";
             Debug.WriteLine($"  → isFigma? {isFigma}");
+
+            if (isSpotify) {
+                link = "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/" + segments[0] + "/" + segments[1] + "?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>";
+            }
+            if (isFigma) {
+                link = "<iframe style=\"border: 1px solid rgba(0, 0, 0, 0.1);\" width=\"800\" height=\"450\" src=\"https://embed.figma.com/" + segments[0] + "/" + segments[1] + "\" allowfullscreen></iframe>";
+            }
 
             var ok = isSpotify || isFigma;
             Debug.WriteLine($"<< TryGetEmbedLink returns {ok}");

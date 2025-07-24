@@ -104,8 +104,8 @@ namespace Fairmark.Helpers {
 
         public bool AutoEmbed {
             get {
-                bool current = _localSettings.Values.TryGetValue("autoEmbed", out object hideObj)
-                               && hideObj is bool b && b;
+                //bool current = _localSettings.Values.TryGetValue("autoEmbed", out object hideObj) && hideObj is bool b && b;
+                bool current = false; // disabled temporairly, in case I switch to a renderer that supports HTML
                 return current;
             }
             set {

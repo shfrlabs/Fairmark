@@ -52,6 +52,7 @@
             VerticalAlignment="Stretch">
                 <labstoolkit:MarkdownTextBlock
                 IsTextScaleFactorEnabled="False"
+                DisableHtml="False"
                 UseSoftlineBreakAsHardlineBreak="True"
                 UseTaskLists="False"
                 Padding="10, 8"

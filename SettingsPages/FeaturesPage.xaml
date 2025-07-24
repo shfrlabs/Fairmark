@@ -26,14 +26,14 @@
                 IsOn="{Binding AuthenticationEnabled, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded" HorizontalAlignment="Right">
                 </ToggleSwitch>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Automatic embed" Description="Automatically convert supported pasted links into embeds.">
+            <!--<toolkit:SettingsCard Header="Automatic embed" Description="Automatically convert supported pasted links into embeds.">
                 <toolkit:SettingsCard.HeaderIcon>
                     <SymbolIcon Symbol="Sync"/>
                 </toolkit:SettingsCard.HeaderIcon>
                 <ToggleSwitch
                 IsOn="{Binding AutoEmbed, Mode=TwoWay}" HorizontalAlignment="Right">
                 </ToggleSwitch>
-            </toolkit:SettingsCard>
+            </toolkit:SettingsCard> disabled, refer to Helpers\Settings.cs:105-119-->
         </StackPanel>
     </ScrollViewer>
 </Page>

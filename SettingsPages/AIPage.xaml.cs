@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fairmark.Intelligence;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,43 @@ namespace Fairmark.SettingsPages {
     public sealed partial class AIPage : Page {
         public AIPage() {
             this.InitializeComponent();
+        }
+        public ModelHelper _modelHelper = new ModelHelper();
+
+        private void DownloadModel_Loaded(object sender, RoutedEventArgs e) {
+            bool isDownloaded = false;
+            try {
+                string model = (sender as Button).Tag.ToString();
+                isDownloaded = _modelHelper.CheckModelState(model);
+            }
+            finally {
+                if (isDownloaded) {
+                    (sender as Button).Content = "Remove";
+                }
+                else {
+                    (sender as Button).Content = "Download";
+                }
+            }
+        }
+
+        private async void DownloadModel_Click(object sender, RoutedEventArgs e) {
+            bool isDownloaded = false;
+            string model = string.Empty;
+            (sender as Button).IsEnabled = false;
+            try {
+                model = (sender as Button).Tag.ToString();
+                isDownloaded = _modelHelper.CheckModelState(model);
+            }
+            finally {
+                if (isDownloaded) {
+                    _modelHelper.DeleteModel(model);
+                }
+                else {
+                    await _modelHelper.DownloadModel(model);
+                }
+            }
+            (sender as Button).IsEnabled = true;
+            DownloadModel_Loaded(sender, e);
         }
     }
 }
