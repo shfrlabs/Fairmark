@@ -643,7 +643,8 @@ namespace Fairmark
                         {
                             Name = box.Text,
                             Emoji = emojiButton.Content.ToString(),
-                            Color = picker.Color
+                            Color = picker.Color,
+                            GUID = Guid.NewGuid().ToString()
                         });
                         await NoteCollectionHelper.SaveTags();
                         mainflyout.Hide();
@@ -658,33 +659,34 @@ namespace Fairmark
             mainflyout.ShowAt(sender as FrameworkElement);
         }
 
-        private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e) {
             MenuFlyoutSubItem item = sender as MenuFlyoutSubItem;
             item.Items.Clear();
-            foreach (NoteTag tag in NoteCollectionHelper.tags)
-            {
-                MenuFlyoutItem mfi = new MenuFlyoutItem()
-                {
+            foreach (NoteTag tag in NoteCollectionHelper.tags) {
+                MenuFlyoutItem mfi = new MenuFlyoutItem() {
                     Text = tag.Emoji + " " + tag.Name,
                     Background = (new ColorGradientConverter()).Convert(tag.Color, null, null, null) as LinearGradientBrush,
+                    Tag = tag.GUID
                 };
-                mfi.Click += async (s, a) =>
-                {
-                    if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note)
-                    {
-                        if (!note.Tags.Any(t => t.GUID == tag.GUID))
-                        {
-                            note.Tags.Add(tag);
+                mfi.Click += async (s, a) => {
+                    if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note) {
+                        // Find the tag object from the global tag list by GUID
+                        var selectedTagGuid = (s as MenuFlyoutItem).Tag as string;
+                        var globalTag = NoteCollectionHelper.tags.FirstOrDefault(t => t.GUID == selectedTagGuid);
+                        if (globalTag == null)
+                            return;
+
+                        var noteTag = note.Tags.FirstOrDefault(t => t.GUID == selectedTagGuid);
+                        if (noteTag == null) {
+                            App.LogHelper.WriteLog($"Adding tag '{globalTag.Name}' to note '{note.Name}'");
+                            note.Tags.Add(globalTag);
                             await NoteCollectionHelper.SaveNotes();
                         }
-                        else
-                        {
-                            var toRemove = note.Tags.FirstOrDefault(t => t.GUID == tag.GUID);
-                            if (toRemove != null)
-                                note.Tags.Remove(toRemove);
+                        else {
+                            App.LogHelper.WriteLog($"Removing tag '{globalTag.Name}' from note '{note.Name}'");
+                            note.Tags.Remove(noteTag);
                             await NoteCollectionHelper.SaveNotes();
-                        };
+                        }
                     }
                 };
                 item.Items.Add(mfi);

@@ -61,6 +61,11 @@
                         <FontIcon Glyph="&#xE8B5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Tag manager" Tag="Tags">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8EC;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
                 <!--<controls:NavigationViewItem Content="Stats" Tag="Stats">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9D2;" />

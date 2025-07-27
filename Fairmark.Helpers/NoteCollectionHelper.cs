@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -86,8 +87,15 @@ namespace Fairmark.Helpers
         }
 
         public static async Task SaveTags()
-        {
+        { 
             StorageFile tagfile = await ApplicationData.Current.LocalFolder.CreateFileAsync("tags.json", CreationCollisionOption.ReplaceExisting);
+            foreach (var note in notes) {
+                foreach (var tag in note.Tags.ToList()) {
+                    if (!tags.Any(t => t.GUID == tag.GUID)) {
+                        note.Tags.Remove(tag);
+                    }
+                }
+            }
             string tagContent = JsonSerializer.Serialize(tags, new JsonSerializerOptions { WriteIndented = true });
             await FileIO.WriteTextAsync(tagfile, tagContent);
         }
