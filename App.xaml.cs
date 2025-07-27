@@ -1,22 +1,13 @@
 ﻿using Fairmark.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Fairmark
@@ -24,6 +15,7 @@ namespace Fairmark
     sealed partial class App : Application
     {
         public static LogHelper LogHelper = new LogHelper();
+
         public App()
         {
             this.InitializeComponent();
@@ -64,6 +56,7 @@ namespace Fairmark
                 titleBar.ButtonPressedBackgroundColor = Colors.Transparent;
                 titleBar.InactiveBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                (this.Resources["Settings"] as Settings).ThemeSettingChanged += Settings_ThemeSettingChanged;
             }
         }
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -78,6 +71,10 @@ namespace Fairmark
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
 
+        }
+
+        private void Settings_ThemeSettingChanged(object sender, Settings.ThemeSetEventArgs e) {
+            (Window.Current.Content as Frame).RequestedTheme = e.Theme;
         }
     }
 }

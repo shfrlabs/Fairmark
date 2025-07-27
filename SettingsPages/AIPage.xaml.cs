@@ -1,4 +1,5 @@
-﻿using Fairmark.Intelligence;
+﻿using Fairmark.Helpers;
+using Fairmark.Intelligence;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -7,6 +8,14 @@ namespace Fairmark.SettingsPages {
     public sealed partial class AIPage : Page {
         public AIPage() {
             this.InitializeComponent();
+            // Add theme event handler for AIPage
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    frame.RequestedTheme = e.Theme;
+                }
+            };
         }
         public ModelHelper _modelHelper = new ModelHelper();
 

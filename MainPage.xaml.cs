@@ -40,6 +40,34 @@ namespace Fairmark
             this.InitializeComponent();
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
+            if (Window.Current.Content is Frame frame) {
+                switch (s.Theme) {
+                    case "Light":
+                        RequestedTheme = ElementTheme.Light;
+                        frame.RequestedTheme = ElementTheme.Light;
+                        ContentGrid.RequestedTheme = ElementTheme.Light;
+                        break;
+                    case "Dark":
+                        RequestedTheme = ElementTheme.Dark;
+                        frame.RequestedTheme = ElementTheme.Dark;
+                        ContentGrid.RequestedTheme = ElementTheme.Dark;
+                        break;
+                    case "Default":
+                        RequestedTheme = ElementTheme.Default;
+                        frame.RequestedTheme = ElementTheme.Default;
+                        ContentGrid.RequestedTheme = ElementTheme.Default;
+                        break;
+                }
+            }
+            s.ThemeSettingChanged += (sender, e) =>
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    RequestedTheme = e.Theme;
+                    frame.RequestedTheme = e.Theme;
+                    ContentGrid.RequestedTheme = e.Theme;
+                }
+            };
             if (s.HideFromRecall) {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = false;
             }
@@ -868,7 +896,31 @@ namespace Fairmark
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            var settings = Application.Current.Resources["Settings"] as Settings;
+            if (settings != null) {
+                // Convert string theme to ElementTheme
+                ElementTheme initialTheme = ElementTheme.Default;
+                switch (settings.Theme) {
+                    case "Light":
+                        initialTheme = ElementTheme.Light;
+                        break;
+                    case "Dark":
+                        initialTheme = ElementTheme.Dark;
+                        break;
+                    default:
+                        initialTheme = ElementTheme.Default;
+                        break;
+                }
+                f.RequestedTheme = initialTheme;
+            }
+
             ElementCompositionPreview.SetAppWindowContent(window, f);
+            // Add theme event handler for AppWindow
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
+            {
+                f.RequestedTheme = args.Theme;
+            };
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
                 if (window != null) {
@@ -893,7 +945,31 @@ namespace Fairmark
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            var settings = Application.Current.Resources["Settings"] as Settings;
+            if (settings != null) {
+                // Convert string theme to ElementTheme
+                ElementTheme initialTheme = ElementTheme.Default;
+                switch (settings.Theme) {
+                    case "Light":
+                        initialTheme = ElementTheme.Light;
+                        break;
+                    case "Dark":
+                        initialTheme = ElementTheme.Dark;
+                        break;
+                    default:
+                        initialTheme = ElementTheme.Default;
+                        break;
+                }
+                f.RequestedTheme = initialTheme;
+            }
+
             ElementCompositionPreview.SetAppWindowContent(window, f);
+            // Add theme event handler for AppWindow
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
+            {
+                f.RequestedTheme = args.Theme;
+            };
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
                 if (window != null) {
@@ -918,15 +994,35 @@ namespace Fairmark
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            // Set the initial theme for the frame based on current settings
+            var settings = Application.Current.Resources["Settings"] as Settings;
+            if (settings != null) {
+                // Convert string theme to ElementTheme
+                ElementTheme initialTheme = ElementTheme.Default;
+                switch (settings.Theme) {
+                    case "Light": initialTheme = ElementTheme.Light; break;
+                    case "Dark": initialTheme = ElementTheme.Dark; break;
+                    default: initialTheme = ElementTheme.Default; break;
+                }
+                f.RequestedTheme = initialTheme;
+            }
+
             ElementCompositionPreview.SetAppWindowContent(window, f);
+
+            // Add theme event handler for AppWindow
+            if (settings != null) {
+                settings.ThemeSettingChanged += (s, args) => {
+                    // Only set if the value is valid
+                    if (Enum.IsDefined(typeof(ElementTheme), args.Theme)) {
+                        f.RequestedTheme = args.Theme;
+                    }
+                };
+            }
+
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
-                if (window != null) {
-                    Settings.IsEnabled = false;
-                }
-                else {
-                    Settings.IsEnabled = true;
-                }
+                Settings.IsEnabled = window != null ? false : true;
             };
             window.Closed += (s, a) => {
                 window = null;

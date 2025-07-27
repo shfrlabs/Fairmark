@@ -24,6 +24,13 @@ namespace Fairmark {
         public FileEditorPage() {
             InitializeComponent();
             FixHeaderSizes();
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    frame.RequestedTheme = e.Theme;
+                }
+            };
             (Application.Current.Resources["Settings"] as Settings).PropertyChanged += (s, e) => { FixHeaderSizes(); };
         }
 

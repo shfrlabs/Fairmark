@@ -7,10 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    <Grid x:Name="RootGrid" Margin="0,-51,0,0">
-        <Grid.Background>
-            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{StaticResource DialogBGColor}" FallbackColor="{ThemeResource DialogBGColor}"/>
-        </Grid.Background>
+    <Grid x:Name="RootGrid" Margin="0,-51,0,0" Background="{ThemeResource AppWindowBG}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>

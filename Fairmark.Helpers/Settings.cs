@@ -9,7 +9,16 @@ using Windows.UI.Xaml.Media;
 namespace Fairmark.Helpers {
     public class Settings : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event ThemeSetEventHandler ThemeSettingChanged;
+        public delegate void ThemeSetEventHandler(object sender, ThemeSetEventArgs e);
         private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
+
+        public class ThemeSetEventArgs {
+            public ElementTheme Theme { get; set; }
+            public ThemeSetEventArgs(ElementTheme theme) {
+                Theme = theme;
+            }
+        }
 
         public string[] AvailableThemes { get; } =
             new[] { "Default", "Light", "Dark" };
@@ -34,6 +43,19 @@ namespace Fairmark.Helpers {
                     // App.LogHelper.WriteLog($"[Settings] Set Theme: {value} (was {old})");
                     _localSettings.Values["theme"] = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
+                    ElementTheme newTheme;
+                    switch (value) {
+                        case "Light":
+                            newTheme = ElementTheme.Light;
+                            break;
+                        case "Dark":
+                            newTheme = ElementTheme.Dark;
+                            break;
+                        default:
+                            newTheme = ElementTheme.Default;
+                            break;
+                    }
+                    ThemeSettingChanged?.Invoke(this, new ThemeSetEventArgs(newTheme));
                 }
             }
         }

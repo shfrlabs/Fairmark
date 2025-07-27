@@ -15,10 +15,12 @@
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="DialogBGColor">#FFFFFFFF</Color>
                             <Color x:Key="OverlayBrushTintColor">#FFFFFFFF</Color>
+                            <AcrylicBrush x:Key="AppWindowBG" BackgroundSource="HostBackdrop" TintColor="#FFFFFFFF" FallbackColor="#FFFFFFFF"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <Color x:Key="DialogBGColor">#FF1E1E1E</Color>
                             <Color x:Key="OverlayBrushTintColor">#FF000000</Color>
+                            <AcrylicBrush x:Key="AppWindowBG" BackgroundSource="HostBackdrop" TintColor="#FF1E1E1E" FallbackColor="#FF1E1E1E"/>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <helpers:Settings x:Key="Settings"/>

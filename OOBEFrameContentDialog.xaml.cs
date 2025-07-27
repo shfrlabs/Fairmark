@@ -1,4 +1,5 @@
-﻿using Fairmark.OOBEPages;
+﻿using Fairmark.Helpers;
+using Fairmark.OOBEPages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,11 @@ namespace Fairmark {
     public sealed partial class OOBEFrameContentDialog : ContentDialog {
         public OOBEFrameContentDialog() {
             this.InitializeComponent();
+            // Add theme event handler for OOBE dialog
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
+            {
+                this.RequestedTheme = e.Theme;
+            };
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) {

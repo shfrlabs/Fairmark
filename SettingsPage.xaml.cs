@@ -5,7 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.WindowManagement;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +23,26 @@ namespace Fairmark {
     public sealed partial class SettingsPage : Page {
         public SettingsPage() {
             this.InitializeComponent();
+            // Add theme event handler for Settings window
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    frame.RequestedTheme = e.Theme;
+                }
+                // Update titlebar foreground
+                var view = ApplicationView.GetForCurrentView();
+                if (e.Theme == ElementTheme.Dark)
+                {
+                    view.TitleBar.ForegroundColor = Colors.White;
+                    view.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else
+                {
+                    view.TitleBar.ForegroundColor = Colors.Black;
+                    view.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {

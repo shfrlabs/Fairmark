@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Fairmark.Helpers;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,6 +23,14 @@ namespace Fairmark.SettingsPages {
     public sealed partial class StatsPage : Page {
         public StatsPage() {
             this.InitializeComponent();
+            // Add theme event handler for StatsPage
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
+            {
+                if (Window.Current.Content is Frame frame)
+                {
+                    frame.RequestedTheme = e.Theme;
+                }
+            };
         }
     }
 }
