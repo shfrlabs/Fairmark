@@ -41,31 +41,46 @@ namespace Fairmark
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
             if (Window.Current.Content is Frame frame) {
-                switch (s.Theme) {
+                ElementTheme reqtheme = ElementTheme.Default;
+                switch (s.Theme)
+                {
                     case "Light":
-                        RequestedTheme = ElementTheme.Light;
-                        frame.RequestedTheme = ElementTheme.Light;
-                        ContentGrid.RequestedTheme = ElementTheme.Light;
+                        reqtheme = ElementTheme.Light;
                         break;
                     case "Dark":
-                        RequestedTheme = ElementTheme.Dark;
-                        frame.RequestedTheme = ElementTheme.Dark;
-                        ContentGrid.RequestedTheme = ElementTheme.Dark;
+                        reqtheme = ElementTheme.Dark;
                         break;
                     case "Default":
-                        RequestedTheme = ElementTheme.Default;
-                        frame.RequestedTheme = ElementTheme.Default;
-                        ContentGrid.RequestedTheme = ElementTheme.Default;
+                        reqtheme = ElementTheme.Default;
                         break;
                 }
+                RequestedTheme = reqtheme;
+                (Window.Current.Content as Frame).RequestedTheme = reqtheme;
+                ContentGrid.RequestedTheme = reqtheme;
+                if (reqtheme == ElementTheme.Default) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
+                    Debug.WriteLine(ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor.HasValue);
+                }
+                else if (reqtheme == ElementTheme.Dark) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (reqtheme == ElementTheme.Light) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             }
-            s.ThemeSettingChanged += (sender, e) =>
+            (Application.Current.Resources["Settings"] as Settings).ThemeSettingChanged += (sender, e) =>
             {
-                if (Window.Current.Content is Frame frame)
-                {
-                    RequestedTheme = e.Theme;
-                    frame.RequestedTheme = e.Theme;
-                    ContentGrid.RequestedTheme = e.Theme;
+                RequestedTheme = e.Theme;
+                (Window.Current.Content as Frame).RequestedTheme = e.Theme;
+                ContentGrid.RequestedTheme = e.Theme;
+                if (e.Theme == ElementTheme.Default) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Red; // TODO its black no matter what
+                }
+                else if (e.Theme == ElementTheme.Dark) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (e.Theme == ElementTheme.Light) {
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
             if (s.HideFromRecall) {
@@ -899,7 +914,6 @@ namespace Fairmark
 
             var settings = Application.Current.Resources["Settings"] as Settings;
             if (settings != null) {
-                // Convert string theme to ElementTheme
                 ElementTheme initialTheme = ElementTheme.Default;
                 switch (settings.Theme) {
                     case "Light":
@@ -913,6 +927,15 @@ namespace Fairmark
                         break;
                 }
                 f.RequestedTheme = initialTheme;
+                if (initialTheme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (initialTheme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (initialTheme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
@@ -920,6 +943,15 @@ namespace Fairmark
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
             {
                 f.RequestedTheme = args.Theme;
+                if (args.Theme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (args.Theme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (args.Theme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             };
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
@@ -948,7 +980,6 @@ namespace Fairmark
 
             var settings = Application.Current.Resources["Settings"] as Settings;
             if (settings != null) {
-                // Convert string theme to ElementTheme
                 ElementTheme initialTheme = ElementTheme.Default;
                 switch (settings.Theme) {
                     case "Light":
@@ -962,13 +993,30 @@ namespace Fairmark
                         break;
                 }
                 f.RequestedTheme = initialTheme;
+                if (initialTheme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (initialTheme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (initialTheme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
             // Add theme event handler for AppWindow
-            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
-            {
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) => {
                 f.RequestedTheme = args.Theme;
+                if (args.Theme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (args.Theme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (args.Theme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             };
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
@@ -994,11 +1042,8 @@ namespace Fairmark
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-            // Set the initial theme for the frame based on current settings
             var settings = Application.Current.Resources["Settings"] as Settings;
             if (settings != null) {
-                // Convert string theme to ElementTheme
                 ElementTheme initialTheme = ElementTheme.Default;
                 switch (settings.Theme) {
                     case "Light": initialTheme = ElementTheme.Light; break;
@@ -1006,19 +1051,32 @@ namespace Fairmark
                     default: initialTheme = ElementTheme.Default; break;
                 }
                 f.RequestedTheme = initialTheme;
+                if (initialTheme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (initialTheme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (initialTheme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
-
             // Add theme event handler for AppWindow
-            if (settings != null) {
-                settings.ThemeSettingChanged += (s, args) => {
-                    // Only set if the value is valid
-                    if (Enum.IsDefined(typeof(ElementTheme), args.Theme)) {
-                        f.RequestedTheme = args.Theme;
-                    }
-                };
-            }
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
+            {
+                f.RequestedTheme = args.Theme;
+                if (args.Theme == ElementTheme.Default) {
+                    window.TitleBar.ButtonForegroundColor = null;
+                }
+                else if (args.Theme == ElementTheme.Dark) {
+                    window.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (args.Theme == ElementTheme.Light) {
+                    window.TitleBar.ButtonForegroundColor = Colors.Black;
+                }
+            };
 
             await window.TryShowAsync();
             TopMore.Flyout.Opening += (s, a) => {
