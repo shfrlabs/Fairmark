@@ -37,6 +37,22 @@
                         <GradientStop Color="#AF72D3" Offset="0"/>
                         <GradientStop Color="#8FDDF1" Offset="1"/>
                     </LinearGradientBrush>
+                    <LinearGradientBrush  
+                        x:Key="AboutTopBackground"  
+                        StartPoint="0.1, -1.1"  
+                        EndPoint="0.15, 1"
+                        Opacity="0.3">
+                        <GradientStop Color="#AF72D3" Offset="0"/>
+                        <GradientStop Color="#00AF72D3" Offset="0.8"/>
+                    </LinearGradientBrush>
+                    <LinearGradientBrush  
+                        x:Key="AboutTopBackground2"  
+                        StartPoint="0.1, -2"  
+                        EndPoint="0.13, 1"
+                        Opacity="1">
+                        <GradientStop Color="#8FDDF1" Offset="0"/>
+                        <GradientStop Color="#008FDDF1" Offset="0.8"/>
+                    </LinearGradientBrush>
                     <ItemsPanelTemplate
                         x:Key="WrapGridPanel">
                         <WrapGrid

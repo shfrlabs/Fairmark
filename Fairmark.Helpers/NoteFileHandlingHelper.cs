@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
+using static System.Net.WebRequestMethods;
 
 namespace Fairmark.Helpers {
     public static class NoteFileHandlingHelper {
@@ -45,8 +46,9 @@ namespace Fairmark.Helpers {
             using (var archiveStream = outStream.AsStreamForWrite())
             using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: false)) {
                 var items = await localFolder.GetItemsAsync();
-                var files = items.OfType<StorageFile>();
-
+                var itemsList = items.ToList();
+                itemsList.RemoveAll(i => i.Name == "Fairmark.log");
+                var files = itemsList.OfType<StorageFile>();
                 foreach (var file in files) {
                     var entry = archive.CreateEntry(file.Name, CompressionLevel.Optimal);
                     using (var entryStream = entry.Open())

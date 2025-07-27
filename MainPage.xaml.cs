@@ -308,6 +308,7 @@ namespace Fairmark
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            await App.LogHelper.InitializeAsync();
             if (Variables.firstStartup)
             {
                 await WelcomeDialog();
@@ -466,6 +467,7 @@ namespace Fairmark
                     {
                         if (!string.IsNullOrWhiteSpace(renameBox.Text))
                         {
+                            App.LogHelper.WriteLog($"Renaming note {selectedNote.Id} from '{selectedNote.Name}' to '{renameBox.Text}'");
                             selectedNote.Name = renameBox.Text;
                             await NoteCollectionHelper.SaveNotes();
                             renameFlyout.Hide();
@@ -495,6 +497,7 @@ namespace Fairmark
                 };
                 deleteDialog.PrimaryButtonClick += async (s, args) =>
                 {
+                    App.LogHelper.WriteLog($"Deleting note {selectedNote.Id} with name '{selectedNote.Name}'");
                     NoteCollectionHelper.notes.Remove(selectedNote);
                     await NoteCollectionHelper.SaveNotes();
                     if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
@@ -635,6 +638,7 @@ namespace Fairmark
                 {
                     if (!string.IsNullOrWhiteSpace(box.Text))
                     {
+                        App.LogHelper.WriteLog($"Creating tag '{box.Text}' with emoji '{emojiButton.Content}'");
                         NoteCollectionHelper.tags.Add(new NoteTag
                         {
                             Name = box.Text,
@@ -843,6 +847,64 @@ namespace Fairmark
             //    Modifiers = VirtualKeyModifiers.Control,
             //    IsEnabled = true
             //});
+        }
+
+        private void About_Loaded(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void Contact_Loaded(object sender, RoutedEventArgs e) {
+
+        }
+
+        private async void About_Click(object sender, RoutedEventArgs e) {
+            AppWindow window = await AppWindow.TryCreateAsync();
+            Frame f = new Frame();
+            f.Margin = new Thickness(0, 50, 0, 0);
+            f.Navigate(typeof(AboutPage));
+            window.Title = "About Fairmark";
+            window.TitleBar.ExtendsContentIntoTitleBar = true;
+            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            ElementCompositionPreview.SetAppWindowContent(window, f);
+            await window.TryShowAsync();
+            TopMore.Flyout.Opening += (s, a) => {
+                if (window != null) {
+                    About.IsEnabled = false;
+                }
+                else {
+                    About.IsEnabled = true;
+                }
+            };
+            window.Closed += (s, a) => {
+                window = null;
+                About.IsEnabled = true;
+            };
+        }
+
+        private async void Contact_Click(object sender, RoutedEventArgs e) {
+            AppWindow window = await AppWindow.TryCreateAsync();
+            Frame f = new Frame();
+            f.Margin = new Thickness(0, 50, 0, 0);
+            f.Navigate(typeof(ContactPage));
+            window.Title = "Contact me";
+            window.TitleBar.ExtendsContentIntoTitleBar = true;
+            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            ElementCompositionPreview.SetAppWindowContent(window, f);
+            await window.TryShowAsync();
+            TopMore.Flyout.Opening += (s, a) => {
+                if (window != null) {
+                    Contact.IsEnabled = false;
+                }
+                else {
+                    Contact.IsEnabled = true;
+                }
+            };
+            window.Closed += (s, a) => {
+                window = null;
+                Contact.IsEnabled = true;
+            };
         }
 
         private async void Settings_Click(object sender, RoutedEventArgs e) {

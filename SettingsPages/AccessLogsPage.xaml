@@ -14,12 +14,23 @@
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
             <toolkit:SettingsCard
-                IsEnabled="False"
                 Header="Log app access"
-                Description="Log the last 100 events in the app (opening the app, reading a note, etc) here to protect your privacy. Logs cannot be cleared."
+                Description="Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. You will be asked for an anonymized version of these when you report a bug."
                 HeaderIcon="List">
                 <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}"/>
             </toolkit:SettingsCard>
+            <ScrollViewer HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4" Margin="0,20">
+                <TextBlock Margin="5" FontFamily="{Binding EditorFontFamily}" FontSize="{Binding EditorFontSize}" TextWrapping="WrapWholeWords" Text="{x:Bind logText, Mode=OneWay}" />
+            </ScrollViewer>
+            <Grid HorizontalAlignment="Stretch" Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="CopyLogs" Click="CopyLogs_Click" Content="Copy personal logs"/>
+                <Button x:Name="CopyDebugLogs" Click="CopyDebugLogs_Click" Content="Copy debug logs" Grid.Column="2"/>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>

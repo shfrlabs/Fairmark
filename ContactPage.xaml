@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Fairmark.ContactPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fairmark"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootGrid" Margin="0,-51,0,0">
+        <Grid.Background>
+            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{StaticResource DialogBGColor}" FallbackColor="{ThemeResource DialogBGColor}"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="AppTitleBar" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Margin="5,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Text="Contact me" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ScrollViewer Margin="20">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap">
+In case you'd like to leave feature requests or bug reports for Fairmark, do so via the below email:<LineBreak/><Hyperlink NavigateUri="mailto:sheferdev@proton.me">sheferdev@proton.me</Hyperlink><LineBreak/><LineBreak/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap">
+In any other cases, you can also contact me on:<LineBreak/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap">Twitter: <Hyperlink NavigateUri="https://twitter.com/sheferdev">@sheferdev</Hyperlink></TextBlock>
+                    <TextBlock TextWrapping="Wrap">GitHub: <Hyperlink NavigateUri="https://github.com/shef3r/">@shef3r</Hyperlink></TextBlock>
+                    <TextBlock TextWrapping="Wrap">Discord: @shef3r<LineBreak/></TextBlock>
+                    <TextBlock TextWrapping="Wrap">Thank you for supporting me by purchasing Fairmark! I don't take donations in any form, except your purchase. However, I appreciate reviews!<LineBreak/></TextBlock>
+                    <Button Style="{ThemeResource AccentButtonStyle}" x:Name="RateButton" Click="RateButton_Click">Rate Fairmark!</Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

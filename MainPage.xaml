@@ -54,13 +54,12 @@
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Settings" Icon="Setting" Click="Settings_Click" x:Name="Settings" Loaded="Settings_Loaded"/>
-                            <MenuFlyoutItem Text="About">
+                            <MenuFlyoutItem Text="About" x:Name="About" Click="About_Click" Loaded="About_Loaded">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <!--TODO-->
-                            <MenuFlyoutItem Text="Contact me" Icon="ContactInfo"/> <!--TODO-->
+                            <MenuFlyoutItem Text="Contact me" Icon="ContactInfo" x:Name="Contact" Click="Contact_Click" Loaded="Contact_Loaded"/> <!--TODO-->
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

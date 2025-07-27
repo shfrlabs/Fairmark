@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="BRStudios.Fairmark"
-    Publisher="CN=bruno"
+    Name="BRStudios.3763783C2F5C2"
+    Publisher="CN=A43ACDD8-D8D2-4B12-B25B-98D2138C0CFE"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="2a28bbab-d3bc-4ea8-85a2-9424b149a3f3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="d2f08440-3a32-4e31-8685-9b9976f294bb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Fairmark</DisplayName>
-    <PublisherDisplayName>bruno</PublisherDisplayName>
+    <PublisherDisplayName>shefer&apos;s labs</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

@@ -23,6 +23,7 @@ namespace Fairmark
 {
     sealed partial class App : Application
     {
+        public static LogHelper LogHelper = new LogHelper();
         public App()
         {
             this.InitializeComponent();
@@ -30,6 +31,7 @@ namespace Fairmark
         }
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             if (rootFrame == null)

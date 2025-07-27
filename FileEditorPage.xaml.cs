@@ -29,12 +29,13 @@ namespace Fairmark {
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             noteId = (e.Parameter as NoteMetadata)?.Id;
+            App.LogHelper.WriteLog($"Opened {noteId}, Name: '{(e.Parameter as NoteMetadata)?.Name}'");
             MarkEditor.Text = await NoteFileHandlingHelper.ReadNoteFileAsync(noteId);
         }
 
         
         private void FixHeaderSizes() {
-            Debug.WriteLine("HEADER SIZES FIXED");
+            Debug.WriteLine("Header sizes fixed");
             if (MarkBlock.Config == null) {
                 MarkdownThemes theme = new MarkdownThemes();
                 MarkdownConfig config = new MarkdownConfig();

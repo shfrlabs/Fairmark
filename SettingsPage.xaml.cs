@@ -53,7 +53,7 @@ namespace Fairmark {
         }
 
         private void settingsFrame_Loaded(object sender, RoutedEventArgs e) {
-            settingsFrame.Navigate(typeof(AIPage));
+            settingsFrame.Navigate(typeof(DisplayPage));
         }
     }
 }

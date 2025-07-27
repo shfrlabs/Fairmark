@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="Fairmark.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fairmark"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid x:Name="RootGrid" Margin="0,-51,0,0">
+        <Grid.Background>
+            <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{StaticResource DialogBGColor}" FallbackColor="{ThemeResource DialogBGColor}"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="AppTitleBar" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Margin="5,0,0,0" Canvas.ZIndex="99">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Text="About" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20">
+            <Rectangle Fill="{ThemeResource AboutTopBackground}" Margin="-20,-80" Canvas.ZIndex="-1" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top"/>
+            <Rectangle Fill="{ThemeResource AboutTopBackground2}" Margin="-20,-80" Canvas.ZIndex="-1" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top"/>
+            <StackPanel>
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/StoreLogo.scale-400.png" Width="64" Height="64" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <TextBlock Text="Fairmark" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="{x:Bind Version}" FontSize="14" Opacity="0.7"/>
+                    </StackPanel>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    Fairmark Intelligence is powered by your selected model, ran locally via LlamaSharp.<LineBreak/><Run FontWeight="SemiBold">Your notes never leave your device.</Run>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    For more information, visit the project's <Hyperlink NavigateUri="https://fairmark.shef3r.dev/">website</Hyperlink>.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    Special thanks to:<LineBreak/><LineBreak/>
+                    the <Run FontWeight="SemiBold">LlamaSharp team</Run> for their work on the LLM library,<LineBreak/>
+                    the <Run FontWeight="SemiBold">Win2D team</Run> for their graphics library,<LineBreak/>
+                    the <Run FontWeight="SemiBold">Community Toolkit contributors</Run> for GridSplitter and MarkdownTextBlock,<LineBreak/>
+                    <Run FontWeight="SemiBold">Unicode.net</Run> for their text processing library,<LineBreak/>
+                    and the communities on <Hyperlink NavigateUri="https://discord.gg/hNmWBHQbVz">shefer's labs</Hyperlink> and <Hyperlink NavigateUri="https://discord.gg/eBHZSKG">Windows App Community</Hyperlink> for their support and feedback.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display">
+                    developed by shef3r in Poland.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
