@@ -1091,12 +1091,14 @@ namespace Fairmark
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e) {
             if (ApplicationView.GetForCurrentView().IsFullScreenMode) {
                 ClosePane_Click(null, null);
-                ContentGrid.RowDefinitions[0].Height = new GridLength(0);
+                AppTitleBar.ColumnDefinitions[0].Width = new GridLength(0);
+                MainCommands.Margin = new Thickness(-5, 0, -10, 0);
                 this.Background = Application.Current.Resources["ZenBG"] as SolidColorBrush;
             }
             else
             {
-                ContentGrid.RowDefinitions[0].Height = new GridLength(48);
+                MainCommands.Margin = new Thickness(5, 0, -10, 0);
+                AppTitleBar.ColumnDefinitions[0].Width = GridLength.Auto;
                 this.Background = new SolidColorBrush(Colors.Transparent);
             }
         }
@@ -1117,6 +1119,15 @@ namespace Fairmark
         private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) {
             sender.Text = string.Empty;
             TagBox.ItemsSource = NoteCollectionHelper.tags;
+        }
+
+        public ApplicationView currentView => ApplicationView.GetForCurrentView();
+
+        private void Zen_Click(object sender, RoutedEventArgs e) {
+            if (currentView.IsFullScreenMode)
+                currentView.ExitFullScreenMode();
+            else
+                currentView.TryEnterFullScreenMode();
         }
     }
 }

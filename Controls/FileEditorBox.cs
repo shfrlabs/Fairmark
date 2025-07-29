@@ -26,7 +26,6 @@ namespace Fairmark.Controls {
             this.Loaded += (s, e) => Debug.WriteLine($"[#{_instanceId}] Control loaded");
         }
 
-        #region Dependency Properties
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(FileEditorBox),
             new PropertyMetadata(string.Empty, OnTextPropertyChanged));
@@ -51,6 +50,10 @@ namespace Fairmark.Controls {
             DependencyProperty.Register("IsSelectionCode", typeof(bool), typeof(FileEditorBox),
                 new PropertyMetadata(false, OnFormattingPropertyChanged));
 
+        public static readonly DependencyProperty IsBulletedProperty =
+            DependencyProperty.Register("IsBulleted", typeof(bool), typeof(FileEditorBox),
+                new PropertyMetadata(false, OnBulletPropertyChanged));
+
         public static readonly DependencyProperty IsHeading1Property =
             DependencyProperty.Register("IsHeading1", typeof(bool), typeof(FileEditorBox),
                 new PropertyMetadata(false, OnHeadingPropertyChanged));
@@ -70,9 +73,6 @@ namespace Fairmark.Controls {
         public event EventHandler<CursorLineChangedEventArgs> CursorLineChanged;
         private int _lastCursorLineStart = -1;
         private int _lastCursorLineNumber = 0;
-        #endregion
-
-        #region Template and Event Handling
         protected override void OnApplyTemplate() {
             Debug.WriteLine($"[#{_instanceId}] Applying template");
             base.OnApplyTemplate();
@@ -169,8 +169,7 @@ namespace Fairmark.Controls {
                 Debug.WriteLine($"Embed text: '{url}'");
 
                 // 4. Back on UI thread: splice into the TextBox
-                await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
+                await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
                     var start = tb.SelectionStart;
                     var len = tb.SelectionLength;
                     var orig = tb.Text ?? string.Empty;
@@ -235,10 +234,6 @@ namespace Fairmark.Controls {
             return ok;
         }
 
-
-
-
-
         private void InnerBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e) {
             UpdateSelectionProperties();
         }
@@ -299,9 +294,6 @@ namespace Fairmark.Controls {
                 _lastSelectionLength = _innerBox.SelectionLength;
             }
         }
-        #endregion
-
-        #region Formatting Detection and Application
         private void UpdateSelectionProperties() {
             if (_innerBox == null || _updatingSelection || _updatingText)
                 return;
@@ -332,6 +324,7 @@ namespace Fairmark.Controls {
                 int cursorPosition = _innerBox.SelectionStart;
                 (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
 
+                // Handle empty line case
                 if (lineText == "" && cursorPosition < _innerBox.Text.Length &&
                     (_innerBox.Text[cursorPosition] == '\n' || _innerBox.Text[cursorPosition] == '\r')) {
                     (lineStart, lineEnd, lineText, lineNumber) = GetCurrentLine(cursorPosition + 1);
@@ -346,6 +339,10 @@ namespace Fairmark.Controls {
                     headingLevel = 2;
                 else if (lineText.StartsWith("# "))
                     headingLevel = 1;
+
+                // Detect bullet state
+                bool isBullet = lineText.StartsWith("- ") || lineText.StartsWith("* ");
+                SetValue(IsBulletedProperty, isBullet);
 
                 SetValue(IsHeading1Property, headingLevel == 1);
                 SetValue(IsHeading2Property, headingLevel == 2);
@@ -371,7 +368,134 @@ namespace Fairmark.Controls {
                 _updatingHeadings = false;
             }
         }
+        private static void OnHeadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var control = (FileEditorBox)d;
+            if (control._updatingHeadings || !(bool)e.NewValue)
+                return;
 
+            int level = e.Property switch {
+                _ when e.Property == IsHeading1Property => 1,
+                _ when e.Property == IsHeading2Property => 2,
+                _ when e.Property == IsHeading3Property => 3,
+                _ => 0
+            };
+
+            control.ToggleHeading(level);
+        }
+
+        private void ToggleHeading(int targetLevel) {
+            if (_innerBox == null)
+                return;
+
+            try {
+                _updatingText = true;
+                int cursorPosition = _innerBox.SelectionStart;
+                (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
+
+                // Remove any existing block formatting
+                lineText = RemoveBlockFormatting(lineText);
+
+                string newLineText;
+                int headingPrefixLength = 0;
+
+                // Check if already formatted with same heading level
+                if (lineText.StartsWith(new string('#', targetLevel) + " ")) {
+                    // Toggle off: remove heading
+                    newLineText = lineText.Substring(targetLevel + 1);
+                }
+                else {
+                    // Apply new heading
+                    newLineText = new string('#', targetLevel) + " " + lineText.TrimStart();
+                    headingPrefixLength = targetLevel + 1;
+                }
+
+                string newText = _innerBox.Text.Substring(0, lineStart) +
+                                newLineText +
+                                _innerBox.Text.Substring(lineEnd);
+
+                Text = newText;
+                int newCursorPosition = lineStart + headingPrefixLength;
+                _innerBox.SelectionStart = Math.Min(newCursorPosition, newText.Length);
+                _innerBox.SelectionLength = 0;
+            }
+            finally {
+                _updatingText = false;
+                UpdateHeadingProperties();
+            }
+        }
+
+        private static void OnBulletPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var control = (FileEditorBox)d;
+            if (control._updatingHeadings || !(bool)e.NewValue)
+                return;
+
+            control.ToggleBullet();
+        }
+
+        private void ToggleBullet() {
+            if (_innerBox == null)
+                return;
+
+            try {
+                _updatingText = true;
+                int cursorPosition = _innerBox.SelectionStart;
+                (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
+
+                // Remove any existing block formatting
+                lineText = RemoveBlockFormatting(lineText);
+
+                bool isBullet = lineText.StartsWith("- ") || lineText.StartsWith("* ");
+                string newLineText;
+
+                if (isBullet) {
+                    // Remove bullet
+                    newLineText = lineText.Substring(2);
+                }
+                else {
+                    // Add bullet (using '-' as standard)
+                    newLineText = "- " + lineText.TrimStart();
+                }
+
+                string newText = _innerBox.Text.Substring(0, lineStart) +
+                                newLineText +
+                                _innerBox.Text.Substring(lineEnd);
+
+                Text = newText;
+                int newCursorPosition = cursorPosition + (isBullet ? -2 : 2);
+                _innerBox.SelectionStart = Math.Max(0, Math.Min(newCursorPosition, newText.Length));
+                _innerBox.SelectionLength = 0;
+            }
+            finally {
+                _updatingText = false;
+                UpdateHeadingProperties();
+            }
+        }
+
+        private static string RemoveBlockFormatting(string lineText) {
+            // Remove any heading markers
+            if (lineText.StartsWith("#")) {
+                int i = 0;
+                while (i < lineText.Length && lineText[i] == '#')
+                    i++;
+                if (i < lineText.Length && lineText[i] == ' ') {
+                    lineText = lineText.Substring(i + 1);
+                }
+                else if (i < lineText.Length) {
+                    // Handle case where # isn't followed by space
+                    lineText = lineText.Substring(i);
+                }
+            }
+
+            // Remove any bullet markers
+            if (lineText.StartsWith("- ")) {
+                lineText = lineText.Substring(2);
+            }
+            else if (lineText.StartsWith("* ")) {
+                lineText = lineText.Substring(2);
+            }
+
+            return lineText;
+        }
         private (int start, int end, string text, int number) GetCurrentLine(int position) {
             string text = _innerBox.Text ?? "";
             if (string.IsNullOrEmpty(text))
@@ -419,27 +543,59 @@ namespace Fairmark.Controls {
                 return false;
 
             int pos = _innerBox.SelectionStart;
+            int len = _innerBox.SelectionLength;
             string text = _innerBox.Text;
             int patternLength = pattern.Length;
 
-            if (isItalic) {
-                if (pos > 0 && pos < text.Length - 1) {
-                    if (text[pos - 1] == '*' && text[pos] == '*') {
-                        return false;
-                    }
+            // Special handling for italic to prevent confusion with bold
+            if (isItalic && pattern == "*") {
+                // Check if we're in the middle of bold formatting
+                if (pos > 0 && pos < text.Length - 1 &&
+                    text[pos - 1] == '*' && text[pos] == '*') {
+                    return false;
                 }
             }
 
+            // For selections, check exact boundaries
+            if (len > 0) {
+                return CheckExactBoundaries(text, pos, len, pattern);
+            }
+
+            // For cursor position, check if we're within matching markers
+            return IsWithinMarkers(text, pos, pattern, isItalic);
+        }
+
+        private bool CheckExactBoundaries(string text, int pos, int len, string pattern) {
+            // Check left boundary
+            bool leftMatch = pos >= pattern.Length &&
+                           text.Substring(pos - pattern.Length, pattern.Length) == pattern;
+
+            // Check right boundary
+            bool rightMatch = (pos + len + pattern.Length) <= text.Length &&
+                            text.Substring(pos + len, pattern.Length) == pattern;
+
+            return leftMatch && rightMatch;
+        }
+
+        private bool IsWithinMarkers(string text, int pos, string pattern, bool isItalic) {
+            int patternLength = pattern.Length;
             int openIndex = -1;
             int closeIndex = -1;
 
+            // Find opening marker
             for (int i = Math.Min(pos, text.Length - patternLength); i >= 0; i--) {
-                if (i + patternLength <= text.Length &&
-                    text.Substring(i, patternLength) == pattern) {
-                    if (isItalic && pattern == "*" &&
-                        i < text.Length - 1 && text[i + 1] == '*') {
-                        continue;
+                if (text.Substring(i, patternLength) == pattern) {
+                    // Skip if part of bold pattern for italics
+                    if (isItalic && pattern == "*") {
+                        if (i > 0 && text[i - 1] == '*')
+                            continue; // Left of bold
+                        if (i < text.Length - 1 && text[i + 1] == '*')
+                            continue; // Right of bold
                     }
+                    // Skip escaped markers
+                    if (i > 0 && text[i - 1] == '\\')
+                        continue;
+
                     openIndex = i;
                     break;
                 }
@@ -448,31 +604,136 @@ namespace Fairmark.Controls {
             if (openIndex == -1)
                 return false;
 
+            // Find closing marker
             for (int i = Math.Max(openIndex + patternLength, pos); i <= text.Length - patternLength; i++) {
                 if (text.Substring(i, patternLength) == pattern) {
-                    if (isItalic && pattern == "*" &&
-                        i > 0 && text[i - 1] == '*') {
-                        continue;
+                    // Skip if part of bold pattern for italics
+                    if (isItalic && pattern == "*") {
+                        if (i > 0 && text[i - 1] == '*')
+                            continue; // Left of bold
+                        if (i < text.Length - 1 && text[i + 1] == '*')
+                            continue; // Right of bold
                     }
+                    // Skip escaped markers
+                    if (i > 0 && text[i - 1] == '\\')
+                        continue;
+
                     closeIndex = i;
                     break;
                 }
             }
 
-            if (closeIndex == -1)
-                return false;
+            return closeIndex != -1 &&
+                   pos > openIndex &&
+                   pos <= closeIndex;
+        }
+        private void ToggleFormatting(string pattern, bool isItalic) {
+            if (_innerBox == null)
+                return;
 
-            if (_innerBox.SelectionLength == 0) {
-                return (openIndex + patternLength < closeIndex) &&
-                       (pos > openIndex + patternLength - 1) &&
-                       (pos < closeIndex);
+            int start = _innerBox.SelectionStart;
+            int length = _innerBox.SelectionLength;
+            string text = _innerBox.Text;
+            int patternLength = pattern.Length;
+
+            try {
+                _updatingText = true;
+                string newText = text;
+                int newStart = start;
+                int newLength = length;
+
+                bool isCurrentlyFormatted = IsFormattedAtPosition(pattern, isItalic);
+
+                if (isCurrentlyFormatted) {
+                    // Remove formatting
+                    if (length > 0) {
+                        // Remove markers around selection
+                        newText = text.Remove(start + length, patternLength)
+                                     .Remove(start - patternLength, patternLength);
+                        newStart = start - patternLength;
+                        newLength = length;
+                    }
+                    else {
+                        // Remove markers around cursor position
+                        int openIndex = FindNearestOpeningMarker(text, pattern, start, isItalic);
+                        int closeIndex = FindNearestClosingMarker(text, pattern, start, isItalic);
+
+                        if (openIndex != -1 && closeIndex != -1) {
+                            newText = text.Remove(closeIndex, patternLength)
+                                         .Remove(openIndex, patternLength);
+                            newStart = openIndex;
+                        }
+                    }
+                }
+                else {
+                    // Add formatting
+                    if (length > 0) {
+                        // Apply to selection
+                        string selectedText = text.Substring(start, length);
+                        string formattedText = pattern + selectedText + pattern;
+                        newText = text.Remove(start, length).Insert(start, formattedText);
+                        newStart = start + patternLength;
+                        newLength = length;
+                    }
+                    else {
+                        // Empty selection - insert balanced markers
+                        newText = text.Insert(start, pattern + pattern);
+                        newStart = start + patternLength; // Place cursor between markers
+                    }
+                }
+
+                Text = newText;
+                _innerBox.SelectionStart = newStart;
+                _innerBox.SelectionLength = newLength;
             }
-            else {
-                int start = _innerBox.SelectionStart;
-                int end = start + _innerBox.SelectionLength;
-                return (openIndex + patternLength <= start) &&
-                       (closeIndex >= end);
+            finally {
+                _updatingText = false;
+                UpdateSelectionProperties();
             }
+        }
+
+        private int FindNearestOpeningMarker(string text, string pattern, int position, bool isItalic) {
+            int closest = -1;
+            for (int i = 0; i <= position; i++) {
+                if (i + pattern.Length > text.Length)
+                    continue;
+                if (text.Substring(i, pattern.Length) == pattern) {
+                    // Skip if part of bold pattern for italics
+                    if (isItalic && pattern == "*") {
+                        if (i > 0 && text[i - 1] == '*')
+                            continue;
+                        if (i < text.Length - 1 && text[i + 1] == '*')
+                            continue;
+                    }
+                    // Skip escaped markers
+                    if (i > 0 && text[i - 1] == '\\')
+                        continue;
+                    closest = i;
+                }
+            }
+            return closest;
+        }
+
+        private int FindNearestClosingMarker(string text, string pattern, int position, bool isItalic) {
+            int closest = -1;
+            for (int i = position; i <= text.Length - pattern.Length; i++) {
+                if (text.Substring(i, pattern.Length) == pattern) {
+                    // Skip if part of bold pattern for italics
+                    if (isItalic && pattern == "*") {
+                        if (i > 0 && text[i - 1] == '*')
+                            continue;
+                        if (i < text.Length - 1 && text[i + 1] == '*')
+                            continue;
+                    }
+                    // Skip escaped markers
+                    if (i > 0 && text[i - 1] == '\\')
+                        continue;
+                    if (closest == -1 || Math.Abs(i - position) < Math.Abs(closest - position)) {
+                        closest = i;
+                    }
+                }
+            }
+            return closest;
         }
 
         private static void OnFormattingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
@@ -498,145 +759,6 @@ namespace Fairmark.Controls {
             }
         }
 
-        private static void OnHeadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var control = (FileEditorBox)d;
-            if (control._updatingHeadings || !(bool)e.NewValue)
-                return;
-
-            int level = e.Property switch {
-                _ when e.Property == IsHeading1Property => 1,
-                _ when e.Property == IsHeading2Property => 2,
-                _ when e.Property == IsHeading3Property => 3,
-                _ => 0
-            };
-
-            control.ToggleHeading(level);
-        }
-
-        private void ToggleHeading(int targetLevel) {
-            if (_innerBox == null)
-                return;
-
-            try {
-                _updatingText = true;
-                int cursorPosition = _innerBox.SelectionStart;
-                (int lineStart, int lineEnd, string lineText, int lineNumber) = GetCurrentLine(cursorPosition);
-
-                int currentLevel = 0;
-                if (lineText.StartsWith("#")) {
-                    int i = 0;
-                    while (i < lineText.Length && lineText[i] == '#')
-                        i++;
-
-                    if (i < lineText.Length && lineText[i] == ' ')
-                        currentLevel = i;
-                }
-
-                string newLineText;
-                int headingPrefixLength = 0;
-
-                if (currentLevel == targetLevel) {
-                    newLineText = lineText.Substring(currentLevel + 1);
-                }
-                else if (currentLevel > 0) {
-                    newLineText = new string('#', targetLevel) + " " + lineText.Substring(currentLevel + 1);
-                    headingPrefixLength = targetLevel + 1;
-                }
-                else {
-                    newLineText = new string('#', targetLevel) + " " + lineText;
-                    headingPrefixLength = targetLevel + 1;
-                }
-
-                string newText = _innerBox.Text.Substring(0, lineStart) +
-                                newLineText +
-                                _innerBox.Text.Substring(lineEnd);
-
-                Text = newText;
-                int newCursorPosition = lineStart + headingPrefixLength;
-                _innerBox.SelectionStart = newCursorPosition;
-                _innerBox.SelectionLength = 0;
-            }
-            finally {
-                _updatingText = false;
-                UpdateHeadingProperties();
-            }
-        }
-
-        private void ToggleFormatting(string pattern, bool isItalic) {
-            if (_innerBox == null)
-                return;
-
-            int start = _innerBox.SelectionStart;
-            int length = _innerBox.SelectionLength;
-            string text = _innerBox.Text;
-            string selectedText = length > 0 ? text.Substring(start, length) : "";
-            int patternLength = pattern.Length;
-            bool isCurrentlyFormatted = IsFormattedAtPosition(pattern, isItalic);
-
-            try {
-                _updatingText = true;
-                string newText = text;
-                int newStart = start;
-                int newLength = length;
-
-                if (isCurrentlyFormatted) {
-                    int openIndex = -1;
-                    int closeIndex = -1;
-
-                    for (int i = Math.Min(start, text.Length - patternLength); i >= 0; i--) {
-                        if (i + patternLength <= text.Length && text.Substring(i, patternLength) == pattern) {
-                            if (isItalic && pattern == "*" && i < text.Length - 1 && text[i + 1] == '*')
-                                continue;
-
-                            openIndex = i;
-                            break;
-                        }
-                    }
-
-                    if (openIndex != -1) {
-                        for (int i = Math.Max(openIndex + patternLength, start + length); i <= text.Length - patternLength; i++) {
-                            if (i + patternLength <= text.Length && text.Substring(i, patternLength) == pattern) {
-                                if (isItalic && pattern == "*" && i > 0 && text[i - 1] == '*')
-                                    continue;
-
-                                closeIndex = i;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (openIndex != -1 && closeIndex != -1) {
-                        newText = text.Remove(closeIndex, patternLength)
-                                     .Remove(openIndex, patternLength);
-                        newStart = openIndex;
-                        newLength = (closeIndex - openIndex - patternLength);
-                    }
-                    else {
-                        return;
-                    }
-                }
-                else {
-                    newText = text.Substring(0, start) +
-                               pattern +
-                               selectedText +
-                               pattern +
-                               text.Substring(start + length);
-                    newStart = start + patternLength;
-                    newLength = length;
-                }
-
-                Text = newText;
-                _innerBox.SelectionStart = newStart;
-                _innerBox.SelectionLength = newLength;
-            }
-            finally {
-                _updatingText = false;
-                UpdateSelectionProperties();
-            }
-        }
-        #endregion
-
-        #region Property Accessors
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
         }
 
@@ -670,6 +792,11 @@ namespace Fairmark.Controls {
             set => SetValue(IsSelectionCodeProperty, value);
         }
 
+        public bool IsBulleted {
+            get => (bool)GetValue(IsBulletedProperty);
+            set => SetValue(IsBulletedProperty, value);
+        }
+
         public bool IsHeading1 {
             get => (bool)GetValue(IsHeading1Property);
             set => SetValue(IsHeading1Property, value);
@@ -688,6 +815,5 @@ namespace Fairmark.Controls {
         public bool HasSelection {
             get => (bool)GetValue(HasSelectionProperty);
         }
-        #endregion
     }
 }

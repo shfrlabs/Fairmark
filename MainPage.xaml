@@ -37,8 +37,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="55"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
+            <AppBarToggleButton LabelPosition="Collapsed" Label="Zen" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
+                <FontIcon Glyph="&#xE708;" />
+            </AppBarToggleButton>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>
                 <TextBlock Text="Fairmark" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
@@ -65,6 +69,7 @@
                 </AppBarButton>
             </CommandBar>
             <controls:TabView
+                Margin="0,-3,0,0"
                 MinWidth="0"
                 x:Name="TabView"
                 BorderThickness="0"
