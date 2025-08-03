@@ -326,10 +326,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fairmark.Intelligence\Fairmark.Intelligence.csproj">
-      <Project>{866a220e-b5f5-4d07-863e-307df54713be}</Project>
-      <Name>Fairmark.Intelligence</Name>
-    </ProjectReference>
     <ProjectReference Include="Fairmark.Converters\Fairmark.Converters.csproj">
       <Project>{1b68f495-3e45-40e8-bcdb-9f12e17685a1}</Project>
       <Name>Fairmark.Converters</Name>

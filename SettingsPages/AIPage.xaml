@@ -21,7 +21,8 @@
             </toolkit:SettingsCard>
             <TextBlock Text="Select and download models" FontSize="13" FontWeight="SemiBold" Margin="2,10,0,7"/>
             <Grid HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4">
-                <ListView SelectionMode="None" ItemsSource="{x:Bind intelligence:ModelHelper.AvailableModels}">
+                <ListView SelectionMode="None">
+                    <!--ItemsSource="{x:Bind intelligence:ModelHelper.AvailableModels}"-->
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
