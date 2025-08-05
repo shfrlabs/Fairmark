@@ -125,6 +125,7 @@
     <Compile Include="LogHelper.cs" />
     <Compile Include="NoteCollectionHelper.cs" />
     <Compile Include="NoteFileHandlingHelper.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

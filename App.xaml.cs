@@ -43,7 +43,7 @@ namespace Fairmark
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    _ = rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
                 Window.Current.Activate();
@@ -69,11 +69,13 @@ namespace Fairmark
             deferral.Complete();
         }
 
-        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
 
         }
 
-        private void Settings_ThemeSettingChanged(object sender, Settings.ThemeSetEventArgs e) {
+        private void Settings_ThemeSettingChanged(object sender, Settings.ThemeSetEventArgs e)
+        {
             (Window.Current.Content as Frame).RequestedTheme = e.Theme;
         }
     }

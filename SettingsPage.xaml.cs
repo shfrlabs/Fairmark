@@ -1,36 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Fairmark.Helpers;
+using Fairmark.SettingsPages;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.Security.Credentials.UI;
 using Windows.UI.Xaml.Navigation;
-using Fairmark.Helpers;
-using Fairmark.SettingsPages;
 
 
-namespace Fairmark {
-    public sealed partial class SettingsPage : Page {
-        public SettingsPage() {
+namespace Fairmark
+{
+    public sealed partial class SettingsPage : Page
+    {
+        public SettingsPage()
+        {
             this.InitializeComponent();
-            // Add theme event handler for Settings window
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
             {
                 if (Window.Current.Content is Frame frame)
                 {
                     frame.RequestedTheme = e.Theme;
                 }
-                // Update titlebar foreground
                 var view = ApplicationView.GetForCurrentView();
                 if (e.Theme == ElementTheme.Dark)
                 {
@@ -45,8 +36,10 @@ namespace Fairmark {
             };
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e) {
-            if (e.Parameter != null && e.Parameter.ToString() == "OOBE") {
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter != null && e.Parameter.ToString() == "OOBE")
+            {
                 RootGrid.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
                 SettingsNav.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top;
                 settingsFrame.Height = 400;
@@ -54,29 +47,32 @@ namespace Fairmark {
             SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
         }
 
-        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args) {
-            switch ((args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag as string) {
+        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            switch ((args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag as string)
+            {
                 case "AI":
-                    settingsFrame.Navigate(typeof(AIPage)); break;
+                    _ = settingsFrame.Navigate(typeof(AIPage)); break;
                 case "Display":
-                    settingsFrame.Navigate(typeof(DisplayPage)); break;
+                    _ = settingsFrame.Navigate(typeof(DisplayPage)); break;
                 case "Features":
-                    settingsFrame.Navigate(typeof(FeaturesPage)); break;
+                    _ = settingsFrame.Navigate(typeof(FeaturesPage)); break;
                 case "ImExport":
-                    settingsFrame.Navigate(typeof(ImportExportPage)); break;
+                    _ = settingsFrame.Navigate(typeof(ImportExportPage)); break;
                 case "Logs":
-                    settingsFrame.Navigate(typeof(AccessLogsPage)); break;
+                    _ = settingsFrame.Navigate(typeof(AccessLogsPage)); break;
                 case "Stats":
-                    settingsFrame.Navigate(typeof(StatsPage)); break;
+                    _ = settingsFrame.Navigate(typeof(StatsPage)); break;
                 case "Tags":
-                    settingsFrame.Navigate(typeof(TagManagerPage)); break;
+                    _ = settingsFrame.Navigate(typeof(TagManagerPage)); break;
                 default:
                     settingsFrame.Content = null; break;
             }
         }
 
-        private void settingsFrame_Loaded(object sender, RoutedEventArgs e) {
-            settingsFrame.Navigate(typeof(DisplayPage));
+        private void settingsFrame_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ = settingsFrame.Navigate(typeof(DisplayPage));
         }
     }
 }

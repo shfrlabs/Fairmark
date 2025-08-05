@@ -1,31 +1,21 @@
-﻿using CommunityToolkit.WinUI.Controls;
-using CommunityToolkit.WinUI.Media;
-using Fairmark.Converters;
+﻿using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Resources;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
 using Windows.Security.Credentials.UI;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI;
-using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using ColorPicker = Microsoft.UI.Xaml.Controls.ColorPicker;
@@ -40,7 +30,8 @@ namespace Fairmark
             this.InitializeComponent();
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
-            if (Window.Current.Content is Frame frame) {
+            if (Window.Current.Content is Frame frame)
+            {
                 ElementTheme reqtheme = ElementTheme.Default;
                 switch (s.Theme)
                 {
@@ -57,14 +48,17 @@ namespace Fairmark
                 RequestedTheme = reqtheme;
                 (Window.Current.Content as Frame).RequestedTheme = reqtheme;
                 ContentGrid.RequestedTheme = reqtheme;
-                if (reqtheme == ElementTheme.Default) {
+                if (reqtheme == ElementTheme.Default)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
                     Debug.WriteLine(ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor.HasValue);
                 }
-                else if (reqtheme == ElementTheme.Dark) {
+                else if (reqtheme == ElementTheme.Dark)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (reqtheme == ElementTheme.Light) {
+                else if (reqtheme == ElementTheme.Light)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             }
@@ -73,33 +67,41 @@ namespace Fairmark
                 RequestedTheme = e.Theme;
                 (Window.Current.Content as Frame).RequestedTheme = e.Theme;
                 ContentGrid.RequestedTheme = e.Theme;
-                if (e.Theme == ElementTheme.Default) {
+                if (e.Theme == ElementTheme.Default)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Red; // TODO its black no matter what
                 }
-                else if (e.Theme == ElementTheme.Dark) {
+                else if (e.Theme == ElementTheme.Dark)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (e.Theme == ElementTheme.Light) {
+                else if (e.Theme == ElementTheme.Light)
+                {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
-            if (s.HideFromRecall) {
+            if (s.HideFromRecall)
+            {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = false;
             }
-            else {
+            else
+            {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = true;
             }
-            if (s.AuthenticationEnabled) {
-                if (UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result == UserConsentVerifierAvailability.Available) {
-                    UserConsentVerifier.RequestVerificationAsync("Fairmark needs your permission to continue. You can turn this off in Settings.").AsTask();
+            if (s.AuthenticationEnabled)
+            {
+                if (UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result == UserConsentVerifierAvailability.Available)
+                {
+                    _ = UserConsentVerifier.RequestVerificationAsync("Fairmark needs your permission to continue. You can turn this off in Settings.").AsTask();
                 }
-                else {
+                else
+                {
                     ContentDialog dialog = new ContentDialog();
                     dialog.Title = "Authentication was turned off due to a problem with Windows Hello.";
                     dialog.Content = "Make sure you didn't turn off your PIN/password/biometrics in Windows Settings.";
                     s.AuthenticationEnabled = false;
                     dialog.PrimaryButtonText = "OK";
-                    dialog.ShowAsync().AsTask();
+                    _ = dialog.ShowAsync().AsTask();
                 }
             }
 
@@ -108,8 +110,10 @@ namespace Fairmark
         private NoteTag currentTag = null;
         private List<Microsoft.UI.Xaml.Controls.TabViewItem> openTabs = new List<Microsoft.UI.Xaml.Controls.TabViewItem>();
 
-        private async Task WelcomeDialog() {
-            var overlay = new Windows.UI.Xaml.Shapes.Rectangle {
+        private async Task WelcomeDialog()
+        {
+            var overlay = new Windows.UI.Xaml.Shapes.Rectangle
+            {
                 Fill = Application.Current.Resources["OverlayBrush"] as Brush,
                 Opacity = 1,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -120,9 +124,11 @@ namespace Fairmark
             Grid.SetColumnSpan(overlay, ContentGrid.ColumnDefinitions.Count > 0 ? ContentGrid.ColumnDefinitions.Count : 1);
 
             ContentDialog dialog = new OOBEFrameContentDialog();
-            dialog.Closed += async (s, a) => {
+            dialog.Closed += async (s, a) =>
+            {
                 var storyboard = new Storyboard();
-                var fadeOut = new DoubleAnimation {
+                var fadeOut = new DoubleAnimation
+                {
                     From = 1,
                     To = 0,
                     Duration = new Duration(TimeSpan.FromMilliseconds(200)),
@@ -135,32 +141,35 @@ namespace Fairmark
                 var tcs = new TaskCompletionSource<bool>();
                 storyboard.Completed += (snd, evt) => tcs.SetResult(true);
                 storyboard.Begin();
-                await tcs.Task;
-                ContentGrid.Children.Remove(overlay);
+                _ = await tcs.Task;
+                _ = ContentGrid.Children.Remove(overlay);
                 FirstRunTips();
             };
-            await dialog.ShowAsync();
+            _ = await dialog.ShowAsync();
         }
 
-
-        public TeachingTip addnotetip = new TeachingTip() {
+        public TeachingTip addnotetip = new TeachingTip()
+        {
             Title = "Create your first note.",
-            Subtitle = "Use this button to create a note.",
+            Subtitle = "Use this button to create a note and confirm with the Enter key.",
             IsOpen = false
         };
-        public TeachingTip addtagtip = new TeachingTip() {
+        public TeachingTip addtagtip = new TeachingTip()
+        {
             Title = "Create your first tag.",
             Subtitle = "Use this button to create a tag. You can use tags to organize and filter notes.",
             IsOpen = false
         };
-        private void FirstRunTips() {
+        private void FirstRunTips()
+        {
             addnotetip.Target = CreateButton;
             addtagtip.Target = CreateTag;
             MainGrid.Children.Add(addnotetip);
             MainGrid.Children.Add(addtagtip);
 
             addnotetip.IsOpen = true;
-            CreateButton.Click += (s, e) => {
+            CreateButton.Click += (s, e) =>
+            {
                 addnotetip.IsOpen = false;
             };
 
@@ -170,18 +179,23 @@ namespace Fairmark
 
         }
 
-        private void AddNoteTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args) {
+        private void AddNoteTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
+        {
             if (!mainFlyout.IsOpen) { addtagtip.IsOpen = true; }
-            else {
-                mainFlyout.Closed += (s, e) => {
+            else
+            {
+                mainFlyout.Closed += (s, e) =>
+                {
                     addtagtip.IsOpen = true;
                 };
             }
             addnotetip.Closed -= AddNoteTip_Closed;
         }
 
-        private void FirstNoteDialog(object sender, SelectionChangedEventArgs e) {
-            TeachingTip scrolltip = new TeachingTip() {
+        private void FirstNoteDialog(object sender, SelectionChangedEventArgs e)
+        {
+            TeachingTip scrolltip = new TeachingTip()
+            {
                 Title = "Use the editor to scroll across your note.",
                 Subtitle = "The preview will scroll automatically.",
                 PreferredPlacement = TeachingTipPlacementMode.BottomRight,
@@ -195,7 +209,8 @@ namespace Fairmark
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255)) {
+            if (SideGrid.RowDefinitions[1].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255))
+            {
                 ClosePane_Click(null, null);
             }
             else
@@ -236,7 +251,8 @@ namespace Fairmark
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255)) {
+            if (SideGrid.RowDefinitions[2].Height == new GridLength(1, GridUnitType.Star) && (MainGrid.ColumnDefinitions[0].Width.Value == 255))
+            {
                 ClosePane_Click(null, null);
             }
             else
@@ -309,28 +325,30 @@ namespace Fairmark
             if (tab != null && tab.Tag is NoteMetadata data)
             {
                 NoteList.SelectedItem = data;
-                contentFrame.Navigate(typeof(FileEditorPage), data);
+                _ = contentFrame.Navigate(typeof(FileEditorPage), data);
             }
             else
             {
                 NoteList.SelectedItem = null;
-                contentFrame.Navigate(typeof(EmptyTabPage));
+                _ = contentFrame.Navigate(typeof(EmptyTabPage));
             }
         }
 
         private void TabView_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
-            var closingTab = args.Tab as Microsoft.UI.Xaml.Controls.TabViewItem;
+            var closingTab = args.Tab;
             if (closingTab != null)
             {
-                openTabs.Remove(closingTab);
-                try {
-                    TabView.TabItems.Remove(closingTab);
+                _ = openTabs.Remove(closingTab);
+                try
+                {
+                    _ = TabView.TabItems.Remove(closingTab);
                 }
                 catch { }
                 if (TabView.TabItems.Count > 0)
                 {
-                    try { 
+                    try
+                    {
                         TabView.SelectedItem = TabView.TabItems[TabView.TabItems.Count - 1];
                     }
                     catch { }
@@ -338,7 +356,7 @@ namespace Fairmark
                 else
                 {
                     NoteList.SelectedItem = null;
-                    contentFrame.Navigate(typeof(EmptyTabPage));
+                    _ = contentFrame.Navigate(typeof(EmptyTabPage));
                 }
             }
         }
@@ -346,7 +364,7 @@ namespace Fairmark
         private void contentFrame_Loaded(object sender, RoutedEventArgs e)
         {
             Explorer_Click(null, null);
-            if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
+            if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) _ = contentFrame.Navigate(typeof(EmptyTabPage));
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -412,8 +430,6 @@ namespace Fairmark
             grid.Children.Add(emojiButton);
             grid.Children.Add(box);
             mainFlyout.Content = grid;
-               
-            // Emoji flyout setup
             Flyout flyout = new Flyout();
             StackPanel emojiPanel = new StackPanel() { Orientation = Orientation.Vertical };
             var gridView = new GridView();
@@ -470,7 +486,7 @@ namespace Fairmark
                         NoteCollectionHelper.notes.Add(meta);
                         await NoteCollectionHelper.SaveNotes();
                         NoteList.SelectedItem = meta;
-                        contentFrame.Navigate(typeof(FileEditorPage), meta);
+                        _ = contentFrame.Navigate(typeof(FileEditorPage), meta);
                         mainFlyout.Hide();
                     }
                     else
@@ -485,7 +501,6 @@ namespace Fairmark
             else
                 mainFlyout.ShowAt(this);
         }
-
 
         private void RenameButton_Click(object sender, RoutedEventArgs e)
         {
@@ -522,7 +537,8 @@ namespace Fairmark
                     }
                 };
                 renameFlyout.ShowAt(sender as FrameworkElement);
-            };
+            }
+            ;
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -541,16 +557,16 @@ namespace Fairmark
                 deleteDialog.PrimaryButtonClick += async (s, args) =>
                 {
                     App.LogHelper.WriteLog($"Deleting note {selectedNote.Id} with name '{selectedNote.Name}'");
-                    NoteCollectionHelper.notes.Remove(selectedNote);
+                    _ = NoteCollectionHelper.notes.Remove(selectedNote);
                     await NoteCollectionHelper.SaveNotes();
-                    if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) contentFrame.Navigate(typeof(EmptyTabPage));
+                    if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) _ = contentFrame.Navigate(typeof(EmptyTabPage));
                     if (TabView.TabItems.Count > 0)
                     {
                         var tab = TabView.TabItems.FirstOrDefault(t => t is Microsoft.UI.Xaml.Controls.TabViewItem item && item.Tag is NoteMetadata n && n.Id == selectedNote.Id);
                         if (tab != null)
                         {
-                            TabView.TabItems.Remove(tab);
-                            openTabs.Remove(tab as Microsoft.UI.Xaml.Controls.TabViewItem);
+                            _ = TabView.TabItems.Remove(tab);
+                            _ = openTabs.Remove(tab as Microsoft.UI.Xaml.Controls.TabViewItem);
                         }
                     }
                     if (NoteCollectionHelper.notes.Count == 0)
@@ -562,7 +578,7 @@ namespace Fairmark
                         NoNoteText.Visibility = Visibility.Collapsed;
                     }
                 };
-                await deleteDialog.ShowAsync();
+                _ = await deleteDialog.ShowAsync();
             }
         }
 
@@ -599,7 +615,6 @@ namespace Fairmark
             };
             Grid.SetColumn(emojiButton, 1);
 
-            // Emoji
             Flyout flyout = new Flyout();
             StackPanel emojiPanel = new StackPanel() { Orientation = Orientation.Vertical };
             var gridView = new GridView();
@@ -630,7 +645,6 @@ namespace Fairmark
             emojiPanel.Children.Add(gridView);
             flyout.Content = emojiPanel;
             emojiButton.Flyout = flyout;
-            // end Emoji
 
             Button tagButton = new Button()
             {
@@ -702,32 +716,38 @@ namespace Fairmark
             mainflyout.ShowAt(sender as FrameworkElement);
         }
 
-        private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e) {
+        private void MenuFlyoutSubItem_Loaded(object sender, RoutedEventArgs e)
+        {
             MenuFlyoutSubItem item = sender as MenuFlyoutSubItem;
             item.Items.Clear();
-            foreach (NoteTag tag in NoteCollectionHelper.tags) {
-                MenuFlyoutItem mfi = new MenuFlyoutItem() {
+            foreach (NoteTag tag in NoteCollectionHelper.tags)
+            {
+                MenuFlyoutItem mfi = new MenuFlyoutItem()
+                {
                     Text = tag.Emoji + " " + tag.Name,
-                    Background = (new ColorGradientConverter()).Convert(tag.Color, null, null, null) as LinearGradientBrush,
+                    Background = new ColorGradientConverter().Convert(tag.Color, null, null, null) as LinearGradientBrush,
                     Tag = tag.GUID
                 };
-                mfi.Click += async (s, a) => {
-                    if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note) {
-                        // Find the tag object from the global tag list by GUID
+                mfi.Click += async (s, a) =>
+                {
+                    if (NoteList.SelectedItem != null && NoteList.SelectedItem is NoteMetadata note)
+                    {
                         var selectedTagGuid = (s as MenuFlyoutItem).Tag as string;
                         var globalTag = NoteCollectionHelper.tags.FirstOrDefault(t => t.GUID == selectedTagGuid);
                         if (globalTag == null)
                             return;
 
                         var noteTag = note.Tags.FirstOrDefault(t => t.GUID == selectedTagGuid);
-                        if (noteTag == null) {
+                        if (noteTag == null)
+                        {
                             App.LogHelper.WriteLog($"Adding tag '{globalTag.Name}' to note '{note.Name}'");
                             note.Tags.Add(globalTag);
                             await NoteCollectionHelper.SaveNotes();
                         }
-                        else {
+                        else
+                        {
                             App.LogHelper.WriteLog($"Removing tag '{globalTag.Name}' from note '{note.Name}'");
-                            note.Tags.Remove(noteTag);
+                            _ = note.Tags.Remove(noteTag);
                             await NoteCollectionHelper.SaveNotes();
                         }
                     }
@@ -782,7 +802,6 @@ namespace Fairmark
                 var tab = openTabs.FirstOrDefault(t => t.Tag is NoteMetadata n && n.Id == selectedNote.Id);
                 if (tab == null)
                 {
-                    // Create header with bindings
                     var header = new StackPanel
                     {
                         Orientation = Orientation.Horizontal,
@@ -827,11 +846,11 @@ namespace Fairmark
                     TabView.TabItems.Add(tab);
                 }
                 TabView.SelectedItem = tab;
-                contentFrame.Navigate(typeof(FileEditorPage), selectedNote);
+                _ = contentFrame.Navigate(typeof(FileEditorPage), selectedNote);
             }
             else
             {
-                contentFrame.Navigate(typeof(EmptyTabPage));
+                _ = contentFrame.Navigate(typeof(EmptyTabPage));
                 TabView.SelectedItem = null;
             }
         }
@@ -867,55 +886,61 @@ namespace Fairmark
             NoteList.ItemsSource = NoteCollectionHelper.notes;
         }
 
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) {
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
             List<NoteMetadata> filteredNotes = new List<NoteMetadata>();
-            if (!string.IsNullOrEmpty(args.QueryText)) {
+            if (!string.IsNullOrEmpty(args.QueryText))
+            {
                 SearchResults.ItemsSource = NoteCollectionHelper.notes.Where(n => n.Name.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            } else {
+            }
+            else
+            {
                 SearchResults.ItemsSource = null;
             }
         }
 
-        private void SearchResult_Click(object sender, RoutedEventArgs e) {
+        private void SearchResult_Click(object sender, RoutedEventArgs e)
+        {
             ClearTags_Click(null, null);
             NoteList.SelectedItem = (sender as Button).Tag as NoteMetadata;
-            contentFrame.Navigate(typeof(FileEditorPage), NoteList.SelectedItem);
+            _ = contentFrame.Navigate(typeof(FileEditorPage), NoteList.SelectedItem);
             Explorer_Click(null, null);
             SearchBox.Text = string.Empty;
             SearchResults.ItemsSource = null;
         }
 
-        private void Settings_Loaded(object sender, RoutedEventArgs e) {
-            //Settings.KeyboardAccelerators.Add(new KeyboardAccelerator
-            //{
-            //    Key = (VirtualKey)188,
-            //    Modifiers = VirtualKeyModifiers.Control,
-            //    IsEnabled = true
-            //});
+        private void Settings_Loaded(object sender, RoutedEventArgs e)
+        {
+            // TODO: KeyboardAccelerators
         }
 
-        private void About_Loaded(object sender, RoutedEventArgs e) {
+        private void About_Loaded(object sender, RoutedEventArgs e)
+        {
 
         }
 
-        private void Contact_Loaded(object sender, RoutedEventArgs e) {
+        private void Contact_Loaded(object sender, RoutedEventArgs e)
+        {
 
         }
 
-        private async void About_Click(object sender, RoutedEventArgs e) {
+        private async void About_Click(object sender, RoutedEventArgs e)
+        {
             AppWindow window = await AppWindow.TryCreateAsync();
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
-            f.Navigate(typeof(AboutPage));
+            _ = f.Navigate(typeof(AboutPage));
             window.Title = "About Fairmark";
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             var settings = Application.Current.Resources["Settings"] as Settings;
-            if (settings != null) {
+            if (settings != null)
+            {
                 ElementTheme initialTheme = ElementTheme.Default;
-                switch (settings.Theme) {
+                switch (settings.Theme)
+                {
                     case "Light":
                         initialTheme = ElementTheme.Light;
                         break;
@@ -927,61 +952,73 @@ namespace Fairmark
                         break;
                 }
                 f.RequestedTheme = initialTheme;
-                if (initialTheme == ElementTheme.Default) {
+                if (initialTheme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (initialTheme == ElementTheme.Dark) {
+                else if (initialTheme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (initialTheme == ElementTheme.Light) {
+                else if (initialTheme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
-            // Add theme event handler for AppWindow
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
             {
                 f.RequestedTheme = args.Theme;
-                if (args.Theme == ElementTheme.Default) {
+                if (args.Theme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (args.Theme == ElementTheme.Dark) {
+                else if (args.Theme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (args.Theme == ElementTheme.Light) {
+                else if (args.Theme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
-            await window.TryShowAsync();
-            TopMore.Flyout.Opening += (s, a) => {
-                if (window != null) {
+            _ = await window.TryShowAsync();
+            TopMore.Flyout.Opening += (s, a) =>
+            {
+                if (window != null)
+                {
                     About.IsEnabled = false;
                 }
-                else {
+                else
+                {
                     About.IsEnabled = true;
                 }
             };
-            window.Closed += (s, a) => {
+            window.Closed += (s, a) =>
+            {
                 window = null;
                 About.IsEnabled = true;
             };
         }
 
-        private async void Contact_Click(object sender, RoutedEventArgs e) {
+        private async void Contact_Click(object sender, RoutedEventArgs e)
+        {
             AppWindow window = await AppWindow.TryCreateAsync();
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
-            f.Navigate(typeof(ContactPage));
+            _ = f.Navigate(typeof(ContactPage));
             window.Title = "Contact me";
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
             var settings = Application.Current.Resources["Settings"] as Settings;
-            if (settings != null) {
+            if (settings != null)
+            {
                 ElementTheme initialTheme = ElementTheme.Default;
-                switch (settings.Theme) {
+                switch (settings.Theme)
+                {
                     case "Light":
                         initialTheme = ElementTheme.Light;
                         break;
@@ -993,103 +1030,125 @@ namespace Fairmark
                         break;
                 }
                 f.RequestedTheme = initialTheme;
-                if (initialTheme == ElementTheme.Default) {
+                if (initialTheme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (initialTheme == ElementTheme.Dark) {
+                else if (initialTheme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (initialTheme == ElementTheme.Light) {
+                else if (initialTheme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
-            // Add theme event handler for AppWindow
-            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) => {
+            (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
+            {
                 f.RequestedTheme = args.Theme;
-                if (args.Theme == ElementTheme.Default) {
+                if (args.Theme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (args.Theme == ElementTheme.Dark) {
+                else if (args.Theme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (args.Theme == ElementTheme.Light) {
+                else if (args.Theme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
-            await window.TryShowAsync();
-            TopMore.Flyout.Opening += (s, a) => {
-                if (window != null) {
+            _ = await window.TryShowAsync();
+            TopMore.Flyout.Opening += (s, a) =>
+            {
+                if (window != null)
+                {
                     Contact.IsEnabled = false;
                 }
-                else {
+                else
+                {
                     Contact.IsEnabled = true;
                 }
             };
-            window.Closed += (s, a) => {
+            window.Closed += (s, a) =>
+            {
                 window = null;
                 Contact.IsEnabled = true;
             };
         }
 
-        private async void Settings_Click(object sender, RoutedEventArgs e) {
+        private async void Settings_Click(object sender, RoutedEventArgs e)
+        {
             AppWindow window = await AppWindow.TryCreateAsync();
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
-            f.Navigate(typeof(SettingsPage));
+            _ = f.Navigate(typeof(SettingsPage));
             window.Title = "Settings";
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             var settings = Application.Current.Resources["Settings"] as Settings;
-            if (settings != null) {
+            if (settings != null)
+            {
                 ElementTheme initialTheme = ElementTheme.Default;
-                switch (settings.Theme) {
+                switch (settings.Theme)
+                {
                     case "Light": initialTheme = ElementTheme.Light; break;
                     case "Dark": initialTheme = ElementTheme.Dark; break;
                     default: initialTheme = ElementTheme.Default; break;
                 }
                 f.RequestedTheme = initialTheme;
-                if (initialTheme == ElementTheme.Default) {
+                if (initialTheme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (initialTheme == ElementTheme.Dark) {
+                else if (initialTheme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (initialTheme == ElementTheme.Light) {
+                else if (initialTheme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             }
 
             ElementCompositionPreview.SetAppWindowContent(window, f);
-            // Add theme event handler for AppWindow
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
             {
                 f.RequestedTheme = args.Theme;
-                if (args.Theme == ElementTheme.Default) {
+                if (args.Theme == ElementTheme.Default)
+                {
                     window.TitleBar.ButtonForegroundColor = null;
                 }
-                else if (args.Theme == ElementTheme.Dark) {
+                else if (args.Theme == ElementTheme.Dark)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.White;
                 }
-                else if (args.Theme == ElementTheme.Light) {
+                else if (args.Theme == ElementTheme.Light)
+                {
                     window.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
 
-            await window.TryShowAsync();
-            TopMore.Flyout.Opening += (s, a) => {
+            _ = await window.TryShowAsync();
+            TopMore.Flyout.Opening += (s, a) =>
+            {
                 Settings.IsEnabled = window != null ? false : true;
             };
-            window.Closed += (s, a) => {
+            window.Closed += (s, a) =>
+            {
                 window = null;
                 Settings.IsEnabled = true;
             };
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e) {
-            if (ApplicationView.GetForCurrentView().IsFullScreenMode) {
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ApplicationView.GetForCurrentView().IsFullScreenMode)
+            {
                 ClosePane_Click(null, null);
                 AppTitleBar.ColumnDefinitions[0].Width = new GridLength(0);
                 MainCommands.Margin = new Thickness(-5, 0, -10, 0);
@@ -1100,34 +1159,50 @@ namespace Fairmark
                 MainCommands.Margin = new Thickness(5, 0, -10, 0);
                 AppTitleBar.ColumnDefinitions[0].Width = GridLength.Auto;
                 this.Background = new SolidColorBrush(Colors.Transparent);
+
+                if (e.NewSize.Width < 600)
+                {
+                    if (MainGrid.ColumnDefinitions[0].Width.Value != 0) { ClosePane_Click(null, null); }
+                    ;
+                    TabView.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    TabView.Visibility = Visibility.Visible;
+                }
             }
         }
 
-        private void TagBox_TextChanged(ComboBox sender, SelectionChangedEventArgs args) {
-            if (!string.IsNullOrWhiteSpace(sender.Text)) {
+        private void TagBox_TextChanged(ComboBox sender, SelectionChangedEventArgs args)
+        {
+            if (!string.IsNullOrWhiteSpace(sender.Text))
+            {
 
                 TagBox.ItemsSource = NoteCollectionHelper.tags
                     .Where(t => t.Name.Contains(sender.Text, StringComparison.InvariantCultureIgnoreCase))
                     .Where(t => !((sender.SelectedItem as NoteTag).GUID == t.GUID));
             }
-            else {
+            else
+            {
                 TagBox.ItemsSource = NoteCollectionHelper.tags
                     .Where(t => !((sender.SelectedItem as NoteTag).GUID == t.GUID));
             }
         }
 
-        private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args) {
+        private void TagBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
             sender.Text = string.Empty;
             TagBox.ItemsSource = NoteCollectionHelper.tags;
         }
 
         public ApplicationView currentView => ApplicationView.GetForCurrentView();
 
-        private void Zen_Click(object sender, RoutedEventArgs e) {
+        private void Zen_Click(object sender, RoutedEventArgs e)
+        {
             if (currentView.IsFullScreenMode)
                 currentView.ExitFullScreenMode();
             else
-                currentView.TryEnterFullScreenMode();
+                _ = currentView.TryEnterFullScreenMode();
         }
     }
 }

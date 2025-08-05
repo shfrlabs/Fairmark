@@ -8,9 +8,9 @@
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
-    xmlns:intelligence="using:Fairmark.Intelligence"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.Text"
     mc:Ignorable="d">
+    <!-- xmlns:intelligence="using:Fairmark.Intelligence" -->
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
             <toolkit:SettingsCard IsEnabled="False" Header="Fairmark AI" Description="Allow local AI models to process your notes. No data ever leaves your device.">

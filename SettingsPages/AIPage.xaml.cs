@@ -4,11 +4,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
-namespace Fairmark.SettingsPages {
-    public sealed partial class AIPage : Page {
-        public AIPage() {
+namespace Fairmark.SettingsPages
+{
+    public sealed partial class AIPage : Page
+    {
+        public AIPage()
+        {
             this.InitializeComponent();
-            // Add theme event handler for AIPage
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
             {
                 if (Window.Current.Content is Frame frame)
@@ -19,7 +21,8 @@ namespace Fairmark.SettingsPages {
         }
         //public ModelHelper _modelHelper = new ModelHelper();
 
-        private void DownloadModel_Loaded(object sender, RoutedEventArgs e) {
+        private void DownloadModel_Loaded(object sender, RoutedEventArgs e)
+        {
             //bool isDownloaded = false;
             //try {
             //    string model = (sender as Button).Tag.ToString();
@@ -35,7 +38,8 @@ namespace Fairmark.SettingsPages {
             //}
         }
 
-        private async void DownloadModel_Click(object sender, RoutedEventArgs e) {
+        private async void DownloadModel_Click(object sender, RoutedEventArgs e)
+        {
             //bool isDownloaded = false;
             //string model = string.Empty;
             //(sender as Button).IsEnabled = false;

@@ -7,35 +7,44 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
-using static System.Net.WebRequestMethods;
 
-namespace Fairmark.Helpers {
-    public static class NoteFileHandlingHelper {
-        public static async Task<bool> NoteExists(string noteId) {
+namespace Fairmark.Helpers
+{
+    public static class NoteFileHandlingHelper
+    {
+        public static async Task<bool> NoteExists(string noteId)
+        {
             return (await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".md")) != null;
         }
 
-        public static async Task<string> ReadNoteFileAsync(string noteId) {
+        public static async Task<string> ReadNoteFileAsync(string noteId)
+        {
             var file = await ApplicationData.Current.LocalFolder.TryGetItemAsync(noteId + ".md") as StorageFile;
-            if (file != null) {
+            if (file != null)
+            {
                 return await FileIO.ReadTextAsync(file);
             }
             return null;
         }
 
-        public static async Task WriteNoteFileAsync(string noteId, string content) {
+        public static async Task WriteNoteFileAsync(string noteId, string content)
+        {
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(noteId + ".md", CreationCollisionOption.OpenIfExists);
-            try {
-                await RunWithLockAsync(noteId, async () => {
+            try
+            {
+                await RunWithLockAsync(noteId, async () =>
+                {
                     await FileIO.WriteTextAsync(file, content);
                 });
             }
-            catch (System.IO.IOException) {
+            catch (System.IO.IOException)
+            {
                 return;
             }
         }
 
-        public static async Task<StorageFile> GetVaultBackupFileAsync() {
+        public static async Task<StorageFile> GetVaultBackupFileAsync()
+        {
             var localFolder = ApplicationData.Current.LocalFolder;
 
             var tempFolder = ApplicationData.Current.TemporaryFolder;
@@ -44,15 +53,18 @@ namespace Fairmark.Helpers {
             using (var zipStream = await zipFile.OpenAsync(FileAccessMode.ReadWrite))
             using (var outStream = zipStream.GetOutputStreamAt(0))
             using (var archiveStream = outStream.AsStreamForWrite())
-            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: false)) {
+            using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, leaveOpen: false))
+            {
                 var items = await localFolder.GetItemsAsync();
                 var itemsList = items.ToList();
-                itemsList.RemoveAll(i => i.Name == "Fairmark.log");
+                _ = itemsList.RemoveAll(i => i.Name == "Fairmark.log");
                 var files = itemsList.OfType<StorageFile>();
-                foreach (var file in files) {
+                foreach (var file in files)
+                {
                     var entry = archive.CreateEntry(file.Name, CompressionLevel.Optimal);
                     using (var entryStream = entry.Open())
-                    using (var fileStream = await file.OpenStreamForReadAsync()) {
+                    using (var fileStream = await file.OpenStreamForReadAsync())
+                    {
                         await fileStream.CopyToAsync(entryStream);
                     }
                 }
@@ -61,9 +73,11 @@ namespace Fairmark.Helpers {
             return zipFile;
         }
 
-        public static async Task<bool> RestoreNotes(StorageFile backup) {
+        public static async Task<bool> RestoreNotes(StorageFile backup)
+        {
             if (!backup.FileType.Contains("fmbkp", StringComparison.OrdinalIgnoreCase)
-                || !backup.IsAvailable) {
+                || !backup.IsAvailable)
+            {
                 return false;
             }
             var tempFolder = await ApplicationData.Current.TemporaryFolder
@@ -71,9 +85,12 @@ namespace Fairmark.Helpers {
 
             using (var zipStreamRef = await backup.OpenAsync(FileAccessMode.Read))
             using (var zipStream = zipStreamRef.AsStreamForRead())
-            using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Read)) {
-                foreach (var entry in archive.Entries) {
-                    if (string.IsNullOrEmpty(entry.Name)) {
+            using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Read))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    if (string.IsNullOrEmpty(entry.Name))
+                    {
                         continue;
                     }
 
@@ -82,64 +99,63 @@ namespace Fairmark.Helpers {
                         CreationCollisionOption.ReplaceExisting);
 
                     using (var entryStream = entry.Open())
-                    using (var fileStream = await dest.OpenStreamForWriteAsync()) {
+                    using (var fileStream = await dest.OpenStreamForWriteAsync())
+                    {
                         await entryStream.CopyToAsync(fileStream);
                     }
                 }
             }
 
-            try {
+            try
+            {
                 var jsonFile = await tempFolder.GetFileAsync("notes.json");
                 var jsonText = await FileIO.ReadTextAsync(jsonFile);
 
                 var noteList = JsonSerializer.Deserialize<List<NoteMetadata>>(jsonText);
-                if (noteList == null) {
+                if (noteList == null)
+                {
                     return false;
                 }
 
                 var notesFolder = ApplicationData.Current.LocalFolder;
 
-                // 5. Reassign IDs, rename .md files, copy into local notes folder
-                foreach (var meta in noteList) {
+                foreach (var meta in noteList)
+                {
                     meta.Tags.Clear();
 
                     var oldId = meta.Id;
                     meta.Id = Guid.NewGuid().ToString();
 
-                    // find the .md file in temp
                     StorageFile extractedMd;
-                    try {
+                    try
+                    {
                         extractedMd = await tempFolder.GetFileAsync($"{oldId}.md");
                     }
-                    catch (Exception) {
-                        // missing markdown file → skip
+                    catch (Exception)
+                    {
                         continue;
                     }
 
-                    // rename inside temp folder
                     await extractedMd.RenameAsync($"{meta.Id}.md", NameCollisionOption.ReplaceExisting);
 
-                    // copy into your persistent notes folder
-                    await extractedMd.CopyAsync(
+                    _ = await extractedMd.CopyAsync(
                         notesFolder,
                         $"{meta.Id}.md",
                         NameCollisionOption.ReplaceExisting);
 
-                    // now that the file lives in LocalFolder\notes, add metadata
-                    if (await NoteFileHandlingHelper.NoteExists(meta.Id)) {
+                    if (await NoteFileHandlingHelper.NoteExists(meta.Id))
+                    {
                         NoteCollectionHelper.notes.Add(meta);
                     }
                 }
-
-                // 6. Persist the updated metadata list
                 await NoteCollectionHelper.SaveNotes();
                 return true;
             }
-            catch {
-                // any parse/copy error → abort
+            catch
+            {
                 return false;
             }
-        
+
         }
 
 
@@ -147,14 +163,17 @@ namespace Fairmark.Helpers {
         private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, System.Threading.SemaphoreSlim> _locks =
             new System.Collections.Concurrent.ConcurrentDictionary<string, System.Threading.SemaphoreSlim>();
 
-        internal static async Task RunWithLockAsync(string noteId, Func<Task> action) {
+        internal static async Task RunWithLockAsync(string noteId, Func<Task> action)
+        {
             var semaphore = _locks.GetOrAdd(noteId, _ => new System.Threading.SemaphoreSlim(1, 1));
             await semaphore.WaitAsync();
-            try {
+            try
+            {
                 await action();
             }
-            finally {
-                semaphore.Release();
+            finally
+            {
+                _ = semaphore.Release();
             }
         }
     }

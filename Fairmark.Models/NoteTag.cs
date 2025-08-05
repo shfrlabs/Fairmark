@@ -50,10 +50,13 @@ namespace Fairmark.Models
             }
         }
 
-        public string GUID {
+        public string GUID
+        {
             get => _guid;
-            set {
-                if (_guid != value) {
+            set
+            {
+                if (_guid != value)
+                {
                     _guid = value;
                     OnPropertyChanged();
                 }

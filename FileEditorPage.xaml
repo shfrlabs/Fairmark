@@ -40,7 +40,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0"/> <!-- toolbar temporairly disabled -->
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <Grid
             Background="{ThemeResource NotePreviewBackground}"
@@ -82,44 +82,62 @@
            Margin="0,0,-4.2,0"
            VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" Grid.Row="1" Grid.ColumnSpan="2" Height="70" HorizontalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal">
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Zen" Width="50" Click="AppBarToggleButton_Click" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
-                    <FontIcon Glyph="&#xE708;" />
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Bold" Width="50" Icon="Bold" IsEnabled="{x:Bind MarkEditor.HasSelection, Mode=OneWay}" IsChecked="{x:Bind MarkEditor.IsSelectionBold, Mode=TwoWay}"/>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Italic" Width="50" Icon="Italic" IsEnabled="{x:Bind MarkEditor.HasSelection, Mode=OneWay}" IsChecked="{x:Bind MarkEditor.IsSelectionItalic, Mode=TwoWay}"/>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Strikethrough" Width="50" IsEnabled="{x:Bind MarkEditor.HasSelection, Mode=OneWay}" IsChecked="{x:Bind MarkEditor.IsSelectionStrikethrough, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xEDE0;" />
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Code" Width="50" IsEnabled="{x:Bind MarkEditor.HasSelection, Mode=OneWay}" IsChecked="{x:Bind MarkEditor.IsSelectionCode, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xE943;" />
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Bulleted list" Width="50" IsChecked="{x:Bind MarkEditor.IsBulleted, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xE8FD;" />
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 1" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading1, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 2" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading2, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H2"/>
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-                <AppBarToggleButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 3" Width="50" IsChecked="{x:Bind MarkEditor.IsHeading3, Mode=TwoWay}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H3"/>
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-            </StackPanel>
-        </ScrollViewer>
+        <CommandBar Margin="-7,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" IsDynamicOverflowEnabled="True" HorizontalAlignment="Left" MinWidth="0">
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Bold" Width="50" Icon="Bold" Command="{x:Bind MarkEditor.BoldCommand}" />
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Italic" Width="50" Icon="Italic" Command="{x:Bind MarkEditor.ItalicCommand}" />
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Strikethrough" Width="50" Command="{x:Bind MarkEditor.StrikethroughCommand}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xEDE0;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Code" Width="50" Command="{x:Bind MarkEditor.CodeCommand}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE943;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Bulleted list" Width="50" Command="{x:Bind MarkEditor.BulletCommand}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE8FD;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Horizontal line" Width="50" Command="{x:Bind MarkEditor.HorizontalLineCommand}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE738;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <!--<AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Add link" Width="50">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE71B;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel Width="250" Margin="-10">
+                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" PlaceholderText="Link address" />
+                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" PlaceholderText="Displayed text" Margin="0,10,0,10"/>
+                            <Button Content="Insert link" Command="{x:Bind MarkEditor.AddLinkCommand}" HorizontalAlignment="Stretch">
+                                <Button.CommandParameter>
+                                    <models:Link Name="{x:Bind LinkText.Text}" Url="{x:Bind LinkUrl.Text}"/>
+                                </Button.CommandParameter>
+                            </Button>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>-->
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 1" Width="50" Command="{x:Bind MarkEditor.Heading1Command}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Heading 2" Width="50" Command="{x:Bind MarkEditor.Heading2Command}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H2"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Content="Heading 3" Label="Heading 3" Width="50" Command="{x:Bind MarkEditor.Heading3Command}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H3"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </Page>
