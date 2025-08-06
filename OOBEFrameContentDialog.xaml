@@ -34,8 +34,8 @@
         </Grid.RowDefinitions>
         <Frame x:Name="contentFrame" Loaded="contentFrame_Loaded" MinWidth="400" MinHeight="300"/>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Padding="0, 5" Height="60">
-            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="ContinueButton" Click="ContinueButton_Click">Continue</Button>
-            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="FinishButton" Click="FinishButton_Click">Finish</Button> 
+            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="ContinueButton" Click="ContinueButton_Click" x:Uid="ContinueButton"></Button>
+            <Button Style="{ThemeResource AccentButtonStyle}" VerticalAlignment="Bottom" Height="40" Padding="20,0" HorizontalAlignment="Right" x:Name="FinishButton" Click="FinishButton_Click" x:Uid="FinishButton"></Button> 
         </Grid>
      </Grid>
 </ContentDialog>

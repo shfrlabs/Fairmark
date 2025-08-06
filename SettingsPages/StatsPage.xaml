@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Padding="20">
-        <TextBlock Text="Your writing stats will show here once we gather data." Opacity="0.7"/>
+        <TextBlock Text="You shouldn't be here." Opacity="0.7"/>
     </Grid>
 </Page>

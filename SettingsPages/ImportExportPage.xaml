@@ -15,31 +15,19 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Import vault" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Import all notes from a previous vault. Tags are stripped. Use a *.fmbkp file here." Opacity="0.7"/>
-                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" Content="Import vault" Style="{ThemeResource AccentButtonStyle}" x:Name="ImportVault" Click="ImportVault_Click"/>
+                <TextBlock Grid.Row="0" x:Uid="ImportVaultHeader" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" x:Uid="ImportVaultDesc" Opacity="0.7"/>
+                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" x:Uid="ImportVaultButton" Style="{ThemeResource AccentButtonStyle}" x:Name="ImportVault" Click="ImportVault_Click"/>
             </Grid>
-            
             <Grid Margin="0,0,0,15">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Import notes" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Import separate notes. Tags will not be imported. If an imported note's name is not unique, it will have a suffix. Use an *.fmnote file here." Opacity="0.7"/>
-                <Button Margin="0,15,0,0" IsEnabled="False" Grid.Row="2" Content="Import notes" Style="{ThemeResource AccentButtonStyle}"/>
-            </Grid>
-            
-            <Grid Margin="0,0,0,15">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Export vault" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Export all notes and tags to to a *.fmbkp file here." Opacity="0.7"/>
-                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" Content="Export vault" Style="{ThemeResource AccentButtonStyle}" x:Name="ExportVault" Click="ExportVault_Click"/>
+                <TextBlock Grid.Row="0" x:Uid="ExportVaultHeader" FontWeight="SemiBold" FontSize="30" Margin="0,0,0,5"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" x:Uid="ExportVaultDesc" Opacity="0.7"/>
+                <Button Margin="0,15,0,0" IsEnabled="True" Grid.Row="2" x:Uid="ExportVaultButton" Style="{ThemeResource AccentButtonStyle}" x:Name="ExportVault" Click="ExportVault_Click"/>
             </Grid>
             
         </StackPanel>

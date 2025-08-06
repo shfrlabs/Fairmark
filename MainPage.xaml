@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="55"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <AppBarToggleButton LabelPosition="Collapsed" Label="Zen" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
+            <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode, Mode=OneWay}">
                 <FontIcon Glyph="&#xE708;" />
             </AppBarToggleButton>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
@@ -48,22 +48,22 @@
                 <TextBlock Text="Fairmark" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
             </StackPanel>
             <CommandBar x:Name="MainCommands" VerticalAlignment="Center" Grid.Column="1" Margin="5,0,-10,0" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Collapsed">
-                <AppBarToggleButton Label="Files" Width="50" x:Name="Explorer" Click="Explorer_Click">
+                <AppBarToggleButton x:Uid="FilesButton" Width="50" x:Name="Explorer" Click="Explorer_Click">
                     <AppBarToggleButton.Icon>
                         <FontIcon Glyph="&#xEC50;" />
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
-                <AppBarToggleButton Icon="Find" Label="Search" Width="50" x:Name="Search" Click="Search_Click"/>
-                <AppBarButton Width="48" Icon="More" Height="46" VerticalAlignment="Center" Margin="-1,0,0,0" x:Name="TopMore">
+                <AppBarToggleButton Icon="Find" Width="50" x:Name="Search" x:Uid="FindButton" Click="Search_Click"/>
+                <AppBarButton Width="48" Icon="More" Height="46" VerticalAlignment="Center" Margin="-1,0,0,0" x:Uid="MoreButton" x:Name="TopMore">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Settings" Icon="Setting" Click="Settings_Click" x:Name="Settings" Loaded="Settings_Loaded"/>
-                            <MenuFlyoutItem Text="About" x:Name="About" Click="About_Click" Loaded="About_Loaded">
+                            <MenuFlyoutItem Icon="Setting" Click="Settings_Click" x:Name="Settings" Loaded="Settings_Loaded" x:Uid="SettingsButton"/>
+                            <MenuFlyoutItem x:Name="About" Click="About_Click" x:Uid="AboutAppButton" Loaded="About_Loaded">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Contact me" Icon="ContactInfo" x:Name="Contact" Click="Contact_Click" Loaded="Contact_Loaded"/> <!--TODO-->
+                            <MenuFlyoutItem Icon="ContactInfo" x:Name="Contact"  Click="Contact_Click" x:Uid="ContactButton" Loaded="Contact_Loaded"/> 
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -96,14 +96,14 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <AppBarButton Icon="ClosePane" Label="Close" Click="ClosePane_Click" LabelPosition="Collapsed" Width="50"/>
+                <AppBarButton Icon="ClosePane" x:Uid="ClosePaneButton" Click="ClosePane_Click" LabelPosition="Collapsed" Width="50"/>
                 <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="235">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="NoNoteText" Visibility="Collapsed" Text="No notes here! Create one using the button below." Margin="20" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="NoNoteText" Visibility="Collapsed" x:Uid="NoNoteText" Margin="20" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                     <ListView x:Name="NoteList" ItemsSource="{x:Bind helpers:NoteCollectionHelper.notes, Mode=OneWay}" SelectionChanged="NoteList_SelectionChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteMetadata">
@@ -123,7 +123,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ComboBox Grid.Row="0" BorderThickness="0" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags}" x:Name="TagBox" MinWidth="100" PlaceholderText="Filter by tag" Margin="0,0,0,5" SelectionChanged="TagBox_SelectionChanged" HorizontalAlignment="Stretch">
+                        <ComboBox Grid.Row="0" BorderThickness="0" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags}" x:Name="TagBox" MinWidth="100" x:Uid="TagBox" Margin="0,0,0,5" SelectionChanged="TagBox_SelectionChanged" HorizontalAlignment="Stretch">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="models:NoteTag">
                                     <Grid Margin="-12, 0">
@@ -143,10 +143,10 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="ClearTags" Grid.Column="0" Click="ClearTags_Click" HorizontalAlignment="Stretch" Margin="0,0,5,0" VerticalAlignment="Stretch">
+                            <Button x:Name="ClearTags" x:Uid="ClearTags" Grid.Column="0" Click="ClearTags_Click" HorizontalAlignment="Stretch" Margin="0,0,5,0" VerticalAlignment="Stretch">
                                 <FontIcon FontSize="14" Glyph="&#xE711;" />
                             </Button>
-                            <Button x:Name="CreateTag" Grid.Column="1" AllowFocusOnInteraction="True" Click="CreateTag_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Button x:Name="CreateTag" x:Uid="CreateTag" Grid.Column="1" AllowFocusOnInteraction="True" Click="CreateTag_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <FontIcon FontSize="14" Glyph="&#xE710;" />
                             </Button>
                         </Grid>
@@ -158,18 +158,18 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <AppBarButton Icon="Add" Width="62" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click"/>
-                        <AppBarButton Icon="Rename" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" Click="RenameButton_Click"/>
-                        <AppBarButton Icon="Delete" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" Click="DeleteButton_Click"/>
-                        <AppBarButton Icon="More" Width="60" x:Name="MoreBtn" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed">
+                        <AppBarButton Icon="Add" Width="62" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click" x:Uid="CreateNoteButton"/>
+                        <AppBarButton Icon="Rename" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" x:Uid="RenameNoteButton" Click="RenameButton_Click"/>
+                        <AppBarButton Icon="Delete" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" x:Uid="DeleteNoteButton" Click="DeleteButton_Click"/>
+                        <AppBarButton Icon="More" Width="60" x:Name="MoreBtn" x:Uid="MoreButton" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed">
                             <AppBarButton.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Text="Change emoji" Loaded="MenuFlyoutItem_Loaded">
+                                    <MenuFlyoutItem x:Uid="ChangeEmojiBtn" Loaded="MenuFlyoutItem_Loaded">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE899;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutSubItem Text="Assign tags" Loaded="MenuFlyoutSubItem_Loaded">
+                                    <MenuFlyoutSubItem x:Uid="AssignTagsBtn" Loaded="MenuFlyoutSubItem_Loaded">
                                         <MenuFlyoutSubItem.Icon>
                                             <FontIcon Glyph="&#xE8EC;" />
                                         </MenuFlyoutSubItem.Icon>
@@ -183,7 +183,7 @@
                     <StackPanel>
                         <AutoSuggestBox
                             x:Name="SearchBox"
-                            PlaceholderText="Search notes..."
+                            x:Uid="SearchBox"
                             QueryIcon="Find"
                             Margin="2,0,2,0"
                             Height="40"

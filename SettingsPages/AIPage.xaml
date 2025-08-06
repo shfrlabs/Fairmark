@@ -12,7 +12,8 @@
     mc:Ignorable="d">
     <!-- xmlns:intelligence="using:Fairmark.Intelligence" -->
     <ScrollViewer Padding="20">
-        <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
+        <TextBlock Opacity="0.7">You shouldn't be here.</TextBlock>
+        <!--<StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
             <toolkit:SettingsCard IsEnabled="False" Header="Fairmark AI" Description="Allow local AI models to process your notes. No data ever leaves your device.">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xF4A5;" />
@@ -22,7 +23,7 @@
             <TextBlock Text="Select and download models" FontSize="13" FontWeight="SemiBold" Margin="2,10,0,7"/>
             <Grid HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4">
                 <ListView SelectionMode="None">
-                    <!--ItemsSource="{x:Bind intelligence:ModelHelper.AvailableModels}"-->
+                    --><!--ItemsSource="{x:Bind intelligence:ModelHelper.AvailableModels}"--><!--
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -37,6 +38,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-        </StackPanel>
+        </StackPanel>-->
     </ScrollViewer>
 </Page>

@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock Text="About" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
+                <TextBlock x:Uid="AboutWindow" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Margin="20">
@@ -38,22 +38,37 @@
                     </StackPanel>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                    Fairmark Intelligence is powered by your selected model, ran locally via LlamaSharp.<LineBreak/><Run FontWeight="SemiBold">Your notes never leave your device.</Run>
+                    <Run x:Uid="AboutIntelligence"/><LineBreak/><Run FontWeight="SemiBold" x:Uid="LocalNotes"/>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                    For more information, visit the project's <Hyperlink NavigateUri="https://fairmark.shef3r.dev/">website</Hyperlink>.
+                    <Run x:Uid="MoreInfo"></Run><Hyperlink NavigateUri="https://fairmark.shef3r.dev/"><Run x:Uid="Website"/></Hyperlink>.
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                    Special thanks to:<LineBreak/><LineBreak/>
-                    the <Run FontWeight="SemiBold">LlamaSharp team</Run> for their work on the LLM library,<LineBreak/>
-                    the <Run FontWeight="SemiBold">Win2D team</Run> for their graphics library,<LineBreak/>
-                    the <Run FontWeight="SemiBold">Community Toolkit contributors</Run> for GridSplitter and MarkdownTextBlock,<LineBreak/>
-                    <Run FontWeight="SemiBold">Unicode.net</Run> for their text processing library,<LineBreak/>
-                    and the communities on <Hyperlink NavigateUri="https://discord.gg/hNmWBHQbVz">shefer's labs</Hyperlink> and <Hyperlink NavigateUri="https://discord.gg/eBHZSKG">Windows App Community</Hyperlink> for their support and feedback.
+    <Run x:Uid="Thanks1"/>
+    <LineBreak/>
+    <LineBreak/>
+    <Run x:Uid="Thanks2"/>
+    <Run FontWeight="SemiBold" x:Uid="Thanks3"/>
+    <Run x:Uid="Thanks4"/>
+    <LineBreak/>
+    <Run x:Uid="Thanks5"/>
+    <Run FontWeight="SemiBold" x:Uid="Thanks6"/>
+    <Run x:Uid="Thanks7"/>
+    <LineBreak/>
+    <Run x:Uid="Thanks8"/>
+    <Run FontWeight="SemiBold" x:Uid="Thanks9"/>
+    <Run x:Uid="Thanks10"/>
+    <LineBreak/>
+    <Run FontWeight="SemiBold" x:Uid="Thanks11"/>
+    <Run x:Uid="Thanks12"/>
+    <LineBreak/>
+    <Run x:Uid="Thanks13"/>
+    <Hyperlink NavigateUri="https://discord.gg/hNmWBHQbVz"><Run x:Uid="Thanks14"/></Hyperlink>
+    <Run x:Uid="Thanks15"/>
+    <Hyperlink NavigateUri="https://discord.gg/eBHZSKG"><Run x:Uid="Thanks16"/></Hyperlink>
+    <Run x:Uid="Thanks17"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display">
-                    developed by shef3r in Poland.
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display" x:Uid="DevelopedBy"/>
             </StackPanel>
         </Grid>
     </Grid>

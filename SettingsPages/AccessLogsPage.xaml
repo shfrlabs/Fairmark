@@ -14,8 +14,7 @@
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
             <toolkit:SettingsCard
-                Header="Log app access"
-                Description="Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. You will be asked for an anonymized version of these when you report a bug."
+                x:Uid="LogCard"
                 HeaderIcon="List">
                 <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}"/>
             </toolkit:SettingsCard>
@@ -28,8 +27,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="CopyLogs" Click="CopyLogs_Click" Content="Copy personal logs"/>
-                <Button x:Name="CopyDebugLogs" Click="CopyDebugLogs_Click" Content="Copy debug logs" Grid.Column="2"/>
+                <Button x:Name="CopyLogs" x:Uid="CopyLogs" Click="CopyLogs_Click"/>
+                <Button x:Name="CopyDebugLogs" x:Uid="CopyDebugLogs" Click="CopyDebugLogs_Click" Grid.Column="2"/>
             </Grid>
         </StackPanel>
     </ScrollViewer>

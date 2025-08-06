@@ -12,46 +12,48 @@
     xmlns:win2d="using:Microsoft.Graphics.Canvas.Text">
     <Page.Resources>
         <converters:FontFamilyToNameConverter x:Name="FontFamilyToName" />
+        <converters:ThemeTranslationConverter x:Name="ThemeTranslationConverter" />
+        <converters:SingleThemeTranslationConverter x:Name="SingleThemeTranslationConverter" />
     </Page.Resources>
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
-            <toolkit:SettingsCard Header="App theme" Description="Select what theme the app applies.">
+            <toolkit:SettingsCard x:Uid="ThemeCard">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE790;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
-                ItemsSource="{Binding AvailableThemes}"
-                SelectedItem="{Binding Theme, Mode=TwoWay}"
-                PlaceholderText="Select theme" HorizontalAlignment="Right">
+                ItemsSource="{Binding AvailableThemes, Converter={StaticResource ThemeTranslationConverter}}"
+                SelectedItem="{Binding Theme, Mode=TwoWay, Converter={StaticResource SingleThemeTranslationConverter}}"
+                x:Name="ThemeSelector" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Editor font family" Description="Select what font is used by the note editor.">
+            <toolkit:SettingsCard x:Uid="EditorFontFamilyCard">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE8D2;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
                 ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
                 SelectedItem="{Binding EditorFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                PlaceholderText="Select font" HorizontalAlignment="Right">
+                x:Uid="FontSelector" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Editor font size" Description="Select the font size used by the note editor.">
+            <toolkit:SettingsCard x:Uid="EditorFontSizeCard">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE8E9;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <Slider StepFrequency="1" Minimum="10" Maximum="60" HorizontalAlignment="Right" Value="{Binding EditorFontSize, Mode=TwoWay}"/>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Preview font family" Description="Select what font is used by the Markdown note preview.">
+            <toolkit:SettingsCard x:Uid="PreviewFontFamily">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE8D2;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
                 ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
                 SelectedItem="{Binding PreviewFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                PlaceholderText="Select font" HorizontalAlignment="Right">
+                x:Uid="FontSelector" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Preview font size" Description="Select the font size used by the Markdown note preview.">
+            <toolkit:SettingsCard x:Uid="PreviewFontSize">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE8E9;" />
                 </toolkit:SettingsCard.HeaderIcon>

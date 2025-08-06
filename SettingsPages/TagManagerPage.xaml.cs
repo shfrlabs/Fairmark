@@ -2,6 +2,7 @@
 using Fairmark.Models;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -9,6 +10,7 @@ namespace Fairmark.SettingsPages
 {
     public sealed partial class TagManagerPage : Page
     {
+        public ResourceLoader loader = ResourceLoader.GetForCurrentView();
         public TagManagerPage()
         {
             this.InitializeComponent();
@@ -64,7 +66,7 @@ namespace Fairmark.SettingsPages
                     }
                     else
                     {
-                        box.PlaceholderText = "Enter a name.";
+                        box.PlaceholderText = loader.GetString("AddNoteEmptyText");
                     }
                 }
             };
@@ -129,7 +131,7 @@ namespace Fairmark.SettingsPages
             };
             AutoSuggestBox searchBox = new AutoSuggestBox
             {
-                PlaceholderText = "Search for an emoji...",
+                PlaceholderText = loader.GetString("EmojiSearchPlaceholder"),
                 Margin = new Thickness(0, 0, 0, 10),
                 Width = 240,
                 MaxWidth = 240,

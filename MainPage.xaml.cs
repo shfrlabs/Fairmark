@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.UI;
@@ -25,6 +26,7 @@ namespace Fairmark
 {
     public sealed partial class MainPage : Page
     {
+        public ResourceLoader loader = ResourceLoader.GetForCurrentView();
         public MainPage()
         {
             this.InitializeComponent();
@@ -92,15 +94,15 @@ namespace Fairmark
             {
                 if (UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result == UserConsentVerifierAvailability.Available)
                 {
-                    _ = UserConsentVerifier.RequestVerificationAsync("Fairmark needs your permission to continue. You can turn this off in Settings.").AsTask();
+                    _ = UserConsentVerifier.RequestVerificationAsync(loader.GetString("AuthTitle")).AsTask();
                 }
                 else
                 {
                     ContentDialog dialog = new ContentDialog();
-                    dialog.Title = "Authentication was turned off due to a problem with Windows Hello.";
-                    dialog.Content = "Make sure you didn't turn off your PIN/password/biometrics in Windows Settings.";
+                    dialog.Title = loader.GetString("AuthOffDialogTitle");
+                    dialog.Content = loader.GetString("AuthOffDialogDesc");
                     s.AuthenticationEnabled = false;
-                    dialog.PrimaryButtonText = "OK";
+                    dialog.PrimaryButtonText = loader.GetString("OK");
                     _ = dialog.ShowAsync().AsTask();
                 }
             }
@@ -147,17 +149,16 @@ namespace Fairmark
             };
             _ = await dialog.ShowAsync();
         }
-
         public TeachingTip addnotetip = new TeachingTip()
         {
-            Title = "Create your first note.",
-            Subtitle = "Use this button to create a note and confirm with the Enter key.",
+            Title = ResourceLoader.GetForCurrentView().GetString("AddNoteTipTitle"),
+            Subtitle = ResourceLoader.GetForCurrentView().GetString("AddNoteTipSubtitle"),
             IsOpen = false
         };
         public TeachingTip addtagtip = new TeachingTip()
         {
-            Title = "Create your first tag.",
-            Subtitle = "Use this button to create a tag. You can use tags to organize and filter notes.",
+            Title = ResourceLoader.GetForCurrentView().GetString("AddTagTipTitle"),
+            Subtitle = ResourceLoader.GetForCurrentView().GetString("AddTagTipSubtitle"),
             IsOpen = false
         };
         private void FirstRunTips()
@@ -194,17 +195,17 @@ namespace Fairmark
 
         private void FirstNoteDialog(object sender, SelectionChangedEventArgs e)
         {
-            TeachingTip scrolltip = new TeachingTip()
-            {
-                Title = "Use the editor to scroll across your note.",
-                Subtitle = "The preview will scroll automatically.",
-                PreferredPlacement = TeachingTipPlacementMode.BottomRight,
-                IsOpen = false
-            };
-            MainGrid.Children.Add(scrolltip);
-            NoteList.SelectionChanged -= FirstNoteDialog;
-            addtagtip.IsOpen = false;
-            scrolltip.IsOpen = true;
+            //TeachingTip scrolltip = new TeachingTip()
+            //{
+            //    Title = "Use the editor to scroll across your note.",
+            //    Subtitle = "The preview will scroll automatically.",
+            //    PreferredPlacement = TeachingTipPlacementMode.BottomRight,
+            //    IsOpen = false
+            //};
+            //MainGrid.Children.Add(scrolltip);
+            //NoteList.SelectionChanged -= FirstNoteDialog;
+            //addtagtip.IsOpen = false;
+            //scrolltip.IsOpen = true;
         }
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
@@ -395,7 +396,7 @@ namespace Fairmark
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 MaxWidth = 300,
                 BorderThickness = new Thickness(0),
-                PlaceholderText = "Name your note",
+                PlaceholderText = loader.GetString("AddNotePlaceholder"),
                 Padding = new Thickness(9, 9, 4, 4),
                 FontSize = 13,
                 CornerRadius = new CornerRadius(4),
@@ -442,7 +443,7 @@ namespace Fairmark
                 emojiButton.Content = gridView.SelectedItem;
                 flyout.Hide();
             };
-            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = "Search for an emoji...", Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
+            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = loader.GetString("EmojiSearchPlaceholder"), Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
             searchBox.TextChanged += (s, args) =>
             {
                 if (string.IsNullOrWhiteSpace(searchBox.Text))
@@ -491,7 +492,7 @@ namespace Fairmark
                     }
                     else
                     {
-                        box.PlaceholderText = "Enter a name.";
+                        box.PlaceholderText = loader.GetString("AddNoteEmptyText");
                     }
                 }
             };
@@ -515,7 +516,7 @@ namespace Fairmark
                     Width = 200,
                     FontSize = 13,
                     VerticalContentAlignment = VerticalAlignment.Bottom,
-                    PlaceholderText = "Enter new name",
+                    PlaceholderText = loader.GetString("RenameNotePlaceholder"),
                     Margin = new Thickness(-10)
                 };
                 renameFlyout.Content = renameBox;
@@ -532,7 +533,7 @@ namespace Fairmark
                         }
                         else
                         {
-                            renameBox.PlaceholderText = "Enter a name.";
+                            renameBox.PlaceholderText = loader.GetString("AddNoteEmptyText");
                         }
                     }
                 };
@@ -548,10 +549,10 @@ namespace Fairmark
                 NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
                 ContentDialog deleteDialog = new ContentDialog
                 {
-                    Title = "Delete note",
-                    Content = $"Are you sure you want to delete '{selectedNote.Name}'?",
-                    PrimaryButtonText = "Delete",
-                    SecondaryButtonText = "Cancel",
+                    Title = loader.GetString("DeleteNoteDialogTitle"),
+                    Content = string.Format(loader.GetString("DeleteNoteDialogDesc"), selectedNote.Name),
+                    PrimaryButtonText = loader.GetString("DeleteButton"),
+                    SecondaryButtonText = loader.GetString("CancelButton"),
                     DefaultButton = ContentDialogButton.Secondary
                 };
                 deleteDialog.PrimaryButtonClick += async (s, args) =>
@@ -592,7 +593,7 @@ namespace Fairmark
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 MaxWidth = 300,
                 BorderThickness = new Thickness(0),
-                PlaceholderText = "Name your tag..",
+                PlaceholderText = loader.GetString("AddTagPlaceholder"),
                 Padding = new Thickness(9, 9, 4, 4),
                 FontSize = 13,
                 CornerRadius = new CornerRadius(4),
@@ -627,7 +628,7 @@ namespace Fairmark
                 emojiButton.Content = gridView.SelectedItem;
                 flyout.Hide();
             };
-            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = "Search for an emoji...", Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
+            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = loader.GetString("EmojiSearchPlaceholder"), Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
             searchBox.TextChanged += (s, args) =>
             {
                 if (string.IsNullOrWhiteSpace(searchBox.Text))
@@ -708,7 +709,7 @@ namespace Fairmark
                     }
                     else
                     {
-                        box.PlaceholderText = "Enter a name.";
+                        box.PlaceholderText = loader.GetString("AddNoteEmptyText");
                     }
                 }
             };
@@ -771,7 +772,7 @@ namespace Fairmark
                 await NoteCollectionHelper.SaveNotes();
                 flyout.Hide();
             };
-            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = "Search for an emoji...", Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
+            AutoSuggestBox searchBox = new AutoSuggestBox() { PlaceholderText = loader.GetString("EmojiSearchPlaceholder"), Margin = new Thickness(0, 0, 0, 10), Width = 240, MaxWidth = 240, QueryIcon = new SymbolIcon(Symbol.Find) };
             searchBox.TextChanged += (s, args) =>
             {
                 if (string.IsNullOrWhiteSpace(searchBox.Text))
@@ -930,7 +931,7 @@ namespace Fairmark
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
             _ = f.Navigate(typeof(AboutPage));
-            window.Title = "About Fairmark";
+            window.Title = loader.GetString("AboutTitle");
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -1008,7 +1009,7 @@ namespace Fairmark
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
             _ = f.Navigate(typeof(ContactPage));
-            window.Title = "Contact me";
+            window.Title = loader.GetString("ContactTitle");
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -1086,7 +1087,7 @@ namespace Fairmark
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
             _ = f.Navigate(typeof(SettingsPage));
-            window.Title = "Settings";
+            window.Title = loader.GetString("Settings/Text");
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
             window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;

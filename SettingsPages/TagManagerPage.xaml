@@ -43,10 +43,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Button x:Name="RenameTag" Content="Rename tag" Click="RenameTag_Click" Grid.Row="0" Margin="5" Width="150"/> 
-            <Button x:Name="DeleteTag" Content="Delete tag" Click="DeleteTag_Click" Grid.Row="1" Margin="5" Width="150"/> 
-            <Button x:Name="RecolorTag" Content="Change tag color" Click="RecolorTag_Click" Grid.Row="2" Margin="5" Width="150"/> 
-            <Button x:Name="EmojiTag" Content="Change tag emoji" Click="EmojiTag_Click" Grid.Row="3" Margin="5" Width="150"/> 
+            <Button x:Name="RenameTag" x:Uid="TagManagerRename" Click="RenameTag_Click" Grid.Row="0" Margin="5" Width="150"/> 
+            <Button x:Name="DeleteTag" x:Uid="TagManagerDelete" Click="DeleteTag_Click" Grid.Row="1" Margin="5" Width="150"/> 
+            <Button x:Name="RecolorTag" x:Uid="TagManagerRecolor" Click="RecolorTag_Click" Grid.Row="2" Margin="5" Width="150"/> 
+            <Button x:Name="EmojiTag" x:Uid="TagManagerEmoji" Click="EmojiTag_Click" Grid.Row="3" Margin="5" Width="150"/> 
         </Grid>
     </Grid>
 </Page>

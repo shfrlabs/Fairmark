@@ -127,7 +127,9 @@
     <Compile Include="FontFamilyToNameConverter.cs" />
     <Compile Include="NullBooleanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleThemeTranslationConverter.cs" />
     <Compile Include="TagGradientConverter.cs" />
+    <Compile Include="ThemeTranslationConverter.cs" />
     <EmbeddedResource Include="Properties\Fairmark.Converters.rd.xml" />
   </ItemGroup>
   <ItemGroup>

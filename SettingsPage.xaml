@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock Text="Settings" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
+                <TextBlock x:Uid="Settings" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
             </StackPanel>
         </Grid>
         <controls:NavigationView
@@ -33,37 +33,37 @@
             PaneDisplayMode="LeftCompact"
             Grid.Row="1">
             <controls:NavigationView.MenuItems>
-                <!--<controls:NavigationViewItem Content="Fairmark AI" Tag="AI">
+                <!--<controls:NavigationViewItem x:Uid="AINavViewItem" Tag="AI">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF4A5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>-->
-                <controls:NavigationViewItem Content="Appearance" Tag="Display">
+                <controls:NavigationViewItem x:Uid="DisplayNavViewItem" Tag="Display">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem Content="Features" Tag="Features">
+                <controls:NavigationViewItem x:Uid="FeaturesNavViewItem" Tag="Features">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE74C;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem Content="Access logs" Tag="Logs">
+                <controls:NavigationViewItem x:Uid="LogsNavViewItem" Tag="Logs">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA37;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem Content="Import/Export" Tag="ImExport">
+                <controls:NavigationViewItem x:Uid="ImExNavViewItem" Tag="ImExport">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem Content="Tag manager" Tag="Tags">
+                <controls:NavigationViewItem x:Uid="TagNavViewItem" Tag="Tags">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8EC;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <!--<controls:NavigationViewItem Content="Stats" Tag="Stats">
+                <!--<controls:NavigationViewItem x:Uid="StatsNavViewItem" Tag="Stats">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9D2;" />
                     </controls:NavigationViewItem.Icon>

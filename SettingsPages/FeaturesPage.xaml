@@ -10,7 +10,7 @@
 
     <ScrollViewer DataContext="{StaticResource Settings}" Padding="20">
         <StackPanel Orientation="Vertical">
-            <toolkit:SettingsCard Header="Hide from screenshots" Description="Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline.">
+            <toolkit:SettingsCard x:Uid="HideCard">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE733;" />
                 </toolkit:SettingsCard.HeaderIcon>
@@ -18,7 +18,7 @@
                 IsOn="{Binding HideFromRecall, Mode=TwoWay}" HorizontalAlignment="Right">
                 </ToggleSwitch>
             </toolkit:SettingsCard>
-            <toolkit:SettingsCard Header="Authentication" Description="Select whether the app should require biometrics before opening.">
+            <toolkit:SettingsCard x:Uid="AuthCard">
                 <toolkit:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE72E;" />
                 </toolkit:SettingsCard.HeaderIcon>

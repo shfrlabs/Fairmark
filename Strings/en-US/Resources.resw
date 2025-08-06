@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutAppButton.Text" xml:space="preserve">
+    <value>About</value>
+    <comment>Used as a label in the "More" menu.</comment>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>About Fairmark</value>
+    <comment>Used in the "About" window's title.</comment>
+  </data>
+  <data name="AddNoteEmptyText" xml:space="preserve">
+    <value>Enter a name.</value>
+    <comment>Used when the user tries to create a note/tag without a name.</comment>
+  </data>
+  <data name="AddNotePlaceholder" xml:space="preserve">
+    <value>Name your note...</value>
+    <comment>Used in the "Add note" dialog.</comment>
+  </data>
+  <data name="AddNoteTipSubtitle" xml:space="preserve">
+    <value>Use this button to create a note and confirm with the Enter key.</value>
+    <comment>Used in the first-run tips.</comment>
+  </data>
+  <data name="AddNoteTipTitle" xml:space="preserve">
+    <value>Create your first note.</value>
+    <comment>Used in the first-run tips.</comment>
+  </data>
+  <data name="AddTagPlaceholder" xml:space="preserve">
+    <value>Name your tag...</value>
+    <comment>Used in the "Add tag" dialog.</comment>
+  </data>
+  <data name="AddTagTipSubtitle" xml:space="preserve">
+    <value>Use this button to create a tag. You can use tags to organize and filter notes.</value>
+    <comment>Used in the first-run tips.</comment>
+  </data>
+  <data name="AddTagTipTitle" xml:space="preserve">
+    <value>Create your first tag.</value>
+    <comment>Used in the first-run tips.</comment>
+  </data>
+  <data name="AINavViewItem.Content" xml:space="preserve">
+    <value>Fairmark AI</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="AuthOffDialogDesc" xml:space="preserve">
+    <value>Make sure you didn't turn off your PIN/password/biometrics in Windows Settings.</value>
+    <comment>Used in the dialog displayed when there's problem with Windows Hello and auth is on.</comment>
+  </data>
+  <data name="AuthOffDialogTitle" xml:space="preserve">
+    <value>Authentication was turned off due to a problem with Windows Hello.</value>
+    <comment>Used in the dialog displayed when there's problem with Windows Hello and auth is on.</comment>
+  </data>
+  <data name="AuthTitle" xml:space="preserve">
+    <value>Fairmark needs your permission to continue. You can turn this off in Settings.</value>
+    <comment>Used in the PIN/biometrics dialog if Authentication is on.</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Generic cancel button text.</comment>
+  </data>
+  <data name="ClosePaneButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close</value>
+    <comment>Used in the top left button when Files/Find is open.</comment>
+  </data>
+  <data name="ContactButton.Text" xml:space="preserve">
+    <value>Contact me</value>
+    <comment>Used as a label in the "More" menu.</comment>
+  </data>
+  <data name="ContactTitle" xml:space="preserve">
+    <value>Contact me</value>
+    <comment>Used in the "Contact me" window's title.</comment>
+  </data>
+  <data name="ContinueButton.Content" xml:space="preserve">
+    <value>Continue</value>
+    <comment>OOBE</comment>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Delete</value>
+    <comment>Generic delete button text.</comment>
+  </data>
+  <data name="DeleteNoteDialogDesc" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'?</value>
+    <comment>Used in the dialog displayed when the user requests to delete a note.</comment>
+  </data>
+  <data name="DeleteNoteDialogTitle" xml:space="preserve">
+    <value>Delete note</value>
+    <comment>Used in the dialog displayed when the user requests to delete a note.</comment>
+  </data>
+  <data name="DisplayNavViewItem.Content" xml:space="preserve">
+    <value>Appearance</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="EmojiSearchPlaceholder" xml:space="preserve">
+    <value>Search for an emoji...</value>
+    <comment>Used in the emoji picker for notes/tags.</comment>
+  </data>
+  <data name="FeaturesNavViewItem.Content" xml:space="preserve">
+    <value>Features</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="FilesButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Files</value>
+    <comment>Used as the tooltip in the navigation bar's Explorer/Files button.</comment>
+  </data>
+  <data name="FindButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Search notes</value>
+    <comment>Used as the tooltip in the navigation bar's Search/Find button.</comment>
+  </data>
+  <data name="FinishButton.Content" xml:space="preserve">
+    <value>Finish</value>
+    <comment>OOBE</comment>
+  </data>
+  <data name="ImExNavViewItem.Content" xml:space="preserve">
+    <value>Import/Export</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="LogsNavViewItem.Content" xml:space="preserve">
+    <value>Access logs</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="MoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More</value>
+    <comment>Used as the tooltip in the navigation bar's and bottom bar's overflow buttons.</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>OK</comment>
+  </data>
+  <data name="RenameNotePlaceholder" xml:space="preserve">
+    <value>Enter the new name...</value>
+    <comment>Used in the dialog displayed when the user requests renaming a note.</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Used in the "Settings" window's title.</comment>
+  </data>
+  <data name="SettingsButton.Text" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Used as a label in the "More" menu.</comment>
+  </data>
+  <data name="StatsNavViewItem.Content" xml:space="preserve">
+    <value>Stats</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="TagNavViewItem.Content" xml:space="preserve">
+    <value>Tag manager</value>
+    <comment>Navigation menu item in Settings.</comment>
+  </data>
+  <data name="NoNotesText.Text" xml:space="preserve">
+    <value>No notes here! Create one using the button below.</value>
+    <comment>Displayed in the Files pane when no notes are present.</comment>
+  </data>
+  <data name="TagBox.PlaceholderText" xml:space="preserve">
+    <value>Filter by tag</value>
+    <comment>Used in the tag filter on the bottom of the Files pane.</comment>
+  </data>
+  <data name="ClearTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Clear tag filter</value>
+    <comment>Used in the X button next to the tag filter.</comment>
+  </data>
+  <data name="CreateTag.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create tag</value>
+    <comment>Used in the + button next to the tag filter.</comment>
+  </data>
+  <data name="CreateNoteButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create note</value>
+    <comment>Used in the + button on the bottom, which is used to create a note.</comment>
+  </data>
+  <data name="RenameNoteButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Rename note</value>
+    <comment>Used in the button on the bottom, which used to rename a note.</comment>
+  </data>
+  <data name="DeleteNoteButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Delete note</value>
+    <comment>Used in the button on the bottom, which used to delete a note.</comment>
+  </data>
+  <data name="ChangeEmojiBtn.Text" xml:space="preserve">
+    <value>Change emoji</value>
+    <comment>Used in the "Change emoji" button in the bottom overflow.</comment>
+  </data>
+  <data name="AssignTagsBtn.Text" xml:space="preserve">
+    <value>Assign tags</value>
+    <comment>Used in the "Assign tags" button in the bottom overflow.</comment>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search notes...</value>
+    <comment>Used in the note search box in the Find pane.</comment>
+  </data>
+  <data name="ZenButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Zen mode</value>
+    <comment>Used in the top right button, which is used to activate Zen mode.</comment>
+  </data>
+  <data name="BoldButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Bold (Ctrl+B)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="ItalicButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Italic (Ctrl+I)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="StrikeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Strikethrough (Ctrl+X)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="CodeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Code (Ctrl+M)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="BulletButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Bulleted list (Ctrl+U)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="LineButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Insert horizontal line (Ctrl+L)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="Head1Button.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Heading 1 (Ctrl+1)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="Head2Button.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Heading 2 (Ctrl+2)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="Head3Button.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Heading 3 (Ctrl+3)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="NoNoteSelected.Text" xml:space="preserve">
+    <value>No note selected. Use the side panel to select or create one.</value>
+    <comment>Used in the main pane when no note is selected.</comment>
+  </data>
+  <data name="ContactWindow.Text" xml:space="preserve">
+    <value>Contact me</value>
+    <comment>Used in the "Contact me" window's titlebar. Use a longer version of "ContactTitle" if possible.</comment>
+  </data>
+  <data name="BugReport.Text" xml:space="preserve">
+    <value>In case you'd like to leave feature requests or bug reports for Fairmark, do so via the below email:</value>
+    <comment>Used in the "Contact me" window.</comment>
+  </data>
+  <data name="GeneralContact.Text" xml:space="preserve">
+    <value>In any other cases, you can also contact me on:</value>
+    <comment>Used in the "Contact me" window.</comment>
+  </data>
+  <data name="NoDonations.Text" xml:space="preserve">
+    <value>Thank you for supporting me by purchasing Fairmark! I don't take donations in any form, except your purchase. However, I appreciate reviews!</value>
+    <comment>Used in the "Contact me" window.</comment>
+  </data>
+  <data name="RateButton.Text" xml:space="preserve">
+    <value>Rate Fairmark!</value>
+    <comment>Used in the "Contact me" window.</comment>
+  </data>
+  <data name="!GUIDELINES" xml:space="preserve">
+    <value>-</value>
+    <comment>!EXPANDME 
+
+To sort the strings by context, sort by Natural Comment. This will separate the strings into ones used in Settings, CommandBars, menus, etc.
+Only translate the Neutral Value.
+Look at the comments, they will have important insights for translation.
+Keep any loose spaces at the beginning or end of strings.
+Respect punctuation and capitalization. Preserve sentence-ending punctuation if present.
+Preserve placeholders and formatting tokens. Leave tokens like {0}, %1, \n, \t, or HTML/XML tags unchanged.
+Shorter translations are usually better.
+Don’t translate brand names or special terms unless instructed. Product names usually stay in English.</comment>
+  </data>
+  <data name="AboutWindow.Text" xml:space="preserve">
+    <value>About Fairmark</value>
+    <comment>Used in the "Contact me" window's titlebar. Use a longer version of "AboutTitle" if possible.</comment>
+  </data>
+  <data name="LocalNotes.Text" xml:space="preserve">
+    <value>Your notes never leave your device.</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="AboutIntelligence.Text" xml:space="preserve">
+    <value>Fairmark Intelligence is powered by your selected model, ran locally via LlamaSharp.</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="WebsiteText" xml:space="preserve">
+    <value>website</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="MoreInfo.Text" xml:space="preserve">
+    <value>For more information, visit the project's </value>
+    <comment>Used in the "About" window. Keep the space at the end.</comment>
+  </data>
+  <data name="Thanks1.Text" xml:space="preserve">
+    <value>Special thanks to:</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks2.Text" xml:space="preserve">
+    <value>the </value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks3.Text" xml:space="preserve">
+    <value>LlamaSharp team</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks4.Text" xml:space="preserve">
+    <value> for their work on the LLM library,</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks5.Text" xml:space="preserve">
+    <value>the </value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks6.Text" xml:space="preserve">
+    <value>Win2D team</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks7.Text" xml:space="preserve">
+    <value> for their graphics library,</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks8.Text" xml:space="preserve">
+    <value>the </value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks9.Text" xml:space="preserve">
+    <value>Community Toolkit contributors</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks10.Text" xml:space="preserve">
+    <value> for GridSplitter and MarkdownTextBlock,</value>
+    <comment>Used in the "About" window. Don't translate the names.</comment>
+  </data>
+  <data name="Thanks11.Text" xml:space="preserve">
+    <value>Unicode.net</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks12.Text" xml:space="preserve">
+    <value> for their text processing library,</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks13.Text" xml:space="preserve">
+    <value>and the communities on </value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks14.Text" xml:space="preserve">
+    <value>shefer's labs</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks15.Text" xml:space="preserve">
+    <value> and </value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="Thanks16.Text" xml:space="preserve">
+    <value>Windows App Community</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
+  </data>
+  <data name="Thanks17.Text" xml:space="preserve">
+    <value> for their support and feedback.</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="DevelopedBy.Text" xml:space="preserve">
+    <value>developed by shef3r in Poland.</value>
+    <comment>Used in the "About" window.</comment>
+  </data>
+  <data name="TagManagerRename.Text" xml:space="preserve">
+    <value>Rename tag</value>
+    <comment>Used in the tag manager.</comment>
+  </data>
+  <data name="TagManagerEmoji.Text" xml:space="preserve">
+    <value>Change tag emoji</value>
+    <comment>Used in the tag manager.</comment>
+  </data>
+  <data name="TagManagerRecolor.Text" xml:space="preserve">
+    <value>Change tag color</value>
+    <comment>Used in the tag manager.</comment>
+  </data>
+  <data name="TagManagerDelete.Text" xml:space="preserve">
+    <value>Delete tag</value>
+    <comment>Used in the tag manager.</comment>
+  </data>
+  <data name="ImportVaultHeader.Text" xml:space="preserve">
+    <value>Import vault</value>
+    <comment>Used in the Import/Export page.</comment>
+  </data>
+  <data name="ImportVaultDesc.Text" xml:space="preserve">
+    <value>Import all notes from a previous vault. Tags are stripped. Use a *.fmbkp file here.</value>
+    <comment>Used in the Import/Export page.</comment>
+  </data>
+  <data name="ImportVaultButton.Content" xml:space="preserve">
+    <value>Import vault</value>
+    <comment>Used in the Import/Export page. Use a shorter version if ImportVaultHeader.Text if possible.</comment>
+  </data>
+  <data name="ExportVaultHeader.Text" xml:space="preserve">
+    <value>Export vault</value>
+    <comment>Used in the Import/Export page.</comment>
+  </data>
+  <data name="ExportVaultDesc.Text" xml:space="preserve">
+    <value>Export all notes and tags to to a *.fmbkp file here.</value>
+    <comment>Used in the Import/Export page.</comment>
+  </data>
+  <data name="ExportVaultButton.Text" xml:space="preserve">
+    <value>Export vault</value>
+    <comment>Used in the Import/Export page. Use a shorter version of "ExportVaultHeader.Text" if possible.</comment>
+  </data>
+  <data name="HideCard.Header" xml:space="preserve">
+    <value>Hide from screenshots</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="HideCard.Description" xml:space="preserve">
+    <value>Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="AuthCard.Header" xml:space="preserve">
+    <value>Authentication</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="AuthCard.Description" xml:space="preserve">
+    <value>Select whether the app should require biometrics before opening.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="ThemeCard.Header" xml:space="preserve">
+    <value>App theme</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="ThemeCard.Description" xml:space="preserve">
+    <value>Select what theme the app applies.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="ThemeSelector.PlaceholderText" xml:space="preserve">
+    <value>Select theme</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="DarkThemeName" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="DefaultThemeName" xml:space="preserve">
+    <value>System</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="LightThemeName" xml:space="preserve">
+    <value>Light</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="EditorFontFamilyCard.Header" xml:space="preserve">
+    <value>Editor font family</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="EditorFontFamilyDescription" xml:space="preserve">
+    <value>Select what font is used by the note editor.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="FontSelector.PlaceholderText" xml:space="preserve">
+    <value>Select font</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="EditorFontSizeCard.Header" xml:space="preserve">
+    <value>Editor font size</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="EditorFontSizeCard.Description" xml:space="preserve">
+    <value>Select the font size used by the note editor.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="PreviewFontFamily.Header" xml:space="preserve">
+    <value>Preview font family</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="PreviewFontFamily.Description" xml:space="preserve">
+    <value>Select what font is used by the Markdown note preview.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="PreviewFontSize.Header" xml:space="preserve">
+    <value>Preview font size</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="PreviewFontSize.Description" xml:space="preserve">
+    <value>Select the font size used by the Markdown note preview.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="LogCard.Header" xml:space="preserve">
+    <value>Log app access</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="LogCard.Description" xml:space="preserve">
+    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. You will be asked for an anonymized version of these when you report a bug.</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="CopyLogs.Content" xml:space="preserve">
+    <value>Copy personal logs</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="CopyDebugLogs.Content" xml:space="preserve">
+    <value>Copy debug logs</value>
+    <comment>Used in Settings.</comment>
+  </data>
+  <data name="WelcomeHeader.Text" xml:space="preserve">
+    <value>Welcome to</value>
+    <comment>OOBE</comment>
+  </data>
+  <data name="PromoDesc.Text" xml:space="preserve">
+    <value>Say hello to Fairmark, your next favorite note-taking app! Tag, customize and organize your notes with ease. Choose your preferred options on the next page to get started.</value>
+    <comment>OOBE</comment>
+  </data>
+</root>
