@@ -82,94 +82,104 @@
            Margin="0,0,-4.2,0"
            VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
-        <CommandBar Margin="-7,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" IsDynamicOverflowEnabled="True" HorizontalAlignment="Left" MinWidth="0">
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Width="50" Icon="Bold" Command="{x:Bind MarkEditor.BoldCommand}">
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="B" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ItalicButton" Width="50" Icon="Italic" Command="{x:Bind MarkEditor.ItalicCommand}">
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="I" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="StrikeButton" Width="50" Command="{x:Bind MarkEditor.StrikethroughCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xEDE0;" />
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="X" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CodeButton" Width="50" Command="{x:Bind MarkEditor.CodeCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE943;" />
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="M" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BulletButton" Width="50" Command="{x:Bind MarkEditor.BulletCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE8FD;" />
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="U" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="LineButton" Width="50" Command="{x:Bind MarkEditor.HorizontalLineCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE738;" />
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="L" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <!--<AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Add link" Width="50">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE71B;" />
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <StackPanel Width="250" Margin="-10">
-                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" PlaceholderText="Link address" />
-                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" PlaceholderText="Displayed text" Margin="0,10,0,10"/>
-                            <Button Content="Insert link" Command="{x:Bind MarkEditor.AddLinkCommand}" HorizontalAlignment="Stretch">
-                                <Button.CommandParameter>
-                                    <models:Link Name="{x:Bind LinkText.Text}" Url="{x:Bind LinkUrl.Text}"/>
-                                </Button.CommandParameter>
-                            </Button>
-                        </StackPanel>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>-->
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head1Button" Width="50" Command="{x:Bind MarkEditor.Heading1Command}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Number1" Modifiers="Control"/>
-                    <KeyboardAccelerator Key="NumberPad1" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head2Button" Width="50" Command="{x:Bind MarkEditor.Heading2Command}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H2"/>
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Number2" Modifiers="Control"/>
-                    <KeyboardAccelerator Key="NumberPad2" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-            <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head3Button" Label="Heading 3" Width="50" Command="{x:Bind MarkEditor.Heading3Command}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H3"/>
-                </AppBarButton.Icon>
-                <AppBarButton.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Number3" Modifiers="Control"/>
-                    <KeyboardAccelerator Key="NumberPad3" Modifiers="Control"/>
-                </AppBarButton.KeyboardAccelerators>
-            </AppBarButton>
-        </CommandBar>
+        <ScrollViewer Margin="-2,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" MinWidth="0" VerticalScrollMode="Disabled" HorizontalScrollMode="Enabled">
+            <StackPanel Orientation="Horizontal" Width="500">
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Width="42" Icon="Bold" Command="{x:Bind MarkEditor.BoldCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="B" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ItalicButton" Width="42" Icon="Italic" Command="{x:Bind MarkEditor.ItalicCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="I" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="StrikeButton" Width="42" Command="{x:Bind MarkEditor.StrikethroughCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xEDE0;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="X" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CodeButton" Width="42" Command="{x:Bind MarkEditor.CodeCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE943;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="QuoteButton" Width="42" Command="{x:Bind MarkEditor.QuoteCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE9B1;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Q" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BulletButton" Width="42" Command="{x:Bind MarkEditor.BulletCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8FD;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="LineButton" Width="42" Command="{x:Bind MarkEditor.HorizontalLineCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE738;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <!--<AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Add link" Width="42">
+    <AppBarButton.Icon>
+        <FontIcon Glyph="&#xE71B;" />
+    </AppBarButton.Icon>
+    <AppBarButton.Flyout>
+        <Flyout>
+            <StackPanel Width="250" Margin="-10">
+                <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" PlaceholderText="Link address" />
+                <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" PlaceholderText="Displayed text" Margin="0,10,0,10"/>
+                <Button Content="Insert link" Command="{x:Bind MarkEditor.AddLinkCommand}" HorizontalAlignment="Stretch">
+                    <Button.CommandParameter>
+                        <models:Link Name="{x:Bind LinkText.Text}" Url="{x:Bind LinkUrl.Text}"/>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+        </Flyout>
+    </AppBarButton.Flyout>
+</AppBarButton>-->
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head1Button" Width="42" Command="{x:Bind MarkEditor.Heading1Command}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Number1" Modifiers="Control"/>
+                        <KeyboardAccelerator Key="NumberPad1" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head2Button" Width="42" Command="{x:Bind MarkEditor.Heading2Command}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H2"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Number2" Modifiers="Control"/>
+                        <KeyboardAccelerator Key="NumberPad2" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head3Button" Width="42" Command="{x:Bind MarkEditor.Heading3Command}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H3"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Number3" Modifiers="Control"/>
+                        <KeyboardAccelerator Key="NumberPad3" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

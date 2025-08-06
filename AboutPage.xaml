@@ -43,30 +43,30 @@
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                     <Run x:Uid="MoreInfo"></Run><Hyperlink NavigateUri="https://fairmark.shef3r.dev/"><Run x:Uid="Website"/></Hyperlink>.
                 </TextBlock>
+                <TextBlock x:Uid="Thanks1" TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display" />
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-    <Run x:Uid="Thanks1"/>
-    <LineBreak/>
-    <LineBreak/>
-    <Run x:Uid="Thanks2"/>
-    <Run FontWeight="SemiBold" x:Uid="Thanks3"/>
-    <Run x:Uid="Thanks4"/>
-    <LineBreak/>
-    <Run x:Uid="Thanks5"/>
-    <Run FontWeight="SemiBold" x:Uid="Thanks6"/>
-    <Run x:Uid="Thanks7"/>
-    <LineBreak/>
-    <Run x:Uid="Thanks8"/>
-    <Run FontWeight="SemiBold" x:Uid="Thanks9"/>
-    <Run x:Uid="Thanks10"/>
-    <LineBreak/>
-    <Run FontWeight="SemiBold" x:Uid="Thanks11"/>
-    <Run x:Uid="Thanks12"/>
-    <LineBreak/>
-    <Run x:Uid="Thanks13"/>
-    <Hyperlink NavigateUri="https://discord.gg/hNmWBHQbVz"><Run x:Uid="Thanks14"/></Hyperlink>
-    <Run x:Uid="Thanks15"/>
-    <Hyperlink NavigateUri="https://discord.gg/eBHZSKG"><Run x:Uid="Thanks16"/></Hyperlink>
-    <Run x:Uid="Thanks17"/>
+                    <!--<Run x:Uid="Thanks2"/>
+                    <Run FontWeight="SemiBold" x:Uid="Thanks3"/>
+                    <Run x:Uid="Thanks4"/>-->
+                    <Run x:Uid="Thanks5"/>
+                    <Run FontWeight="SemiBold" x:Uid="Thanks6"/>
+                    <Run x:Uid="Thanks7"/>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    <Run x:Uid="Thanks8"/>
+                    <Run FontWeight="SemiBold" x:Uid="Thanks9"/>
+                    <Run x:Uid="Thanks10"/>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    <Run FontWeight="SemiBold" x:Uid="Thanks11"/>
+                    <Run x:Uid="Thanks12"/>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                    <Run x:Uid="Thanks13"/>
+                    <Hyperlink NavigateUri="https://discord.gg/hNmWBHQbVz"><Run x:Uid="Thanks14"/></Hyperlink>
+                    <Run x:Uid="Thanks15"/>
+                    <Hyperlink NavigateUri="https://discord.gg/eBHZSKG"><Run x:Uid="Thanks16"/></Hyperlink>
+                    <Run x:Uid="Thanks17"/>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display" x:Uid="DevelopedBy"/>
             </StackPanel>

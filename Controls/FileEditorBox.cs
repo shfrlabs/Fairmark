@@ -22,10 +22,16 @@ namespace Fairmark.Controls
         public ICommand StrikethroughCommand { get; }
         public ICommand CodeCommand { get; }
         public ICommand BulletCommand { get; }
+        public ICommand QuoteCommand { get; }
         public ICommand Heading1Command { get; }
         public ICommand Heading2Command { get; }
         public ICommand Heading3Command { get; }
         public ICommand HorizontalLineCommand { get; }
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
+        public ICommand CutCommand { get; }
+        public ICommand CopyCommand { get; }
+        public ICommand PasteCommand { get; }
 
         public FileEditorBox()
         {
@@ -39,10 +45,16 @@ namespace Fairmark.Controls
             StrikethroughCommand = new RelayCommand(_ => ExecuteStrikethroughCommand());
             CodeCommand = new RelayCommand(_ => ExecuteCodeCommand());
             BulletCommand = new RelayCommand(_ => ExecuteBulletCommand());
+            QuoteCommand = new RelayCommand(_ => ExecuteQuoteCommand());
             Heading1Command = new RelayCommand(_ => ExecuteHeadingCommand(1));
             Heading2Command = new RelayCommand(_ => ExecuteHeadingCommand(2));
             Heading3Command = new RelayCommand(_ => ExecuteHeadingCommand(3));
             HorizontalLineCommand = new RelayCommand(_ => ExecuteHorizontalLineCommand());
+            UndoCommand = new RelayCommand(_ => _innerBox.Undo(), _ => _innerBox.CanUndo);
+            RedoCommand = new RelayCommand(_ => _innerBox.Redo(), _ => _innerBox.CanRedo);
+            CutCommand = new RelayCommand(_ => _innerBox.CutSelectionToClipboard(), _ => _innerBox != null && _innerBox.SelectionLength > 0);
+            CopyCommand = new RelayCommand(_ => _innerBox.CopySelectionToClipboard(), _ => _innerBox != null && _innerBox.SelectionLength > 0);
+            PasteCommand = new RelayCommand(_ => _innerBox.PasteFromClipboard(), _ => _innerBox != null && _innerBox.CanPasteClipboardContent);
         }
 
         public static readonly DependencyProperty TextProperty =
@@ -221,6 +233,61 @@ namespace Fairmark.Controls
         {
             ToggleBulletDynamic();
         }
+        private void ExecuteQuoteCommand()
+        {
+            ToggleQuote();
+        }
+
+        private void ToggleQuote()
+        {
+            if (_innerBox == null) return;
+
+            int selectionStart = _innerBox.SelectionStart;
+            int selectionLength = _innerBox.SelectionLength;
+            string text = _innerBox.Text ?? string.Empty;
+
+            // Expand selection to full lines
+            int selStart = selectionStart;
+            int selEnd = selectionStart + selectionLength;
+
+            // Find start of first line in selection
+            int blockStart = text.LastIndexOfAny(new[] { '\r', '\n' }, Math.Max(0, selStart - 1));
+            blockStart = blockStart == -1 ? 0 : blockStart + 1;
+
+            // Find end of last line in selection
+            int blockEnd = text.IndexOfAny(new[] { '\r', '\n' }, selEnd);
+            if (blockEnd == -1) blockEnd = text.Length;
+
+            string selectedBlock = text.Substring(blockStart, blockEnd - blockStart);
+
+            // Split into lines, preserving line endings
+            var lines = selectedBlock.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None);
+            bool allQuoted = lines.All(l => l.StartsWith("> "));
+
+            var newLines = allQuoted
+                ? lines.Select(l => l.StartsWith("> ") ? l.Substring(2) : l)
+                : lines.Select(l => l.Length == 0 ? "> " : l.StartsWith("> ") ? l : "> " + l);
+
+            // Detect original line endings
+            string lineEnding = "\n";
+            int rn = selectedBlock.IndexOf("\r\n");
+            int r = selectedBlock.IndexOf('\r');
+            int n = selectedBlock.IndexOf('\n');
+            if (rn != -1) lineEnding = "\r\n";
+            else if (r != -1 && (n == -1 || r < n)) lineEnding = "\r";
+            else if (n != -1) lineEnding = "\n";
+            string newBlock = string.Join(lineEnding, newLines);
+
+            string newText = text.Substring(0, blockStart) + newBlock + text.Substring(blockEnd);
+
+            int newSelectionStart = selectionStart + (allQuoted ? -2 : 2);
+            int newSelectionLength = newBlock.Length - selectedBlock.Length + selectionLength;
+
+            Text = newText;
+            _innerBox.SelectionStart = Math.Max(0, Math.Min(newSelectionStart, newText.Length));
+            _innerBox.SelectionLength = Math.Max(0, Math.Min(newSelectionLength, newText.Length - _innerBox.SelectionStart));
+        }
+
         private void ExecuteHeadingCommand(int level)
         {
             ToggleHeadingDynamic(level);

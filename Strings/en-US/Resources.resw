@@ -321,6 +321,10 @@
     <value>Code (Ctrl+M)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
+  <data name="QuoteButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Quote (Ctrl+Q)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
   <data name="BulletButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bulleted list (Ctrl+U)</value>
     <comment>Bottom command bar tooltip.</comment>
@@ -390,7 +394,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Fairmark Intelligence is powered by your selected model, ran locally via LlamaSharp.</value>
     <comment>Used in the "About" window.</comment>
   </data>
-  <data name="WebsiteText" xml:space="preserve">
+  <data name="Website.Text" xml:space="preserve">
     <value>website</value>
     <comment>Used in the "About" window.</comment>
   </data>
@@ -415,7 +419,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks5.Text" xml:space="preserve">
-    <value>the </value>
+    <value>the</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks6.Text" xml:space="preserve">
@@ -423,11 +427,11 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks7.Text" xml:space="preserve">
-    <value> for their graphics library,</value>
+    <value>for their graphics library,</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks8.Text" xml:space="preserve">
-    <value>the </value>
+    <value>the</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks9.Text" xml:space="preserve">
@@ -435,7 +439,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks10.Text" xml:space="preserve">
-    <value> for GridSplitter and MarkdownTextBlock,</value>
+    <value>for GridSplitter and MarkdownTextBlock,</value>
     <comment>Used in the "About" window. Don't translate the names.</comment>
   </data>
   <data name="Thanks11.Text" xml:space="preserve">
@@ -443,11 +447,11 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks12.Text" xml:space="preserve">
-    <value> for their text processing library,</value>
+    <value>for their text processing library,</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks13.Text" xml:space="preserve">
-    <value>and the communities on </value>
+    <value>and the communities on</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks14.Text" xml:space="preserve">
@@ -455,7 +459,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks15.Text" xml:space="preserve">
-    <value> and </value>
+    <value>and</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks16.Text" xml:space="preserve">
@@ -463,12 +467,12 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks17.Text" xml:space="preserve">
-    <value> for their support and feedback.</value>
+    <value>for their support and feedback.</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="DevelopedBy.Text" xml:space="preserve">
     <value>developed by shef3r in Poland.</value>
-    <comment>Used in the "About" window.</comment>
+    <comment>Used in the "About" window. Add a new line and credit yourself here, for example "translated by _____."</comment>
   </data>
   <data name="TagManagerRename.Text" xml:space="preserve">
     <value>Rename tag</value>
