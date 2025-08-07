@@ -638,6 +638,10 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Add link</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
+  <data name="ExpandButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Insert expandable content</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
   <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
     <value>Displayed text</value>
     <comment>Used in the "Add link" flyout</comment>
@@ -646,9 +650,21 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Link address</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
-  <data name="InsertLinkButton" xml:space="preserve">
+  <data name="InsertLinkButton.Content" xml:space="preserve">
     <value>Insert link</value>
     <comment>Used in the "Add link" flyout.</comment>
+  </data>
+  <data name="SummaryText.PlaceholderText" xml:space="preserve">
+    <value>Summary</value>
+    <comment>Used in the "Insert expandable" flyout.</comment>
+  </data>
+  <data name="DetailsText.PlaceholderText" xml:space="preserve">
+    <value>Expanded details</value>
+    <comment>Used in the "Insert expandable" flyout.</comment>
+  </data>
+  <data name="InsertDetailsButton.Content" xml:space="preserve">
+    <value>Insert element</value>
+    <comment>Used in the "Insert expandable" flyout.</comment>
   </data>
   <data name="CharCount.Text" xml:space="preserve">
     <value>Character count:</value>

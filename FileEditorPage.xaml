@@ -164,18 +164,33 @@
                 </AppBarButton>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="LinkButton" Width="42" Click="AppBarButton_Click">
                     <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE71B;"/>
-                </AppBarButton.Icon>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout>
-                        <StackPanel Width="250" Margin="-10">
-                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
-                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
-                            <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
-                        </StackPanel>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
-            </AppBarButton>
+                        <FontIcon Glyph="&#xE71B;"/>
+                    </AppBarButton.Icon>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <StackPanel Width="250" Margin="-10">
+                                <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
+                                <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
+                                <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
+                            </StackPanel>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ExpandButton" Width="42" Click="AppBarButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8C4;"/>
+                    </AppBarButton.Icon>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <StackPanel Width="250" Margin="-10">
+                                <TextBox x:Name="SummaryText" AllowFocusOnInteraction="True" x:Uid="SummaryText" />
+                                <TextBox x:Name="DetailsText" AllowFocusOnInteraction="True" x:Uid="DetailsText" Margin="0,10,0,10"/>
+                                <Button Content="Insert element" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" Click="Details_Click"/>
+                            </StackPanel>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </AppBarButton>
+                
                 <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head1Button" Width="42" Command="{x:Bind MarkEditor.Heading1Command}">
                     <AppBarButton.Icon>

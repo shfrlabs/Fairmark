@@ -664,5 +664,34 @@ namespace Fairmark.Controls
             CharacterCount = text.Length;
             WordCount = string.IsNullOrWhiteSpace(text) ? 0 : text.Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries).Length;
         }
+
+        internal void InsertDetails(string summary, string details)
+        {
+            if (_innerBox == null) return;
+            int start = _innerBox.SelectionStart;
+            int length = _innerBox.SelectionLength;
+            string text = _innerBox.Text ?? string.Empty;
+            string instext = $"""
+            <details>
+            <summary>
+            {summary}
+            </summary>
+            {details}
+            </details>
+            """;
+            if (length > 0)
+            {
+                text = text.Remove(start, length).Insert(start, instext);
+                _innerBox.SelectionStart = start + instext.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            else
+            {
+                text = text.Insert(start, instext);
+                _innerBox.SelectionStart = start + instext.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            Text = text;
+        }
     }
 }

@@ -97,5 +97,10 @@ namespace Fairmark
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
+
+        private void Details_Click(object sender, RoutedEventArgs e)
+        {
+            MarkEditor.InsertDetails(SummaryText.Text, DetailsText.Text);
+        }
     }
 }
