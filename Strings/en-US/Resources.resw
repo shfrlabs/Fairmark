@@ -650,4 +650,12 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Insert link</value>
     <comment>Used in the "Add link" flyout.</comment>
   </data>
+  <data name="CharCount.Text" xml:space="preserve">
+    <value>Character count:</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="WordCount.Text" xml:space="preserve">
+    <value>Word count:</value>
+    <comment>Bottom command bar.</comment>
+  </data>
 </root>

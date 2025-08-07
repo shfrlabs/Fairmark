@@ -169,8 +169,8 @@
                 <FlyoutBase.AttachedFlyout>
                     <Flyout>
                         <StackPanel Width="250" Margin="-10">
-                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
-                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
+                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
+                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
                             <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
                         </StackPanel>
                     </Flyout>
@@ -204,6 +204,17 @@
                         <KeyboardAccelerator Key="NumberPad3" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarElementContainer>
+                    <Grid VerticalAlignment="Stretch" Opacity="0.7" Margin="5,8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="11"><Run x:Uid="WordCount"/> <Run Text="{x:Bind MarkEditor.WordCount, Mode=OneWay}"></Run></TextBlock>
+                        <TextBlock FontSize="11" Grid.Row="1"><Run x:Uid="CharCount"/> <Run Text="{x:Bind MarkEditor.CharacterCount, Mode=OneWay}"></Run></TextBlock>
+                    </Grid>
+                </AppBarElementContainer>
             </StackPanel>
         </ScrollViewer>
     </Grid>

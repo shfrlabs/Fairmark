@@ -1,5 +1,6 @@
 ﻿using Fairmark.Helpers;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Fairmark.Controls
 {
-    public sealed class FileEditorBox : Control
+    public sealed class FileEditorBox : Control, INotifyPropertyChanged
     {
         private TextBox _innerBox;
         private int _instanceId;
@@ -41,6 +42,35 @@ namespace Fairmark.Controls
         public ICommand CopyCommand { get; }
         public ICommand PasteCommand { get; }
 
+        private int _wordCount;
+        private int _characterCount;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int WordCount
+        {
+            get => _wordCount;
+            private set
+            {
+                if (_wordCount != value)
+                {
+                    _wordCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WordCount)));
+                }
+            }
+        }
+        public int CharacterCount
+        {
+            get => _characterCount;
+            private set
+            {
+                if (_characterCount != value)
+                {
+                    _characterCount = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CharacterCount)));
+                }
+            }
+        }
+
         public FileEditorBox()
         {
             _instanceId = ++_instanceCounter;
@@ -63,6 +93,8 @@ namespace Fairmark.Controls
             CutCommand = new RelayCommand(_ => ExecuteCutCommand());
             CopyCommand = new RelayCommand(_ => ExecuteCopyCommand());
             PasteCommand = new RelayCommand(_ => ExecutePasteCommand());
+
+            UpdateCounts();
         }
 
         private void ExecuteUndoCommand() => _innerBox?.Undo();
@@ -125,6 +157,7 @@ namespace Fairmark.Controls
         }
         private void InnerBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            UpdateCounts();
             if (!string.IsNullOrEmpty(NoteID))
             {
                 _ = NoteFileHandlingHelper.WriteNoteFileAsync(NoteID, Text);
@@ -614,12 +647,22 @@ namespace Fairmark.Controls
         public string Text
         {
             get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+            set
+            {
+                SetValue(TextProperty, value);
+                UpdateCounts();
+            }
         }
         public string NoteID
         {
             get => (string)GetValue(NoteIDProperty);
             set => SetValue(NoteIDProperty, value);
+        }
+        private void UpdateCounts()
+        {
+            var text = Text ?? string.Empty;
+            CharacterCount = text.Length;
+            WordCount = string.IsNullOrWhiteSpace(text) ? 0 : text.Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries).Length;
         }
     }
 }
