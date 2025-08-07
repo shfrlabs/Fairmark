@@ -17,6 +17,14 @@ namespace Fairmark.Controls
         private int _instanceId;
         private static int _instanceCounter;
 
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register("Text", typeof(string), typeof(FileEditorBox),
+            new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty NoteIDProperty =
+            DependencyProperty.Register("NoteID", typeof(string), typeof(FileEditorBox),
+                new PropertyMetadata(string.Empty));
+
         public ICommand BoldCommand { get; }
         public ICommand ItalicCommand { get; }
         public ICommand StrikethroughCommand { get; }
@@ -50,20 +58,43 @@ namespace Fairmark.Controls
             Heading2Command = new RelayCommand(_ => ExecuteHeadingCommand(2));
             Heading3Command = new RelayCommand(_ => ExecuteHeadingCommand(3));
             HorizontalLineCommand = new RelayCommand(_ => ExecuteHorizontalLineCommand());
-            UndoCommand = new RelayCommand(_ => _innerBox.Undo(), _ => _innerBox.CanUndo);
-            RedoCommand = new RelayCommand(_ => _innerBox.Redo(), _ => _innerBox.CanRedo);
-            CutCommand = new RelayCommand(_ => _innerBox.CutSelectionToClipboard(), _ => _innerBox != null && _innerBox.SelectionLength > 0);
-            CopyCommand = new RelayCommand(_ => _innerBox.CopySelectionToClipboard(), _ => _innerBox != null && _innerBox.SelectionLength > 0);
-            PasteCommand = new RelayCommand(_ => _innerBox.PasteFromClipboard(), _ => _innerBox != null && _innerBox.CanPasteClipboardContent);
+            UndoCommand = new RelayCommand(_ => ExecuteUndoCommand());
+            RedoCommand = new RelayCommand(_ => ExecuteRedoCommand());
+            CutCommand = new RelayCommand(_ => ExecuteCutCommand());
+            CopyCommand = new RelayCommand(_ => ExecuteCopyCommand());
+            PasteCommand = new RelayCommand(_ => ExecutePasteCommand());
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(FileEditorBox),
-            new PropertyMetadata(string.Empty));
+        private void ExecuteUndoCommand() => _innerBox?.Undo();
+        private void ExecuteRedoCommand() => _innerBox?.Redo();
+        private void ExecuteCutCommand() => _innerBox?.CutSelectionToClipboard();
+        private void ExecuteCopyCommand() => _innerBox?.CopySelectionToClipboard();
+        private void ExecutePasteCommand() => _innerBox?.PasteFromClipboard();
 
-        public static readonly DependencyProperty NoteIDProperty =
-            DependencyProperty.Register("NoteID", typeof(string), typeof(FileEditorBox),
-                new PropertyMetadata(string.Empty));
+        private void ExecuteBoldCommand()
+        {
+            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
+            ToggleFormattingDynamic("**", false);
+        }
+        private void ExecuteItalicCommand()
+        {
+            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
+            ToggleFormattingDynamic("_", true);
+        }
+        private void ExecuteStrikethroughCommand()
+        {
+            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
+            ToggleFormattingDynamic("~~", false);
+        }
+        private void ExecuteCodeCommand()
+        {
+            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
+            ToggleFormattingDynamic("`", false);
+        }
+        private void ExecuteBulletCommand() => ToggleBulletDynamic();
+        private void ExecuteQuoteCommand() => ToggleQuote();
+        private void ExecuteHeadingCommand(int level) => ToggleHeadingDynamic(level);
+        private void ExecuteHorizontalLineCommand() => AddNewHorizontalLine();
 
         protected override void OnApplyTemplate()
         {
@@ -92,7 +123,13 @@ namespace Fairmark.Controls
                 Debug.WriteLine($"[#{_instanceId}] ERROR: Inner box not found!");
             }
         }
-
+        private void InnerBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(NoteID))
+            {
+                _ = NoteFileHandlingHelper.WriteNoteFileAsync(NoteID, Text);
+            }
+        }
         private void InnerBox_Paste(object sender, TextControlPasteEventArgs e)
         {
             Debug.WriteLine(">> InnerBox_Paste fired");
@@ -122,153 +159,24 @@ namespace Fairmark.Controls
             Debug.WriteLine("<< InnerBox_Paste exit");
         }
 
-        private async Task EmbedLinkAsync(TextBox tb)
-        {
-            try
-            {
-                var dp = Clipboard.GetContent();
-                var raw = (await dp.GetTextAsync()).Trim();
-                Debug.WriteLine($"Clipboard text: '{raw}'");
-                if (string.IsNullOrWhiteSpace(raw))
-                {
-                    Debug.WriteLine("Empty/whitespace → nothing to embed");
-                    return;
-                }
-                if (!TryGetEmbedLink(raw, out var url))
-                {
-                    Debug.WriteLine("Not a Spotify/Figma link → nothing to embed");
-                    return;
-                }
-                Debug.WriteLine($"Embed URL: {url}");
-                Debug.WriteLine($"Embed text: '{url}'");
-                await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    var start = tb.SelectionStart;
-                    var len = tb.SelectionLength;
-                    var orig = tb.Text ?? string.Empty;
-                    var updated = orig.Remove(start, len)
-                                      .Insert(start, url);
-                    tb.Text = updated;
-                    tb.SelectionStart = start + url.Length;
-                    tb.SelectionLength = 0;
-                    Debug.WriteLine($"After insert – textLen={tb.Text.Length}, caret={tb.SelectionStart}");
-                });
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"EmbedLinkAsync failed: {ex}");
-            }
-        }
-
-        private bool TryGetEmbedLink(string text, out string link)
-        {
-            Debug.WriteLine($">> TryGetEmbedLink('{text}')");
-            link = null;
-            if (!text.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-                !text.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            {
-                text = "https://" + text;
-                Debug.WriteLine($"  → Prefixed scheme: '{text}'");
-            }
-            if (!Uri.TryCreate(text, UriKind.Absolute, out var uri))
-            {
-                Debug.WriteLine("  → Uri.TryCreate failed");
-                return false;
-            }
-            var host = uri.Host.ToLowerInvariant();
-            var segments = uri.AbsolutePath
-                              .Trim('/')
-                              .Split('/', StringSplitOptions.RemoveEmptyEntries);
-            Debug.WriteLine($"  → host='{host}', segments=[{string.Join(", ", segments)}]");
-            var isSpotify = host == "open.spotify.com"
-                         && segments.Length > 0
-                         && new[] { "track", "album", "playlist", "artist" }
-                             .Contains(segments[0]);
-            Debug.WriteLine($"  → isSpotify? {isSpotify}");
-            var isFigma = (host == "figma.com" || host.EndsWith(".figma.com"))
-                       && segments.Length > 0
-                       && segments[0] == "design";
-            Debug.WriteLine($"  → isFigma? {isFigma}");
-            if (isSpotify)
-            {
-                link = "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/" + segments[0] + "/" + segments[1] + "?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>";
-            }
-            if (isFigma)
-            {
-                link = "<iframe style=\"border: 1px solid rgba(0, 0, 0, 0.1);\" width=\"800\" height=\"450\" src=\"https://embed.figma.com/" + segments[0] + "/" + segments[1] + "\" allowfullscreen></iframe>";
-            }
-            var ok = isSpotify || isFigma;
-            Debug.WriteLine($"<< TryGetEmbedLink returns {ok}");
-            return ok;
-        }
-
-        private void InnerBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(NoteID))
-            {
-                _ = NoteFileHandlingHelper.WriteNoteFileAsync(NoteID, Text);
-            }
-        }
-        private void ExecuteBoldCommand()
-        {
-            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
-            ToggleFormattingDynamic("**", false);
-        }
-        private void ExecuteItalicCommand()
-        {
-            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
-            ToggleFormattingDynamic("_", true);
-        }
-        private void ExecuteStrikethroughCommand()
-        {
-            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
-            ToggleFormattingDynamic("~~", false);
-        }
-        private void ExecuteCodeCommand()
-        {
-            if (_innerBox == null || _innerBox.SelectionLength == 0) return;
-            ToggleFormattingDynamic("`", false);
-        }
-        private void ExecuteBulletCommand()
-        {
-            ToggleBulletDynamic();
-        }
-        private void ExecuteQuoteCommand()
-        {
-            ToggleQuote();
-        }
-
         private void ToggleQuote()
         {
             if (_innerBox == null) return;
-
             int selectionStart = _innerBox.SelectionStart;
             int selectionLength = _innerBox.SelectionLength;
             string text = _innerBox.Text ?? string.Empty;
-
-            // Expand selection to full lines
             int selStart = selectionStart;
             int selEnd = selectionStart + selectionLength;
-
-            // Find start of first line in selection
             int blockStart = text.LastIndexOfAny(new[] { '\r', '\n' }, Math.Max(0, selStart - 1));
             blockStart = blockStart == -1 ? 0 : blockStart + 1;
-
-            // Find end of last line in selection
             int blockEnd = text.IndexOfAny(new[] { '\r', '\n' }, selEnd);
             if (blockEnd == -1) blockEnd = text.Length;
-
             string selectedBlock = text.Substring(blockStart, blockEnd - blockStart);
-
-            // Split into lines, preserving line endings
             var lines = selectedBlock.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None);
             bool allQuoted = lines.All(l => l.StartsWith("> "));
-
             var newLines = allQuoted
                 ? lines.Select(l => l.StartsWith("> ") ? l.Substring(2) : l)
                 : lines.Select(l => l.Length == 0 ? "> " : l.StartsWith("> ") ? l : "> " + l);
-
-            // Detect original line endings
             string lineEnding = "\n";
             int rn = selectedBlock.IndexOf("\r\n");
             int r = selectedBlock.IndexOf('\r');
@@ -277,36 +185,78 @@ namespace Fairmark.Controls
             else if (r != -1 && (n == -1 || r < n)) lineEnding = "\r";
             else if (n != -1) lineEnding = "\n";
             string newBlock = string.Join(lineEnding, newLines);
-
             string newText = text.Substring(0, blockStart) + newBlock + text.Substring(blockEnd);
-
             int newSelectionStart = selectionStart + (allQuoted ? -2 : 2);
             int newSelectionLength = newBlock.Length - selectedBlock.Length + selectionLength;
-
             Text = newText;
             _innerBox.SelectionStart = Math.Max(0, Math.Min(newSelectionStart, newText.Length));
             _innerBox.SelectionLength = Math.Max(0, Math.Min(newSelectionLength, newText.Length - _innerBox.SelectionStart));
         }
-
-        private void ExecuteHeadingCommand(int level)
+        private void ToggleBulletDynamic()
         {
-            ToggleHeadingDynamic(level);
+            if (_innerBox == null) return;
+            int cursorPosition = _innerBox.SelectionStart;
+            (int lineStart, int lineEnd, string lineText, _) = GetCurrentLine(cursorPosition);
+            if (lineText.StartsWith("#"))
+            {
+                int i = 0;
+                while (i < lineText.Length && lineText[i] == '#') i++;
+                if (i < lineText.Length && lineText[i] == ' ')
+                {
+                    lineText = lineText.Substring(i + 1);
+                }
+                else if (i < lineText.Length)
+                {
+                    lineText = lineText.Substring(i);
+                }
+            }
+            bool isBullet = lineText.StartsWith("- ") || lineText.StartsWith("* ");
+            string newLineText = isBullet ? lineText.Substring(2) : "- " + lineText.TrimStart();
+            string newText = _innerBox.Text.Substring(0, lineStart) + newLineText + _innerBox.Text.Substring(lineEnd);
+            Text = newText;
+            int newCursorPosition = cursorPosition + (isBullet ? -2 : 2);
+            _innerBox.SelectionStart = Math.Max(0, Math.Min(newCursorPosition, newText.Length));
+            _innerBox.SelectionLength = 0;
         }
-        private void ExecuteHorizontalLineCommand()
+        private void ToggleHeadingDynamic(int targetLevel)
         {
-            AddNewHorizontalLine();
+            if (_innerBox == null) return;
+            int cursorPosition = _innerBox.SelectionStart;
+            (int lineStart, int lineEnd, string lineText, _) = GetCurrentLine(cursorPosition);
+            if (lineText.StartsWith("- "))
+            {
+                lineText = lineText.Substring(2);
+            }
+            else if (lineText.StartsWith("* "))
+            {
+                lineText = lineText.Substring(2);
+            }
+            lineText = RemoveBlockFormatting(lineText);
+            string newLineText;
+            int headingPrefixLength = 0;
+            if (lineText.StartsWith(new string('#', targetLevel) + " "))
+            {
+                newLineText = lineText.Substring(targetLevel + 1);
+            }
+            else
+            {
+                newLineText = new string('#', targetLevel) + " " + lineText.TrimStart();
+                headingPrefixLength = targetLevel + 1;
+            }
+            string newText = _innerBox.Text.Substring(0, lineStart) + newLineText + _innerBox.Text.Substring(lineEnd);
+            Text = newText;
+            int newCursorPosition = lineStart + headingPrefixLength;
+            _innerBox.SelectionStart = Math.Min(newCursorPosition, newText.Length);
+            _innerBox.SelectionLength = 0;
         }
-
         private void AddNewHorizontalLine()
         {
             if (_innerBox == null) return;
             int cursorPosition = _innerBox.SelectionStart;
             (_, int lineEnd, _, _) = GetCurrentLine(cursorPosition);
-
             int insertPosition = lineEnd;
             string newText = _innerBox.Text.Insert(insertPosition, "\n---\n");
             Text = newText;
-
             _innerBox.SelectionStart = insertPosition + "\n---\n".Length;
             _innerBox.SelectionLength = 0;
         }
@@ -321,40 +271,13 @@ namespace Fairmark.Controls
             bool isCurrentlyFormatted = IsFormattedAtPosition(pattern, isItalic, text, start, length);
             ToggleFormatting(pattern, isItalic, !isCurrentlyFormatted, text, start, length);
         }
-        private void RemoveAllMarkersFromSelection(ref string text, ref int start, ref int length)
-        {
-            string[] markers = { "**", "*", "~~", "`", "__", "_" };
-            bool changed;
-            do
-            {
-                changed = false;
-                foreach (var marker in markers.OrderByDescending(m => m.Length))
-                {
-                    int markerLen = marker.Length;
-                    while (length > 0 && start + markerLen <= text.Length && text.Substring(start, markerLen) == marker)
-                    {
-                        text = text.Remove(start, markerLen);
-                        length -= markerLen;
-                        changed = true;
-                    }
-                    while (length > 0 && start + length - markerLen >= 0 && start + length <= text.Length && text.Substring(start + length - markerLen, markerLen) == marker)
-                    {
-                        text = text.Remove(start + length - markerLen, markerLen);
-                        length -= markerLen;
-                        changed = true;
-                    }
-                }
-            } while (changed);
-        }
         private void ToggleFormatting(string pattern, bool isItalic, bool apply, string text, int start, int length)
         {
             int patternLength = pattern.Length;
             string newText = text;
             int newStart = start;
             int newLength = length;
-
             RemoveAllMarkersFromSelection(ref newText, ref newStart, ref newLength);
-
             if (apply)
             {
                 if (newLength > 0)
@@ -419,6 +342,31 @@ namespace Fairmark.Controls
             Text = newText;
             _innerBox.SelectionStart = newStart;
             _innerBox.SelectionLength = newLength;
+        }
+        private void RemoveAllMarkersFromSelection(ref string text, ref int start, ref int length)
+        {
+            string[] markers = { "**", "*", "~~", "`", "__", "_" };
+            bool changed;
+            do
+            {
+                changed = false;
+                foreach (var marker in markers.OrderByDescending(m => m.Length))
+                {
+                    int markerLen = marker.Length;
+                    while (length > 0 && start + markerLen <= text.Length && text.Substring(start, markerLen) == marker)
+                    {
+                        text = text.Remove(start, markerLen);
+                        length -= markerLen;
+                        changed = true;
+                    }
+                    while (length > 0 && start + length - markerLen >= 0 && start + length <= text.Length && text.Substring(start + length - markerLen, markerLen) == marker)
+                    {
+                        text = text.Remove(start + length - markerLen, markerLen);
+                        length -= markerLen;
+                        changed = true;
+                    }
+                }
+            } while (changed);
         }
         private bool IsFormattedAtPosition(string pattern, bool isItalic, string text, int pos, int len)
         {
@@ -488,6 +436,31 @@ namespace Fairmark.Controls
             }
             return closest;
         }
+        public void InsertLink(string url, string displayText = null)
+        {
+            if (_innerBox == null) return;
+            int start = _innerBox.SelectionStart;
+            int length = _innerBox.SelectionLength;
+            string text = _innerBox.Text ?? string.Empty;
+            if (string.IsNullOrEmpty(displayText))
+            {
+                displayText = url;
+            }
+            string linkText = $"[{displayText}]({url})";
+            if (length > 0)
+            {
+                text = text.Remove(start, length).Insert(start, linkText);
+                _innerBox.SelectionStart = start + linkText.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            else
+            {
+                text = text.Insert(start, linkText);
+                _innerBox.SelectionStart = start + linkText.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            Text = text;
+        }
         private int FindNearestClosingMarker(string text, string pattern, int position, bool isItalic)
         {
             int closest = -1;
@@ -508,63 +481,6 @@ namespace Fairmark.Controls
                 }
             }
             return closest;
-        }
-        private void ToggleBulletDynamic()
-        {
-            if (_innerBox == null) return;
-            int cursorPosition = _innerBox.SelectionStart;
-            (int lineStart, int lineEnd, string lineText, _) = GetCurrentLine(cursorPosition);
-            if (lineText.StartsWith("#"))
-            {
-                int i = 0;
-                while (i < lineText.Length && lineText[i] == '#') i++;
-                if (i < lineText.Length && lineText[i] == ' ')
-                {
-                    lineText = lineText.Substring(i + 1);
-                }
-                else if (i < lineText.Length)
-                {
-                    lineText = lineText.Substring(i);
-                }
-            }
-            bool isBullet = lineText.StartsWith("- ") || lineText.StartsWith("* ");
-            string newLineText = isBullet ? lineText.Substring(2) : "- " + lineText.TrimStart();
-            string newText = _innerBox.Text.Substring(0, lineStart) + newLineText + _innerBox.Text.Substring(lineEnd);
-            Text = newText;
-            int newCursorPosition = cursorPosition + (isBullet ? -2 : 2);
-            _innerBox.SelectionStart = Math.Max(0, Math.Min(newCursorPosition, newText.Length));
-            _innerBox.SelectionLength = 0;
-        }
-        private void ToggleHeadingDynamic(int targetLevel)
-        {
-            if (_innerBox == null) return;
-            int cursorPosition = _innerBox.SelectionStart;
-            (int lineStart, int lineEnd, string lineText, _) = GetCurrentLine(cursorPosition);
-            if (lineText.StartsWith("- "))
-            {
-                lineText = lineText.Substring(2);
-            }
-            else if (lineText.StartsWith("* "))
-            {
-                lineText = lineText.Substring(2);
-            }
-            lineText = RemoveBlockFormatting(lineText);
-            string newLineText;
-            int headingPrefixLength = 0;
-            if (lineText.StartsWith(new string('#', targetLevel) + " "))
-            {
-                newLineText = lineText.Substring(targetLevel + 1);
-            }
-            else
-            {
-                newLineText = new string('#', targetLevel) + " " + lineText.TrimStart();
-                headingPrefixLength = targetLevel + 1;
-            }
-            string newText = _innerBox.Text.Substring(0, lineStart) + newLineText + _innerBox.Text.Substring(lineEnd);
-            Text = newText;
-            int newCursorPosition = lineStart + headingPrefixLength;
-            _innerBox.SelectionStart = Math.Min(newCursorPosition, newText.Length);
-            _innerBox.SelectionLength = 0;
         }
         private static string RemoveBlockFormatting(string lineText)
         {
@@ -616,6 +532,84 @@ namespace Fairmark.Controls
             string lineText = length > 0 ? text.Substring(lineStart, length) : "";
             Debug.WriteLine($"[#{_instanceId}] GetCurrentLine: pos={position}, start={lineStart}, end={lineEnd}, line={lineNumber}, text='{lineText}'");
             return (lineStart, lineEnd, lineText, lineNumber);
+        }
+        private async Task EmbedLinkAsync(TextBox tb)
+        {
+            try
+            {
+                var dp = Clipboard.GetContent();
+                var raw = (await dp.GetTextAsync()).Trim();
+                Debug.WriteLine($"Clipboard text: '{raw}'");
+                if (string.IsNullOrWhiteSpace(raw))
+                {
+                    Debug.WriteLine("Empty/whitespace → nothing to embed");
+                    return;
+                }
+                if (!TryGetEmbedLink(raw, out var url))
+                {
+                    Debug.WriteLine("Not a Spotify/Figma link → nothing to embed");
+                    return;
+                }
+                Debug.WriteLine($"Embed URL: {url}");
+                Debug.WriteLine($"Embed text: '{url}'");
+                await tb.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    var start = tb.SelectionStart;
+                    var len = tb.SelectionLength;
+                    var orig = tb.Text ?? string.Empty;
+                    var updated = orig.Remove(start, len)
+                                      .Insert(start, url);
+                    tb.Text = updated;
+                    tb.SelectionStart = start + url.Length;
+                    tb.SelectionLength = 0;
+                    Debug.WriteLine($"After insert – textLen={tb.Text.Length}, caret={tb.SelectionStart}");
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"EmbedLinkAsync failed: {ex}");
+            }
+        }
+        private bool TryGetEmbedLink(string text, out string link)
+        {
+            Debug.WriteLine($">> TryGetEmbedLink('{text}')");
+            link = null;
+            if (!text.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                !text.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                text = "https://" + text;
+                Debug.WriteLine($"  → Prefixed scheme: '{text}'");
+            }
+            if (!Uri.TryCreate(text, UriKind.Absolute, out var uri))
+            {
+                Debug.WriteLine("  → Uri.TryCreate failed");
+                return false;
+            }
+            var host = uri.Host.ToLowerInvariant();
+            var segments = uri.AbsolutePath
+                              .Trim('/')
+                              .Split('/', StringSplitOptions.RemoveEmptyEntries);
+            Debug.WriteLine($"  → host='{host}', segments=[{string.Join(", ", segments)}]");
+            var isSpotify = host == "open.spotify.com"
+                         && segments.Length > 0
+                         && new[] { "track", "album", "playlist", "artist" }
+                             .Contains(segments[0]);
+            Debug.WriteLine($"  → isSpotify? {isSpotify}");
+            var isFigma = (host == "figma.com" || host.EndsWith(".figma.com"))
+                       && segments.Length > 0
+                       && segments[0] == "design";
+            Debug.WriteLine($"  → isFigma? {isFigma}");
+            if (isSpotify)
+            {
+                link = "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/" + segments[0] + "/" + segments[1] + "?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>";
+            }
+            if (isFigma)
+            {
+                link = "<iframe style=\"border: 1px solid rgba(0, 0, 0, 0.1);\" width=\"800\" height=\"450\" src=\"https://embed.figma.com/" + segments[0] + "/" + segments[1] + "\" allowfullscreen></iframe>";
+            }
+            var ok = isSpotify || isFigma;
+            Debug.WriteLine($"<< TryGetEmbedLink returns {ok}");
+            return ok;
         }
         public string Text
         {

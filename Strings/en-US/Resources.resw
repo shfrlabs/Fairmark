@@ -314,7 +314,27 @@
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="StrikeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Strikethrough (Ctrl+X)</value>
+    <value>Strikethrough (Ctrl+S)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="CopyButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy (Ctrl+C)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="CutButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Cut (Ctrl+X)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="PasteButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Paste (Ctrl+V)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="RedoButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Redo (Ctrl+Y)</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="UndoButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Undo (Ctrl+Z)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="CodeButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -613,5 +633,21 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="PromoDesc.Text" xml:space="preserve">
     <value>Say hello to Fairmark, your next favorite note-taking app! Tag, customize and organize your notes with ease. Choose your preferred options on the next page to get started.</value>
     <comment>OOBE</comment>
+  </data>
+  <data name="LinkButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add link</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
+    <value>Displayed text</value>
+    <comment>Used in the "Add link" flyout</comment>
+  </data>
+  <data name="LinkAddress.PlaceholderText" xml:space="preserve">
+    <value>Link address</value>
+    <comment>Used in the "Add link" flyout</comment>
+  </data>
+  <data name="InsertLinkButton" xml:space="preserve">
+    <value>Insert link</value>
+    <comment>Used in the "Add link" flyout.</comment>
   </data>
 </root>

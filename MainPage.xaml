@@ -161,8 +161,8 @@
                         <AppBarButton Icon="Add" Width="62" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click" x:Uid="CreateNoteButton"/>
                         <AppBarButton Icon="Rename" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" x:Uid="RenameNoteButton" Click="RenameButton_Click"/>
                         <AppBarButton Icon="Delete" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" x:Uid="DeleteNoteButton" Click="DeleteButton_Click"/>
-                        <AppBarButton Icon="More" Width="60" x:Name="MoreBtn" x:Uid="MoreButton" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed">
-                            <AppBarButton.Flyout>
+                        <AppBarButton Icon="More" Width="60" x:Name="MoreBtn" x:Uid="MoreButton" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed" Click="MoreBtn_Click">
+                            <FlyoutBase.AttachedFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem x:Uid="ChangeEmojiBtn" Loaded="MenuFlyoutItem_Loaded">
                                         <MenuFlyoutItem.Icon>
@@ -175,7 +175,7 @@
                                         </MenuFlyoutSubItem.Icon>
                                     </MenuFlyoutSubItem>
                                 </MenuFlyout>
-                            </AppBarButton.Flyout>
+                            </FlyoutBase.AttachedFlyout>
                         </AppBarButton>
                     </Grid>
                 </Grid>

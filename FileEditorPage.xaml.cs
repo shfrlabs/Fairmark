@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 
 namespace Fairmark
@@ -85,6 +86,16 @@ namespace Fairmark
         private void previewsv_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
 
+        }
+
+        private void InsertLink_Click(object sender, RoutedEventArgs e)
+        {
+            MarkEditor.InsertLink(LinkUrl.Text, LinkText.Text);
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }

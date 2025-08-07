@@ -83,7 +83,34 @@
            VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
         <ScrollViewer Margin="-2,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" MinWidth="0" VerticalScrollMode="Disabled" HorizontalScrollMode="Enabled">
-            <StackPanel Orientation="Horizontal" Width="500">
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="UndoButton" Width="42" Icon="Undo" Command="{x:Bind MarkEditor.UndoCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Z" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="RedoButton" Width="42" Icon="Redo" Command="{x:Bind MarkEditor.RedoCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Y" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CutButton" Width="42" Icon="Cut" Command="{x:Bind MarkEditor.CutCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="X" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CupyButton" Width="42" Icon="Copy" Command="{x:Bind MarkEditor.CopyCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="C" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="PasteButton" Width="42" Icon="Paste" Command="{x:Bind MarkEditor.PasteCommand}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="V" Modifiers="Control"/>
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Width="42" Icon="Bold" Command="{x:Bind MarkEditor.BoldCommand}">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator Key="B" Modifiers="Control"/>
@@ -99,7 +126,7 @@
                         <FontIcon Glyph="&#xEDE0;" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="X" Modifiers="Control"/>
+                        <KeyboardAccelerator Key="S" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CodeButton" Width="42" Command="{x:Bind MarkEditor.CodeCommand}">
@@ -118,6 +145,7 @@
                         <KeyboardAccelerator Key="Q" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
+                <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BulletButton" Width="42" Command="{x:Bind MarkEditor.BulletCommand}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8FD;" />
@@ -134,24 +162,21 @@
                         <KeyboardAccelerator Key="L" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
-                <!--<AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Label="Add link" Width="42">
-    <AppBarButton.Icon>
-        <FontIcon Glyph="&#xE71B;" />
-    </AppBarButton.Icon>
-    <AppBarButton.Flyout>
-        <Flyout>
-            <StackPanel Width="250" Margin="-10">
-                <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" PlaceholderText="Link address" />
-                <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" PlaceholderText="Displayed text" Margin="0,10,0,10"/>
-                <Button Content="Insert link" Command="{x:Bind MarkEditor.AddLinkCommand}" HorizontalAlignment="Stretch">
-                    <Button.CommandParameter>
-                        <models:Link Name="{x:Bind LinkText.Text}" Url="{x:Bind LinkUrl.Text}"/>
-                    </Button.CommandParameter>
-                </Button>
-            </StackPanel>
-        </Flyout>
-    </AppBarButton.Flyout>
-</AppBarButton>-->
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="LinkButton" Width="42" Click="AppBarButton_Click">
+                    <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE71B;"/>
+                </AppBarButton.Icon>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <StackPanel Width="250" Margin="-10">
+                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
+                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
+                            <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </AppBarButton>
+                <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head1Button" Width="42" Command="{x:Bind MarkEditor.Heading1Command}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe UI Variable Display" Glyph="H1"/>

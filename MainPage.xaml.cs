@@ -16,6 +16,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -1204,6 +1205,11 @@ namespace Fairmark
                 currentView.ExitFullScreenMode();
             else
                 _ = currentView.TryEnterFullScreenMode();
+        }
+
+        private void MoreBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }
