@@ -96,19 +96,19 @@
                 </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CutButton" Width="42" Icon="Cut" Command="{x:Bind MarkEditor.CutCommand}">
-                    <AppBarButton.KeyboardAccelerators>
+                    <!--<AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator Key="X" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton.KeyboardAccelerators>-->
                 </AppBarButton>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CupyButton" Width="42" Icon="Copy" Command="{x:Bind MarkEditor.CopyCommand}">
-                    <AppBarButton.KeyboardAccelerators>
+                    <!--<AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator Key="C" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton.KeyboardAccelerators>-->
                 </AppBarButton>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="PasteButton" Width="42" Icon="Paste" Command="{x:Bind MarkEditor.PasteCommand}">
-                    <AppBarButton.KeyboardAccelerators>
+                    <!--<AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator Key="V" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton.KeyboardAccelerators>-->
                 </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Width="42" Icon="Bold" Command="{x:Bind MarkEditor.BoldCommand}">
@@ -190,7 +190,23 @@
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </AppBarButton>
-                
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ImageButton" Width="42" Click="AppBarButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8B9;"/>
+                    </AppBarButton.Icon>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <StackPanel Width="250" Margin="-10">
+                                <HyperlinkButton Content="Import image.." Click="ImportImage_Click" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                <AutoSuggestBox x:Name="ImageSearch" QueryIcon="Find" TextChanged="ImageSearch_TextChanged" PlaceholderText="Search for images.." Margin="0,0,0,10"/>
+                                <ScrollViewer Height="300" HorizontalAlignment="Stretch">
+                                    <ListView HorizontalAlignment="Stretch" x:Name="Images" Loaded="Images_Loaded"/>
+                                </ScrollViewer>
+                                <Button Margin="0,10,0,0" Content="Insert element" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" x:Name="InsertImage" Click="InsertImage_Click"/>
+                            </StackPanel>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="Head1Button" Width="42" Command="{x:Bind MarkEditor.Heading1Command}">
                     <AppBarButton.Icon>

@@ -1,11 +1,15 @@
 ﻿using Fairmark.Helpers;
 using System;
+using System.Buffers.Text;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -493,6 +497,28 @@ namespace Fairmark.Controls
                 _innerBox.SelectionLength = 0;
             }
             Text = text;
+        }
+        public async Task InsertImage(string selectedImage)
+        {
+            if (!((await (new ImageFolderHelper()).GetImageList()).Contains(selectedImage))) return;
+            if (_innerBox == null) return;
+            int start = _innerBox.SelectionStart;
+            int length = _innerBox.SelectionLength;
+            string text = _innerBox.Text ?? string.Empty;
+            string instext = $"![image](local:///{Uri.EscapeUriString(selectedImage)})";
+            if (length > 0)
+            {
+                text = text.Remove(start, length).Insert(start, instext);
+                _innerBox.SelectionStart = start + instext.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            else
+            {
+                text = text.Insert(start, instext);
+                _innerBox.SelectionStart = start + instext.Length;
+                _innerBox.SelectionLength = 0;
+            }
+            _innerBox.Text = text;
         }
         private int FindNearestClosingMarker(string text, string pattern, int position, bool isItalic)
         {

@@ -122,6 +122,8 @@
   <ItemGroup>
     <Compile Include="EmojiHelper.cs" />
     <Compile Include="GridLengthAnimationHelper.cs" />
+    <Compile Include="ImageFolderHelper.cs" />
+    <Compile Include="LocalImageProviderHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="NoteCollectionHelper.cs" />
     <Compile Include="NoteFileHandlingHelper.cs" />

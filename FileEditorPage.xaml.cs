@@ -2,7 +2,12 @@
 using CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
 using Fairmark.Helpers;
 using Fairmark.Models;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,11 +19,7 @@ namespace Fairmark
     public sealed partial class FileEditorPage : Page
     {
         private string noteId;
-        private double _totalPreviewHeight;
-        private double _lastEditorOffset;
-        private double _lastEditorHeight;
-        private bool _isScrollSyncing;
-
+        public ImageFolderHelper imageFolderHelper = new ImageFolderHelper();
         public FileEditorPage()
         {
             InitializeComponent();
@@ -46,7 +47,7 @@ namespace Fairmark
             if (MarkBlock.Config == null)
             {
                 MarkdownThemes theme = new MarkdownThemes();
-                MarkdownConfig config = new MarkdownConfig();
+                MarkdownConfig config = new MarkdownConfig() { ImageProvider = new LocalImageProviderHelper() };
                 double baseSize = (MarkBlock.DataContext as Settings).PreviewFontSize;
                 theme.H1FontSize = baseSize * 1.5;
                 theme.H2FontSize = baseSize * 1.4;
@@ -101,6 +102,55 @@ namespace Fairmark
         private void Details_Click(object sender, RoutedEventArgs e)
         {
             MarkEditor.InsertDetails(SummaryText.Text, DetailsText.Text);
+        }
+
+        private async void ImportImage_Click(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+            };
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            StorageFile[] picked = (await picker.PickMultipleFilesAsync()).ToArray();
+            if (picked.Length > 0)
+            {
+                bool result = await imageFolderHelper.ImportImage(picked);
+                if (result)
+                {
+                    Images.ItemsSource = await imageFolderHelper.GetImageList();
+                }
+                else
+                {
+                    Debug.WriteLine("Failed to import images.");
+                }
+            }
+            Images.ItemsSource = await imageFolderHelper.GetImageList();
+        }
+
+        private async void InsertImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (Images.SelectedItem != null)
+            {
+                string selectedImage = Images.SelectedItem.ToString();
+                if (!string.IsNullOrEmpty(selectedImage))
+                {
+                    await MarkEditor.InsertImage(selectedImage);
+                }
+            }
+        }
+
+        private void ImageSearch_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+
+        }
+
+        private async void Images_Loaded(object sender, RoutedEventArgs e)
+        {
+            Images.ItemsSource = await imageFolderHelper.GetImageList();
         }
     }
 }
