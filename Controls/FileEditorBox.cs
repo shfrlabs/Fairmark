@@ -500,12 +500,12 @@ namespace Fairmark.Controls
         }
         public async Task InsertImage(string selectedImage)
         {
-            if (!((await (new ImageFolderHelper()).GetImageList()).Contains(selectedImage))) return;
+            if (!((await (new ImageFolderHelper()).GetImageList()).Any(t => t.Name == selectedImage))) return;
             if (_innerBox == null) return;
             int start = _innerBox.SelectionStart;
             int length = _innerBox.SelectionLength;
             string text = _innerBox.Text ?? string.Empty;
-            string instext = $"![image](local:///{Uri.EscapeUriString(selectedImage)})";
+            string instext = $"\n![image](local:///{Uri.EscapeUriString(selectedImage)})\n";
             if (length > 0)
             {
                 text = text.Remove(start, length).Insert(start, instext);

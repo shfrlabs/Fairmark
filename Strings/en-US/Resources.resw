@@ -664,7 +664,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
   </data>
   <data name="InsertDetailsButton.Content" xml:space="preserve">
     <value>Insert element</value>
-    <comment>Used in the "Insert expandable" flyout.</comment>
+    <comment>Used in the "Insert expandable" and "Insert image" flyouts.</comment>
   </data>
   <data name="CharCount.Text" xml:space="preserve">
     <value>Character count:</value>
@@ -673,5 +673,17 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="WordCount.Text" xml:space="preserve">
     <value>Word count:</value>
     <comment>Bottom command bar.</comment>
+  </data>
+  <data name="ImportImages.Content" xml:space="preserve">
+    <value>Import images...</value>
+    <comment>Used in the "Insert image" flyout.</comment>
+  </data>
+  <data name="ImageButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Insert image</value>
+    <comment>Used in the bottom command bar.</comment>
+  </data>
+  <data name="DeleteImage.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Delete image</value>
+    <comment>Used in the "Insert image" flyout.</comment>
   </data>
 </root>

@@ -115,17 +115,22 @@ namespace Fairmark
             picker.FileTypeFilter.Add(".gif");
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
-            StorageFile[] picked = (await picker.PickMultipleFilesAsync()).ToArray();
+            FilePickerSelectedFilesArray pickedfiles = (FilePickerSelectedFilesArray)await picker.PickMultipleFilesAsync();
+            StorageFile[] picked = pickedfiles.ToArray();
+            Debug.WriteLine($"Picked {picked.Length} files for import.");
             if (picked.Length > 0)
             {
-                bool result = await imageFolderHelper.ImportImage(picked);
-                if (result)
+                foreach (var file in picked)
                 {
-                    Images.ItemsSource = await imageFolderHelper.GetImageList();
-                }
-                else
-                {
-                    Debug.WriteLine("Failed to import images.");
+                    Debug.WriteLine($"Importing image: {file.Name}");
+                    if (await imageFolderHelper.ImportImage(file))
+                    {
+                        Debug.WriteLine($"Image {file.Name} imported successfully.");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Failed to import image {file.Name}.");
+                    }
                 }
             }
             Images.ItemsSource = await imageFolderHelper.GetImageList();
@@ -135,21 +140,22 @@ namespace Fairmark
         {
             if (Images.SelectedItem != null)
             {
-                string selectedImage = Images.SelectedItem.ToString();
-                if (!string.IsNullOrEmpty(selectedImage))
+                StorageFile selectedImage = Images.SelectedItem as StorageFile;
+                if (selectedImage != null)
                 {
-                    await MarkEditor.InsertImage(selectedImage);
+                    await MarkEditor.InsertImage(selectedImage.Name);
                 }
             }
         }
 
-        private void ImageSearch_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-
-        }
-
         private async void Images_Loaded(object sender, RoutedEventArgs e)
         {
+            Images.ItemsSource = await imageFolderHelper.GetImageList();
+        }
+
+        private async void DeleteImage_Click(object sender, RoutedEventArgs e)
+        {
+            await imageFolderHelper.DeleteImage(((sender as AppBarButton).Tag as StorageFile).Name);
             Images.ItemsSource = await imageFolderHelper.GetImageList();
         }
     }

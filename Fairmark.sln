@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.Models", "Fairmark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.Converters", "Fairmark.Converters\Fairmark.Converters.csproj", "{1B68F495-3E45-40E8-BCDB-9F12E17685A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.Intelligence", "..\Fairmark.Intelligence\Fairmark.Intelligence.csproj", "{866A220E-B5F5-4D07-863E-307DF54713BE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -97,22 +95,6 @@ Global
 		{1B68F495-3E45-40E8-BCDB-9F12E17685A1}.Release|x64.Build.0 = Release|x64
 		{1B68F495-3E45-40E8-BCDB-9F12E17685A1}.Release|x86.ActiveCfg = Release|x86
 		{1B68F495-3E45-40E8-BCDB-9F12E17685A1}.Release|x86.Build.0 = Release|x86
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|ARM.ActiveCfg = Debug|ARM
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|ARM.Build.0 = Debug|ARM
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|ARM64.Build.0 = Debug|ARM64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|x64.ActiveCfg = Debug|x64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|x64.Build.0 = Debug|x64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|x86.ActiveCfg = Debug|x86
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Debug|x86.Build.0 = Debug|x86
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|ARM.ActiveCfg = Release|ARM
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|ARM.Build.0 = Release|ARM
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|ARM64.ActiveCfg = Release|ARM64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|ARM64.Build.0 = Release|ARM64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|x64.ActiveCfg = Release|x64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|x64.Build.0 = Release|x64
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|x86.ActiveCfg = Release|x86
-		{866A220E-B5F5-4D07-863E-307DF54713BE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

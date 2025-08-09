@@ -46,37 +46,34 @@ namespace Fairmark.Helpers
             return false;
         }
 
-        public async Task<bool> ImportImage(StorageFile[] files)
+        public async Task<bool> ImportImage(StorageFile file)
         {
             if (await Initialize())
             {
-                foreach (StorageFile file in files)
+                if (file != null)
                 {
-                    if (file != null)
+                    string name = file.Name;
+                    try
                     {
-                        string name = file.Name;
+                        var folder = await StorageFolder.GetFolderFromPathAsync(imageFolderPath);
                         try
                         {
-                            var folder = await StorageFolder.GetFolderFromPathAsync(imageFolderPath);
-                            try
-                            {
-                                await folder.GetFileAsync(file.Name);
-                                name = await GetUniqueFileName(file.Name);
-                            }
-                            catch (FileNotFoundException)
-                            {
-                            }
-                            var destinationFile = await folder.CreateFileAsync(name, CreationCollisionOption.ReplaceExisting);
-                            await file.CopyAndReplaceAsync(destinationFile);
-                            Debug.WriteLine($"Image {name} imported successfully.");
+                            await folder.GetFileAsync(file.Name);
+                            name = await GetUniqueFileName(file.Name);
                         }
-                        catch (Exception ex)
+                        catch (FileNotFoundException)
                         {
-                            Debug.WriteLine($"Error importing image {name}: {ex.Message}");
-                            return false;
                         }
-                        return true;
+                        var destinationFile = await folder.CreateFileAsync(name, CreationCollisionOption.ReplaceExisting);
+                        await file.CopyAndReplaceAsync(destinationFile);
+                        Debug.WriteLine($"Image {name} imported successfully.");
                     }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error importing image {name}: {ex.Message}");
+                        return false;
+                    }
+                    return true;
                 }
             }
             return false;
@@ -84,6 +81,7 @@ namespace Fairmark.Helpers
 
         public async Task<bool> DeleteImage(string fileName)
         {
+            Debug.WriteLine($"Attempting to delete image: {fileName}");
             if (await Initialize())
             {
                 try
@@ -105,9 +103,9 @@ namespace Fairmark.Helpers
             return false;
         }
 
-        public async Task<List<string>> GetImageList()
+        public async Task<List<StorageFile>> GetImageList()
         {
-            List<string> imageList = new List<string>();
+            List<StorageFile> imageList = new List<StorageFile>();
             if (await Initialize())
             {
                 try
@@ -116,7 +114,7 @@ namespace Fairmark.Helpers
                     var files = await folder.GetFilesAsync();
                     foreach (var file in files)
                     {
-                        imageList.Add(file.Name);
+                        imageList.Add(file);
                     }
                 }
                 catch (Exception ex)

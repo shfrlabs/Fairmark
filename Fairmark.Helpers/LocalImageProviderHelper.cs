@@ -21,7 +21,7 @@ namespace Fairmark.Helpers
                 Debug.WriteLine($"LocalImageProviderHelper: Loading image from {url}");
                 string imageName = Uri.UnescapeDataString(url.Substring("local:///".Length));
                 Debug.WriteLine($"LocalImageProviderHelper: Loading {imageName}");
-                if ((await helper.GetImageList()).Contains(imageName))
+                if ((await helper.GetImageList()).Any(t => t.Name == imageName))
                 {
                     Debug.WriteLine($"LocalImageProviderHelper: Found image {imageName}");
                     image.Source = new BitmapImage(new Uri($"ms-appdata:///local/Images/{Uri.EscapeDataString(imageName)}"));
