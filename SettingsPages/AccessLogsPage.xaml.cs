@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel.DataTransfer;
+﻿using Fairmark.Helpers;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -36,6 +37,13 @@ namespace Fairmark.SettingsPages
                 @"'[^']*'",
                 "'***'"
             );
+        }
+
+        private async void ToggleSwitch_Loaded(object sender, RoutedEventArgs e) {
+            if (!(await Variables.CheckIfPlusAsync())) {
+                (sender as ToggleSwitch).IsOn = false;
+                (sender as ToggleSwitch).IsEnabled = false;
+            }
         }
     }
 }

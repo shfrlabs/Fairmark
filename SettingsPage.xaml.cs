@@ -1,5 +1,6 @@
 ﻿using Fairmark.Helpers;
 using Fairmark.SettingsPages;
+using Microsoft.UI.Xaml.Controls;
 using System.Linq;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -7,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
 
 namespace Fairmark
@@ -65,6 +67,8 @@ namespace Fairmark
                     _ = settingsFrame.Navigate(typeof(StatsPage)); break;
                 case "Tags":
                     _ = settingsFrame.Navigate(typeof(TagManagerPage)); break;
+                case "Upgrade":
+                    _ = settingsFrame.Navigate(typeof(UpgradePage)); break;
                 default:
                     settingsFrame.Content = null; break;
             }
@@ -73,6 +77,10 @@ namespace Fairmark
         private void settingsFrame_Loaded(object sender, RoutedEventArgs e)
         {
             _ = settingsFrame.Navigate(typeof(DisplayPage));
+        }
+
+        private async void NavigationViewItem_Loaded(object sender, RoutedEventArgs e) {
+            (sender as NavigationViewItem).Visibility = await Variables.CheckIfPlusAsync() ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

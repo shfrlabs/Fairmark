@@ -6,7 +6,8 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
-    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)">
+    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:tm="using:CommunityToolkit.WinUI.Media">
     <Application.Resources>
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
@@ -35,7 +36,9 @@
                     <LinearGradientBrush  
                         x:Key="OOBEFrameBackground"  
                         StartPoint="0,0"  
-                        EndPoint="1,1">
+                        EndPoint="1,1"
+                        MappingMode="RelativeToBoundingBox"
+                        SpreadMethod="Reflect">
                         <GradientStop Color="#AF72D3" Offset="0"/>
                         <GradientStop Color="#8FDDF1" Offset="1"/>
                     </LinearGradientBrush>
@@ -43,15 +46,39 @@
                         x:Key="AboutTopBackground"  
                         StartPoint="0.1, -1.1"  
                         EndPoint="0.15, 1"
-                        Opacity="0.3">
+                        Opacity="0.3"
+                        MappingMode="RelativeToBoundingBox"
+                        SpreadMethod="Reflect">
                         <GradientStop Color="#AF72D3" Offset="0"/>
                         <GradientStop Color="#00AF72D3" Offset="0.8"/>
                     </LinearGradientBrush>
                     <LinearGradientBrush  
                         x:Key="AboutTopBackground2"  
-                        StartPoint="0.1, -2"  
-                        EndPoint="0.13, 1"
-                        Opacity="1">
+                        StartPoint="0.15, -1.1"  
+                        EndPoint="0.5, -1.1"
+                        Opacity="1"
+                        MappingMode="RelativeToBoundingBox"
+                        SpreadMethod="Reflect">
+                        <GradientStop Color="#8FDDF1" Offset="0"/>
+                        <GradientStop Color="#008FDDF1" Offset="0.8"/>
+                    </LinearGradientBrush>
+                    <LinearGradientBrush  
+                        x:Key="UpgradeBackground"  
+                        StartPoint="0.05, -1.1"  
+                        EndPoint="0.05, 1"
+                        MappingMode="RelativeToBoundingBox"
+                        SpreadMethod="Reflect"
+                        Opacity="0.6">
+                        <GradientStop Color="#AF72D3" Offset="0"/>
+                        <GradientStop Color="#00AF72D3" Offset="0.8"/>
+                    </LinearGradientBrush>
+                    <LinearGradientBrush  
+                        x:Key="UpgradeBackground2"  
+                        StartPoint="0.05, -1.5"  
+                        EndPoint="0.05, 1"
+                        MappingMode="RelativeToBoundingBox"
+                        SpreadMethod="Reflect"
+                        Opacity="0.7">
                         <GradientStop Color="#8FDDF1" Offset="0"/>
                         <GradientStop Color="#008FDDF1" Offset="0.8"/>
                     </LinearGradientBrush>

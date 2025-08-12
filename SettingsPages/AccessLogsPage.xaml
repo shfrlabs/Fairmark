@@ -16,7 +16,7 @@
             <toolkit:SettingsCard
                 x:Uid="LogCard"
                 HeaderIcon="List">
-                <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}"/>
+                <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded"/>
             </toolkit:SettingsCard>
             <ScrollViewer HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4" Margin="0,20">
                 <TextBlock Margin="5" FontFamily="{Binding EditorFontFamily}" FontSize="{Binding EditorFontSize}" TextWrapping="WrapWholeWords" Text="{x:Bind logText, Mode=OneWay}" />

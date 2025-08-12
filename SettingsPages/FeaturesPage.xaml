@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:helpers="using:Fairmark.Helpers"
     mc:Ignorable="d">
 
     <ScrollViewer DataContext="{StaticResource Settings}" Padding="20">
@@ -15,7 +16,7 @@
                     <FontIcon Glyph="&#xE733;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ToggleSwitch
-                IsOn="{Binding HideFromRecall, Mode=TwoWay}" HorizontalAlignment="Right">
+                IsOn="{Binding HideFromRecall, Mode=TwoWay}" x:Name="ScreenshotToggle" Loaded="ScreenshotToggle_Loaded" HorizontalAlignment="Right">
                 </ToggleSwitch>
             </toolkit:SettingsCard>
             <toolkit:SettingsCard x:Uid="AuthCard">

@@ -121,8 +121,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CardItem.cs" />
     <Compile Include="NoteMetadata.cs" />
     <Compile Include="NoteTag.cs" />
+    <Compile Include="NoteVault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Fairmark.Models.rd.xml" />
   </ItemGroup>

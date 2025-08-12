@@ -21,8 +21,15 @@ namespace Fairmark.SettingsPages
 
         private async void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
         {
-            if (await Windows.Security.Credentials.UI.UserConsentVerifier.CheckAvailabilityAsync() != Windows.Security.Credentials.UI.UserConsentVerifierAvailability.Available)
+            if (!(await Variables.CheckIfPlusAsync()) || await Windows.Security.Credentials.UI.UserConsentVerifier.CheckAvailabilityAsync() != Windows.Security.Credentials.UI.UserConsentVerifierAvailability.Available)
             {
+                (sender as ToggleSwitch).IsOn = false;
+                (sender as ToggleSwitch).IsEnabled = false;
+            }
+        }
+
+        private async void ScreenshotToggle_Loaded(object sender, RoutedEventArgs e) {
+            if (!(await Variables.CheckIfPlusAsync())) {
                 (sender as ToggleSwitch).IsOn = false;
                 (sender as ToggleSwitch).IsEnabled = false;
             }

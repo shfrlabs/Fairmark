@@ -177,6 +177,22 @@ namespace Fairmark.Helpers
                 }
             }
         }
+
+        public bool DebugPlus {
+            get {
+                bool current = _localSettings.Values.TryGetValue("debugPlus", out object hideObj)
+                               && hideObj is bool b && b;
+                return current;
+            }
+            set {
+                var old = DebugPlus;
+                if (old != value) {
+                    _localSettings.Values["debugPlus"] = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DebugPlus)));
+                }
+            }
+        }
+
         public bool AccessLogs
         {
             get

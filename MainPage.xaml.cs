@@ -31,6 +31,11 @@ namespace Fairmark
         public MainPage()
         {
             this.InitializeComponent();
+
+            Variables.PlusStatusChanged += async (sender, e) =>
+            {
+                await PlusCheck();
+            };
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
             if (Window.Current.Content is Frame frame)
@@ -371,6 +376,7 @@ namespace Fairmark
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            await PlusCheck();
             await App.LogHelper.InitializeAsync();
             if (Variables.firstStartup)
             {
@@ -385,6 +391,19 @@ namespace Fairmark
             else
             {
                 NoNoteText.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async Task PlusCheck() {
+            if (!(await Variables.CheckIfPlusAsync())) {
+                Zen.IsEnabled = false;
+                TabView.Opacity = 0;
+                TabView.IsEnabled = false;
+            }
+            else {
+                Zen.IsEnabled = true;
+                TabView.Opacity = 1;
+                TabView.IsEnabled = true;
             }
         }
 
@@ -693,25 +712,29 @@ namespace Fairmark
 
             box.KeyDown += async (s, args) =>
             {
-                if (args.Key == Windows.System.VirtualKey.Enter)
-                {
-                    if (!string.IsNullOrWhiteSpace(box.Text))
-                    {
-                        App.LogHelper.WriteLog($"Creating tag '{box.Text}' with emoji '{emojiButton.Content}'");
-                        NoteCollectionHelper.tags.Add(new NoteTag
-                        {
-                            Name = box.Text,
-                            Emoji = emojiButton.Content.ToString(),
-                            Color = picker.Color,
-                            GUID = Guid.NewGuid().ToString()
-                        });
-                        await NoteCollectionHelper.SaveTags();
-                        mainflyout.Hide();
+                if (NoteCollectionHelper.tags.Count < 5 || await Variables.CheckIfPlusAsync()) {
+                    if (args.Key == Windows.System.VirtualKey.Enter) {
+                        if (!string.IsNullOrWhiteSpace(box.Text)) {
+                            App.LogHelper.WriteLog($"Creating tag '{box.Text}' with emoji '{emojiButton.Content}'");
+                            NoteCollectionHelper.tags.Add(new NoteTag {
+                                Name = box.Text,
+                                Emoji = emojiButton.Content.ToString(),
+                                Color = picker.Color,
+                                GUID = Guid.NewGuid().ToString()
+                            });
+                            await NoteCollectionHelper.SaveTags();
+                            mainflyout.Hide();
+                        }
+                        else {
+                            box.PlaceholderText = loader.GetString("AddNoteEmptyText");
+                        }
                     }
-                    else
-                    {
-                        box.PlaceholderText = loader.GetString("AddNoteEmptyText");
+                }
+                else {
+                    if (args.Key == Windows.System.VirtualKey.Enter) {
+                        box.Text = string.Empty;
                     }
+                    box.PlaceholderText = loader.GetString("PlusLimit");
                 }
             };
 
@@ -740,7 +763,7 @@ namespace Fairmark
                             return;
 
                         var noteTag = note.Tags.FirstOrDefault(t => t.GUID == selectedTagGuid);
-                        if (noteTag == null)
+                        if (noteTag == null && (note.Tags.Count == 0 || await Variables.CheckIfPlusAsync()))
                         {
                             App.LogHelper.WriteLog($"Adding tag '{globalTag.Name}' to note '{note.Name}'");
                             note.Tags.Add(globalTag);

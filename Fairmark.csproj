@@ -128,6 +128,7 @@
       <DependentUpon>ContactPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\FileEditorBox.cs" />
+    <Compile Include="Controls\GlamButton.cs" />
     <Compile Include="EmptyTabPage.xaml.cs">
       <DependentUpon>EmptyTabPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +168,9 @@
     </Compile>
     <Compile Include="SettingsPages\TagManagerPage.xaml.cs">
       <DependentUpon>TagManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\UpgradePage.xaml.cs">
+      <DependentUpon>UpgradePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +301,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SettingsPages\UpgradePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -305,6 +313,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.Uwp.Controls.MarkdownTextBlock">
       <Version>0.1.250721-build.2183</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.Primitives">
+      <Version>8.2.250402</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls">
       <Version>8.2.250402</Version>

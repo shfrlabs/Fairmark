@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="Fairmark.SettingsPages.UpgradePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fairmark.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:Fairmark.Helpers"
+    xmlns:controls="using:Fairmark.Controls"
+    xmlns:models="using:Fairmark.Models"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" x:Name="DebugPlusToggle" DataContext="{StaticResource Settings}">
+                <ToggleSwitch IsOn="{Binding DebugPlus, Mode=TwoWay}" Margin="0,0,-50,0" VerticalAlignment="Center"/>
+                <TextBlock Text="[DEBUG] Plus" Margin="0,0,10,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Rectangle Fill="{ThemeResource UpgradeBackground}" Grid.RowSpan="4" Margin="-20,-80" Canvas.ZIndex="-2" HorizontalAlignment="Stretch" Height="600" VerticalAlignment="Top"/>
+            <Rectangle Fill="{ThemeResource UpgradeBackground2}" Grid.RowSpan="4" Margin="-20,-80" Canvas.ZIndex="-2" HorizontalAlignment="Stretch" Height="600" VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="0,40,0,0">
+                <Image Source="/Assets/StoreLogo.scale-400.png" Height="80" VerticalAlignment="Center" Margin="10,0,20,10"/>
+                <TextBlock FontFamily="Segoe UI Variable Display" VerticalAlignment="Center" FontSize="50" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Text="Fairmark"/>
+                <TextBlock FontFamily="Segoe UI Variable Display" VerticalAlignment="Center" FontSize="50" FontWeight="SemiBold" TextWrapping="WrapWholeWords" Text="+" Foreground="{ThemeResource OOBEFrameBackground}"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Row="2">
+                <TextBlock HorizontalAlignment="Center" MaxWidth="400" FontSize="18" FontWeight="Medium" TextWrapping="Wrap" TextAlignment="Center" Margin="20,0,20,20" x:Uid="PlusPromo1"/>
+                <controls:GlamButton PlusPrice="{x:Bind PlusPrice, Mode=OneWay}" PrevPrice="{x:Bind PrevPrice, Mode=OneWay}" VerticalAlignment="Top" Margin="10,-5,10,0"/>
+                <TextBlock Opacity="0.7" HorizontalAlignment="Center" Margin="5,10" TextAlignment="Center" x:Uid="PlusPromo2"/>
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="20,10,20,0" FontSize="15" x:Uid="PlusPromo3"/>
+            </StackPanel>
+            <Grid Grid.Row="3" Margin="0,20,0,0">
+                <ItemsControl HorizontalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:StaggeredPanel Margin="40,0,40,0" MaxWidth="800"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10" Padding="15" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                      CornerRadius="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="{Binding Icon}" FontSize="20" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                                    <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+
+                               <TextBlock Grid.Row="1" Text="{Binding Description}" TextWrapping="Wrap" Margin="0,10,0,10"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Items>
+                        <!--<models:CardItem x:Uid="CardItem_FairmarkAI" Icon="&#xF4A5;" />-->
+                        <models:CardItem x:Uid="CardItem_MultipleTabs" Icon="&#xEC6C;" />
+                        <models:CardItem x:Uid="CardItem_HideNotes" Icon="&#xE72E;" />
+                        <models:CardItem x:Uid="CardItem_AdvancedTagging" Icon="&#xE8EC;" />
+                        <models:CardItem x:Uid="CardItem_LogAccess" Icon="&#xE81C;" />
+                        <!--<models:CardItem x:Uid="CardItem_TaskieIntegration" Icon="&#xF7EC;" />-->
+                        <models:CardItem x:Uid="CardItem_ZenMode" Icon="&#xE708;" />
+                        <!--<models:CardItem x:Uid="CardItem_ScanDocuments" Icon="&#xE8FE;" />-->
+                        <!--<models:CardItem x:Uid="CardItem_MultipleFormats" Icon="&#xE8B5;" />-->
+                        <!--<models:CardItem x:Uid="CardItem_MoreFolders" Icon="&#xE838;" />-->
+                    </ItemsControl.Items>
+                </ItemsControl>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</Page>
