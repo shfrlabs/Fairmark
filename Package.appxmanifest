@@ -40,6 +40,14 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+	  <Extensions>
+		<uap:Extension Category="windows.protocol">
+			<uap:Protocol Name="fairmark">
+				<uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+				<uap:DisplayName>Fairmark</uap:DisplayName>
+			</uap:Protocol>
+		</uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
 

@@ -158,5 +158,22 @@ namespace Fairmark
             await imageFolderHelper.DeleteImage(((sender as AppBarButton).Tag as StorageFile).Name);
             Images.ItemsSource = await imageFolderHelper.GetImageList();
         }
+
+        private void RefNote_Click(object sender, RoutedEventArgs e) {
+            if (ReferenceList.SelectedItem != null) {
+                NoteMetadata selectedNote = ReferenceList.SelectedItem as NoteMetadata;
+                if (selectedNote != null) {
+                    MarkEditor.InsertLink($"fairmark://default/{selectedNote.Id}", selectedNote.Name);
+                }
+            }
+        }
+
+        private void ReferenceList_Loaded(object sender, RoutedEventArgs e) {
+            ReferenceList.ItemsSource = NoteCollectionHelper.notes.ToList();
+        }
+
+        private void RefFlyout_Click(object sender, RoutedEventArgs e) {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
     }
 }

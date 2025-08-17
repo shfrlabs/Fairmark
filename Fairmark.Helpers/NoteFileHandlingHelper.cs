@@ -14,12 +14,12 @@ namespace Fairmark.Helpers
     {
         public static async Task<bool> NoteExists(string noteId)
         {
-            return (await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md")) != null;
+            return (await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md")) != null;
         }
 
         public static async Task<string> ReadNoteFileAsync(string noteId)
         {
-            var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md") as StorageFile;
+            var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md") as StorageFile;
             if (file != null)
             {
                 return await FileIO.ReadTextAsync(file);
@@ -29,7 +29,7 @@ namespace Fairmark.Helpers
 
         public static async Task WriteNoteFileAsync(string noteId, string content)
         {
-            var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync(noteId + ".md", CreationCollisionOption.OpenIfExists);
+            var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync(noteId + ".md", CreationCollisionOption.OpenIfExists);
             try
             {
                 await RunWithLockAsync(noteId, async () =>
@@ -45,7 +45,7 @@ namespace Fairmark.Helpers
 
         public static async Task<StorageFile> GetVaultBackupFileAsync()
         {
-            var localFolder = (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists));
+            var localFolder = (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists));
 
             var tempFolder = ApplicationData.Current.TemporaryFolder;
             var zipFile = await tempFolder
@@ -117,7 +117,7 @@ namespace Fairmark.Helpers
                     return false;
                 }
 
-                var notesFolder = (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists));
+                var notesFolder = (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists));
 
                 foreach (var meta in noteList)
                 {

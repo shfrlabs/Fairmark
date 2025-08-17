@@ -11,7 +11,7 @@ namespace Fairmark.Helpers
 {
     public class ImageFolderHelper
     {
-        private string imageFolderPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Default", "Images");
+        private string imageFolderPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "default", "Images");
         private async Task<bool> Initialize()
         {
             if (!Directory.Exists(imageFolderPath))

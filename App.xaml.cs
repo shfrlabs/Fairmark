@@ -1,5 +1,6 @@
 ﻿using Fairmark.Helpers;
 using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -20,6 +21,18 @@ namespace Fairmark
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+        public delegate void UriHandler(string vault, string id);
+        public static event UriHandler OnUriLaunch;
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                string uri = (args as ProtocolActivatedEventArgs).Uri.ToString();
+                string[] parts = uri.Remove(0, 10).Split("/");
+                OnUriLaunch?.Invoke(parts[1], parts[2]);
+            }
         }
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {

@@ -16,8 +16,8 @@ namespace Fairmark.Helpers
 
         public static async Task Initialize()
         {
-            StorageFile notefile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
-            StorageFile tagfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("tags.json", CreationCollisionOption.OpenIfExists);
+            StorageFile notefile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
+            StorageFile tagfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("tags.json", CreationCollisionOption.OpenIfExists);
 
             string noteContent = await FileIO.ReadTextAsync(notefile);
             string tagContent = await FileIO.ReadTextAsync(tagfile);
@@ -48,7 +48,7 @@ namespace Fairmark.Helpers
 
         public static async Task SaveNotes()
         {
-            StorageFile notefile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
+            StorageFile notefile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
             string oldNoteContent = await FileIO.ReadTextAsync(notefile);
             List<NoteMetadata> oldNotes;
             try
@@ -72,7 +72,7 @@ namespace Fairmark.Helpers
             {
                 if (!oldIds.Contains(id))
                 {
-                    _ = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync($"{id}.md", CreationCollisionOption.OpenIfExists);
+                    _ = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync($"{id}.md", CreationCollisionOption.OpenIfExists);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace Fairmark.Helpers
                 {
                     try
                     {
-                        StorageFile fileToDelete = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).GetFileAsync($"{id}.md");
+                        StorageFile fileToDelete = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).GetFileAsync($"{id}.md");
                         await fileToDelete.DeleteAsync();
                     }
                     catch
@@ -91,14 +91,14 @@ namespace Fairmark.Helpers
                 }
             }
 
-            StorageFile saveFile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.ReplaceExisting);
+            StorageFile saveFile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.ReplaceExisting);
             string noteContent = JsonSerializer.Serialize(notes, new JsonSerializerOptions { WriteIndented = true });
             await FileIO.WriteTextAsync(saveFile, noteContent);
         }
 
         public static async Task SaveTags()
         {
-            StorageFile tagfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("Default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("tags.json", CreationCollisionOption.ReplaceExisting);
+            StorageFile tagfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("tags.json", CreationCollisionOption.ReplaceExisting);
             foreach (var note in notes)
             {
                 foreach (var tag in note.Tags.ToList())

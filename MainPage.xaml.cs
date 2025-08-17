@@ -30,6 +30,13 @@ namespace Fairmark
         public ResourceLoader loader = ResourceLoader.GetForCurrentView();
         public MainPage()
         {
+            App.OnUriLaunch += (vault, id) => {
+                NoteMetadata data = NoteCollectionHelper.notes.FirstOrDefault(x => x.Id == id);
+                if (data != null) {
+                    NoteList.SelectedItem = data;
+                    NoteList_SelectionChanged(NoteList, null);
+                }
+            };
             this.InitializeComponent();
             Variables.PlusStatusChanged += async (sender, e) =>
             {

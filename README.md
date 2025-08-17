@@ -20,10 +20,10 @@ obsidian już się chowa na jego widok
 - Menedżer etykiet
 - Małe czasem prośby w rogu o opinię
 - Dostosowywanie motywu aplikacji
+- Sortowanie i filtrowanie notatek
+- Możliwość linkowania notatek do innych notatek przez URI
 **1.0**
 - Strona z FAQ, funkcjami, itp.
-- Możliwość linkowania notatek do innych notatek przez URI
-- Sortowanie i filtrowanie notatek
 **1.1**
 - Podział notatek na foldery **(\>3 z Plus)**
 - Przypinanie notatek
