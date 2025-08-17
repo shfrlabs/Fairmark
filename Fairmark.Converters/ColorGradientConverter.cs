@@ -1,12 +1,12 @@
 using System;
+using System.Diagnostics;
 using Windows.UI.Xaml.Media;
 
 namespace Fairmark.Converters
 {
     public class ColorGradientConverter : Windows.UI.Xaml.Data.IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
+        public object Convert(object value, Type targetType, object parameter, string language) {
             if (value == null) return new SolidColorBrush(Windows.UI.Colors.Transparent);
             if (value is Windows.UI.Color color)
             {

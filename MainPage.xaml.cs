@@ -31,7 +31,6 @@ namespace Fairmark
         public MainPage()
         {
             this.InitializeComponent();
-
             Variables.PlusStatusChanged += async (sender, e) =>
             {
                 await PlusCheck();
@@ -115,7 +114,7 @@ namespace Fairmark
 
         }
 
-        private NoteTag currentTag = null;
+        private List<NoteTag> currentTags = new List<NoteTag>();
         private List<Microsoft.UI.Xaml.Controls.TabViewItem> openTabs = new List<Microsoft.UI.Xaml.Controls.TabViewItem>();
 
         private async Task WelcomeDialog()
@@ -152,9 +151,20 @@ namespace Fairmark
                 _ = await tcs.Task;
                 _ = ContentGrid.Children.Remove(overlay);
                 FirstRunTips();
+                SecondRunReviewTip();
             };
             _ = await dialog.ShowAsync();
         }
+
+        private async void SecondRunReviewTip() {
+            if (Variables.secondStartup && !Variables.firstStartup && Variables.useStoreFeatures)
+            {
+                await Task.Delay(120000);
+                ReviewTip.IsOpen = true;
+                ApplicationData.Current.LocalSettings.Values["secondStartup"] = false;
+            }
+        }
+
         public TeachingTip addnotetip = new TeachingTip()
         {
             Title = ResourceLoader.GetForCurrentView().GetString("AddNoteTipTitle"),
@@ -167,8 +177,7 @@ namespace Fairmark
             Subtitle = ResourceLoader.GetForCurrentView().GetString("AddTagTipSubtitle"),
             IsOpen = false
         };
-        private void FirstRunTips()
-        {
+        private void FirstRunTips() {
             addnotetip.Target = CreateButton;
             addtagtip.Target = CreateTag;
             MainGrid.Children.Add(addnotetip);
@@ -183,7 +192,8 @@ namespace Fairmark
             NoteList.SelectionChanged += FirstNoteDialog;
 
             addnotetip.Closed += AddNoteTip_Closed;
-
+            ApplicationData.Current.LocalSettings.Values["firstStartup"] = false;
+            ApplicationData.Current.LocalSettings.Values["secondStartup"] = true;
         }
 
         private void AddNoteTip_Closed(TeachingTip sender, TeachingTipClosedEventArgs args)
@@ -374,6 +384,12 @@ namespace Fairmark
             if (contentFrame.Content == null || (contentFrame.Content != null && contentFrame.Content.GetType() != typeof(EmptyTabPage))) _ = contentFrame.Navigate(typeof(EmptyTabPage));
         }
 
+        public SortOptions sortOptions = new SortOptions {
+            sortDefault = true,
+            sortTag = false,
+            sortName = false
+        };
+
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             await PlusCheck();
@@ -391,6 +407,31 @@ namespace Fairmark
             else
             {
                 NoNoteText.Visibility = Visibility.Collapsed;
+            }
+            sortOptions.PropertyChanged += (s, ev) => {
+                SortNotes();
+            };
+            NoteCollectionHelper.notes.CollectionChanged += (s, ev) => {
+                SortNotes();
+            };
+        }
+
+        private void SortNotes() {
+            switch (sortOptions) {
+                case { sortDefault: true, sortTag: false, sortName: false }:
+                    NoteList.ItemsSource = NoteCollectionHelper.notes;
+                    break;
+                case { sortDefault: false, sortTag: true, sortName: false }:
+                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                        .OrderBy(n => string.Join(" ", n.Tags.OrderBy(t => t.Name).Select(t => t.Name)))
+                        .ThenBy(n => n.Name);
+                    break;
+                case { sortDefault: false, sortTag: false, sortName: true }:
+                    NoteList.ItemsSource = NoteCollectionHelper.notes.OrderBy(n => n.Name);
+                    break;
+                default:
+                    NoteList.ItemsSource = NoteCollectionHelper.notes;
+                    break;
             }
         }
 
@@ -503,7 +544,7 @@ namespace Fairmark
                             Id = newId,
                             Tags = new ObservableCollection<NoteTag>()
                         };
-                        if (currentTag != null) meta.Tags.Add(currentTag);
+                        if (currentTags != null) currentTags.ForEach(t => meta.Tags.Add(t));
                         NoteCollectionHelper.notes.Add(meta);
                         await NoteCollectionHelper.SaveNotes();
                         NoteList.SelectedItem = meta;
@@ -880,33 +921,32 @@ namespace Fairmark
             }
         }
 
-        private void TagBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if ((sender as ComboBox).SelectedItem is NoteTag selectedTag)
-            {
-                (sender as ComboBox).SelectedItem = selectedTag;
-                currentTag = selectedTag;
+        private void TagBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var listView = sender as ListView;
+            if (listView?.SelectedItems != null && listView.SelectedItems.Count > 0) {
+                var selectedTags = listView.SelectedItems.Cast<NoteTag>().ToList();
+                Debug.WriteLine($"Selected tags: {string.Join(", ", selectedTags.Select(t => t.Name))}");
+                currentTags = selectedTags;
                 ObservableCollection<NoteMetadata> filteredNotes = new ObservableCollection<NoteMetadata>();
                 NoteList.ItemsSource = filteredNotes;
-                foreach (NoteMetadata note in NoteCollectionHelper.notes)
-                {
-                    if (note.Tags != null && note.Tags.Any(t => t.GUID == selectedTag.GUID))
-                    {
-                        filteredNotes.Add(note);
-                        break;
+                foreach (NoteMetadata note in NoteCollectionHelper.notes) {
+                    if (note.Tags != null) {
+                        if (selectedTags.All(t => note.Tags.Any(y => y.GUID == t.GUID))) {
+                            filteredNotes.Add(note);
+                        }
                     }
                 }
             }
-            else
-            {
-                currentTag = null;
+            else {
+                Debug.WriteLine("No tags selected");
+                currentTags = null;
                 NoteList.ItemsSource = NoteCollectionHelper.notes;
             }
         }
 
         private void ClearTags_Click(object sender, RoutedEventArgs e)
         {
-            currentTag = null;
+            currentTags = null;
             TagBox.SelectedItem = null;
             NoteList.ItemsSource = NoteCollectionHelper.notes;
         }
@@ -1110,7 +1150,12 @@ namespace Fairmark
             AppWindow window = await AppWindow.TryCreateAsync();
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
-            _ = f.Navigate(typeof(SettingsPage));
+            if (e == null) {
+                _ = f.Navigate(typeof(SettingsPage), "tag");
+            }
+            else {
+                _ = f.Navigate(typeof(SettingsPage));
+            }
             window.Title = loader.GetString("Settings/Text");
             window.TitleBar.ExtendsContentIntoTitleBar = true;
             window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -1233,6 +1278,14 @@ namespace Fairmark
         private void MoreBtn_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void Filter_Click(object sender, RoutedEventArgs e) {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void ManageTags_Click(object sender, RoutedEventArgs e) {
+            Settings_Click(Settings, null);
         }
     }
 }

@@ -345,10 +345,6 @@
     <value>No notes here! Create one using the button below.</value>
     <comment>Displayed in the Files pane when no notes are present.</comment>
   </data>
-  <data name="TagBox.PlaceholderText" xml:space="preserve">
-    <value>Filter by tag</value>
-    <comment>Used in the tag filter on the bottom of the Files pane.</comment>
-  </data>
   <data name="ClearTags.ToolTipService.ToolTip" xml:space="preserve">
     <value>Clear tag filter</value>
     <comment>Used in the X button next to the tag filter.</comment>
@@ -462,7 +458,7 @@
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="NoDonations.Text" xml:space="preserve">
-    <value>Thank you for supporting me by purchasing Fairmark! I don't take donations in any form, except your purchase. However, I appreciate reviews!</value>
+    <value>Thank you for supporting me! I don't take donations in any form, except Fairmark+ purchases. However, I appreciate reviews!</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="RateButton.Text" xml:space="preserve">
@@ -627,7 +623,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Description" xml:space="preserve">
-    <value>Select whether the app should require biometrics before opening.</value>
+    <value>Select whether the app should require biometrics or a PIN before opening. Requires Plus.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeCard.Header" xml:space="preserve">
@@ -642,15 +638,15 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Select theme</value>
     <comment>Used in Settings.</comment>
   </data>
-  <data name="DarkThemeName" xml:space="preserve">
+  <data name="Theme_Dark" xml:space="preserve">
     <value>Dark</value>
     <comment>Used in Settings.</comment>
   </data>
-  <data name="DefaultThemeName" xml:space="preserve">
+  <data name="Theme_Default" xml:space="preserve">
     <value>System</value>
     <comment>Used in Settings.</comment>
   </data>
-  <data name="LightThemeName" xml:space="preserve">
+  <data name="Theme_Light" xml:space="preserve">
     <value>Light</value>
     <comment>Used in Settings.</comment>
   </data>
@@ -796,5 +792,25 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="PlusPromo2.Text" xml:space="preserve">
     <value>Founder's discount. Limited time offer.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
+  </data>
+  <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
+    <value>Leave a review</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
+    <value>Don't ask again</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.Subtitle" xml:space="preserve">
+    <value>Consider leaving a review or feedback! You can contact me via the top three-dot menu.</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.Title" xml:space="preserve">
+    <value>👋 Liking Fairmark?</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewBtn.Content" xml:space="preserve">
+    <value>Leave a review!</value>
+    <comment>Used in the "Contact me" window.</comment>
   </data>
 </root>

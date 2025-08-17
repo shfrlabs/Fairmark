@@ -40,5 +40,9 @@ namespace Fairmark
             _storeContext = StoreContext.GetDefault();
             _ = await _storeContext.RequestRateAndReviewAppAsync();
         }
+
+        private void Button_Loaded(object sender, RoutedEventArgs e) {
+            (sender as Button).IsEnabled = Variables.useStoreFeatures;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Fairmark.Helpers;
+﻿using Fairmark.Controls;
+using Fairmark.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +26,10 @@ namespace Fairmark.SettingsPages
             this.InitializeComponent();
             PlusPrice = "$1.99";
             PrevPrice = "$4.99";
+        }
+
+        private void GlamButton_Loaded(object sender, RoutedEventArgs e) {
+            (sender as GlamButton).IsEnabled = Variables.useStoreFeatures;
         }
     }
 }

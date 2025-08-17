@@ -40,13 +40,25 @@ namespace Fairmark
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
             if (e.Parameter != null && e.Parameter.ToString() == "OOBE")
             {
                 RootGrid.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
                 SettingsNav.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top;
                 settingsFrame.Height = 400;
+                NavLog.Visibility = Visibility.Collapsed;
+                NavImEx.Visibility = Visibility.Collapsed;
+                NavTag.Visibility = Visibility.Collapsed;
+                NavUpgrade.Visibility = Visibility.Collapsed;
+                _ = settingsFrame.Navigate(typeof(DisplayPage));
             }
-            SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
+            else if (e.Parameter != null && e.Parameter.ToString() == "tag") {
+                SettingsNav.SelectedItem = NavTag;
+                _ = settingsFrame.Navigate(typeof(TagManagerPage));
+            }
+            else {
+                _ = settingsFrame.Navigate(typeof(DisplayPage));
+            }
         }
 
         private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -76,11 +88,12 @@ namespace Fairmark
 
         private void settingsFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            _ = settingsFrame.Navigate(typeof(DisplayPage));
         }
 
         private async void NavigationViewItem_Loaded(object sender, RoutedEventArgs e) {
-            (sender as NavigationViewItem).Visibility = await Variables.CheckIfPlusAsync() ? Visibility.Collapsed : Visibility.Visible;
+            if (SettingsNav.PaneDisplayMode != Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top) {
+                (sender as NavigationViewItem).Visibility = await Variables.CheckIfPlusAsync() ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
     }
 }

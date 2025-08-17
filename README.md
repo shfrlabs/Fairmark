@@ -1,43 +1,43 @@
 # Fairmark
 obsidian już się chowa na jego widok
 
-funkcje do dodania
-- [x] auto konwersja embedów np jak wklei gosciu link ze spotify to się pokaże tak ładnie - zrobione, wyłączone bo mdtextblock nie ma htmla..
-- [ ] **synchronizacja linijki scrolla/kursora między edytorem i preview** mega mega ważne - chyba nie będzie?
-- [ ] lepszy selektor tagów do filtrowania - zglitchowane to hell and back
-- [X] import/eksport całej aplikacji
-- [X] AI na lokalnym modelu (ale zwoj wie co z tym bo nie mam npu do testowania..) - nie bedzie bo nie ogarniam llamasharp w uwpsie
-- [ ] statystyki (czas pisania, średni wpm) - nie bedzie w pierwszym wydaniu
-- [X] bezpieczny log ostatnich działań w aplikacji
-- [ ] kosz zamiast usuwania na amen
-- [X] edytor z autosave
-- [X] system tagowania notatek
-- [X] proste ustawienia
-- [X] wyszukiwanie plików
-- [X] tryb zen 
-- [X] zmiana motywu przez ustawienia
-- [X] optymalizacja dla spokoju ducha i porządne debuglogi
-- [X] zarządzanie tagami
-
-- [X] undo, redo, cut, copy, paste
-- [X] bold
-- [X] italic
-- [X] strikethrough
-[ UNDERLINE IS NOT IN THE MD STANDARD ]
-- [X] inline code
-- [X] quote (> )
-- [X] bulleted list
-[ i am nawt doing a numbered list you guys can count ]
-- [X] horizontal line
-- [X] headers 1-3
-- [ ] images (lowkey no idea how to store them..)
-~~- [ ] sub/superscript~~ (unsupported in mdtextblock)
-- [ ] links
-~~- [ ] math/latex equations (unsupported in mdtextblock)~~
-- [ ] word & character count
-~~- [ ] tables (unsupported in mdtextblock)~~
-- [ ] expanders? (html details/summary however its called)
-~~- [ ] task list (unsupported in mdtextblock)~~
-- [ ] find & replace
-- [ ] md cheat sheet / help window maaaybe?
-- [ ] also maybe a wpm real time count?
+**Zrobione**
+- Podstawowy edytor MD z przyciskami i skalowalnym edytorem/podglądem
+- Galeria zdjęć trzymanych w aplikacji, możliwość dodawania ich do MD
+- Interfejs dodawania linków do MD
+- Interfejs dodawania rozsuwalnych sekcji (Expander)
+- Licznik słów i znaków
+- Zaawansowany system kategoryzacji notatek
+  - Etykiety z emoji i kolorami
+  - Notatki z emoji i etykietą **(\>1 z Plus)**
+- Karty **(Plus)**
+- Ukrywanie notatek **(Plus)**
+  - Możliwość wymagania biometrii przed otwarciem aplikacji
+  - Możliwość ukrycia aplikacji ze zrzutów ekranu oraz Windows Recall
+- Log działania aplikacji do wglądu **(Plus)**
+- Podstawowa wyszukiwarka po nazwach notatek i etykiet
+- Dostosowywanie czcionki po obu stronach
+- Menedżer etykiet
+- Małe czasem prośby w rogu o opinię
+- Dostosowywanie motywu aplikacji
+**1.0**
+- Strona z FAQ, funkcjami, itp.
+- Możliwość linkowania notatek do innych notatek przez URI
+- Sortowanie i filtrowanie notatek
+**1.1**
+- Podział notatek na foldery **(\>3 z Plus)**
+- Przypinanie notatek
+- Integracja z Taskie **(Plus)**
+  - Łączenie list zadań do notatek
+  - Łączenie notatek do zadań
+**1.2**
+- Kategorie etykiet **(Plus?)**
+- Importowanie i eksportowanie do/z wielu formatów **(Plus)**
+**1.3**
+- Skanowanie zdjęć do notatek przez OCR **(Plus)**
+**1.4**
+- Fairmark AI **(Plus)**
+  - Podsumowanie notatek
+  - Pisanie notatek na dany temat
+  - Czat o danym folderze/notatce
+  - Podsumowanie na głównej stronie: np. 4 notatki oznaczone jako ważne

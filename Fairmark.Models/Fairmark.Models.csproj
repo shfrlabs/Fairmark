@@ -126,6 +126,7 @@
     <Compile Include="NoteTag.cs" />
     <Compile Include="NoteVault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SortOptions.cs" />
     <EmbeddedResource Include="Properties\Fairmark.Models.rd.xml" />
   </ItemGroup>
   <ItemGroup>

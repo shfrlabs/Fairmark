@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
-                <TextBlock Text="Contact me" x:Uid="ContactWindow" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
+                <TextBlock x:Uid="ContactWindow" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
@@ -35,7 +35,7 @@
                     <TextBlock TextWrapping="Wrap">GitHub: <Hyperlink NavigateUri="https://github.com/shef3r/">@shef3r</Hyperlink></TextBlock>
                     <TextBlock TextWrapping="Wrap">Discord: @shef3r<LineBreak/></TextBlock>
                     <TextBlock TextWrapping="Wrap"><Run x:Uid="NoDonations"/><LineBreak/></TextBlock>
-                    <Button Style="{ThemeResource AccentButtonStyle}" x:Name="RateButton" Click="RateButton_Click" x:Uid="RateButton"/>
+                    <Button Style="{ThemeResource AccentButtonStyle}" Loaded="Button_Loaded" Margin="0,20,0,0" x:Uid="ReviewBtn"></Button>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

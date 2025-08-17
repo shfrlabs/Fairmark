@@ -48,22 +48,22 @@
                         <FontIcon Glyph="&#xE74C;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="LogsNavViewItem" Tag="Logs">
+                <controls:NavigationViewItem x:Uid="LogsNavViewItem" x:Name="NavLog" Tag="Logs">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA37;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="ImExNavViewItem" Tag="ImExport">
+                <controls:NavigationViewItem x:Uid="ImExNavViewItem" x:Name="NavImEx" Tag="ImExport">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="TagNavViewItem" Tag="Tags">
+                <controls:NavigationViewItem x:Uid="TagNavViewItem" x:Name="NavTag" Tag="Tags">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8EC;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="UpgradeNavViewItem" Tag="Upgrade" Loaded="NavigationViewItem_Loaded">
+                <controls:NavigationViewItem x:Uid="UpgradeNavViewItem" x:Name="NavUpgrade" Tag="Upgrade" Loaded="NavigationViewItem_Loaded">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE74A;" />
                     </controls:NavigationViewItem.Icon>

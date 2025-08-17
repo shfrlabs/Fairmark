@@ -22,9 +22,10 @@
                     <FontIcon Glyph="&#xE790;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
-                ItemsSource="{Binding AvailableThemes, Converter={StaticResource ThemeTranslationConverter}}"
-                SelectedItem="{Binding Theme, Mode=TwoWay, Converter={StaticResource SingleThemeTranslationConverter}}"
-                x:Name="ThemeSelector" HorizontalAlignment="Right">
+                    ItemsSource="{Binding AvailableThemes, Converter={StaticResource ThemeTranslationConverter}}"
+                    SelectedItem="{Binding Theme, Mode=TwoWay, Converter={StaticResource SingleThemeTranslationConverter}}"
+                    x:Name="ThemeSelector" 
+                    HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
             <toolkit:SettingsCard x:Uid="EditorFontFamilyCard">
@@ -32,9 +33,9 @@
                     <FontIcon Glyph="&#xE8D2;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
-                ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
-                SelectedItem="{Binding EditorFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                x:Uid="FontSelector" HorizontalAlignment="Right">
+                    ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
+                    SelectedItem="{Binding EditorFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
+                    x:Uid="FontSelector" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
             <toolkit:SettingsCard x:Uid="EditorFontSizeCard">
@@ -48,9 +49,9 @@
                     <FontIcon Glyph="&#xE8D2;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ComboBox
-                ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
-                SelectedItem="{Binding PreviewFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
-                x:Uid="FontSelector" HorizontalAlignment="Right">
+                    ItemsSource="{x:Bind win2d:CanvasTextFormat.GetSystemFontFamilies()}"
+                    SelectedItem="{Binding PreviewFontFamily, Mode=TwoWay, Converter={StaticResource FontFamilyToName}}"
+                    x:Uid="FontSelector" HorizontalAlignment="Right">
                 </ComboBox>
             </toolkit:SettingsCard>
             <toolkit:SettingsCard x:Uid="PreviewFontSize">
