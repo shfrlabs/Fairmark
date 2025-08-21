@@ -18,9 +18,16 @@ namespace Fairmark.Helpers
             get
             {
                 Close();
-                string l = System.IO.File.ReadAllText(LogFilePath);
-                _ = Task.Run(() => InitializeAsync());
-                return l;
+                try {
+                    string l = System.IO.File.ReadAllText(LogFilePath);
+                    _ = Task.Run(() => InitializeAsync());
+                    return l;
+                }
+                catch {
+                    File.Create(LogFilePath).Dispose();
+                    _ = Task.Run(() => InitializeAsync());
+                    return string.Empty;
+                }
             }
         }
         public int logLineCount

@@ -12,6 +12,8 @@
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+    xmlns:tlmedia="using:CommunityToolkit.WinUI.Media"
+    xmlns:ani="using:CommunityToolkit.WinUI.Animations"
     controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
     Loaded="Page_Loaded"
     SizeChanged="Page_SizeChanged">
@@ -22,7 +24,8 @@
         <converters:ColorGradientConverter x:Name="ColorGradientConverter"/>
         <converters:NullBooleanConverter x:Name="NullBooleanConverter"/>
         <converters:CountVisibilityConverter x:Name="CountVisibilityConverter"/>
-        <helpers:GridLengthAnimationHelper x:Name="Dummy"/> <!-- .net native will strip the whole thing without this here apparently -->
+        <helpers:GridLengthAnimationHelper x:Name="Dummy"/>
+        <!-- .net native will strip the whole thing without this here apparently -->
     </Page.Resources>
     <Grid x:Name="ContentGrid">
         <Grid.Resources>
@@ -32,6 +35,11 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid x:Name="AcrylicCover" Grid.Row="0" Grid.Column="0" Canvas.ZIndex="-99" Grid.RowSpan="99" Grid.ColumnSpan="99" Margin="0" Visibility="Collapsed" Opacity="0">
+            <Grid.Background>
+                <tlmedia:BackdropBlurBrush Amount="15"/>
+            </Grid.Background>
+        </Grid>
         <Grid x:Name="AppTitleBar" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Margin="5,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

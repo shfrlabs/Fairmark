@@ -31,6 +31,13 @@ namespace Fairmark
             };
         }
 
+        public string BetaNumber {
+            get {
+                var version = Windows.ApplicationModel.Package.Current.Id.Version;
+                return "Thank you for participating in beta " + version.Minor.ToString() + "!";
+            }
+        }
+
         public string Version
         {
             get

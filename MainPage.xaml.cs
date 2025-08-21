@@ -1,4 +1,6 @@
-﻿using Fairmark.Converters;
+﻿using CommunityToolkit.WinUI.Animations;
+using CommunityToolkit.WinUI.Media;
+using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
 using Microsoft.UI.Xaml.Controls;
@@ -13,6 +15,9 @@ using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using System.Numerics;
+using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI.Composition;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -65,7 +70,6 @@ namespace Fairmark
                 if (reqtheme == ElementTheme.Default)
                 {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
-                    Debug.WriteLine(ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor.HasValue);
                 }
                 else if (reqtheme == ElementTheme.Dark)
                 {
@@ -83,7 +87,7 @@ namespace Fairmark
                 ContentGrid.RequestedTheme = e.Theme;
                 if (e.Theme == ElementTheme.Default)
                 {
-                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Red; // TODO its black no matter what
+                    ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = null;
                 }
                 else if (e.Theme == ElementTheme.Dark)
                 {
@@ -102,23 +106,65 @@ namespace Fairmark
             {
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = true;
             }
-            if (s.AuthenticationEnabled)
-            {
-                if (UserConsentVerifier.CheckAvailabilityAsync().AsTask().Result == UserConsentVerifierAvailability.Available)
-                {
-                    _ = UserConsentVerifier.RequestVerificationAsync(loader.GetString("AuthTitle")).AsTask();
-                }
-                else
-                {
-                    ContentDialog dialog = new ContentDialog();
-                    dialog.Title = loader.GetString("AuthOffDialogTitle");
-                    dialog.Content = loader.GetString("AuthOffDialogDesc");
-                    s.AuthenticationEnabled = false;
-                    dialog.PrimaryButtonText = loader.GetString("OK");
-                    _ = dialog.ShowAsync().AsTask();
-                }
+            _ = AuthenticateAsync(s);
+
+        }
+
+        private async Task AuthenticateAsync(Settings s) {
+            if (!s.AuthenticationEnabled)
+                return;
+
+            AcrylicCover.Visibility = Visibility.Visible;
+            Canvas.SetZIndex(AcrylicCover, 99);
+
+            var fadeIn = new DoubleAnimation {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.5),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseIn }
+            };
+            var sbIn = new Storyboard();
+            sbIn.Children.Add(fadeIn);
+            Storyboard.SetTarget(fadeIn, AcrylicCover);
+            Storyboard.SetTargetProperty(fadeIn, "Opacity");
+            sbIn.Begin();
+
+            var availability = await UserConsentVerifier.CheckAvailabilityAsync();
+            if (availability != UserConsentVerifierAvailability.Available) {
+                s.AuthenticationEnabled = false;
+                await new ContentDialog {
+                    Title = loader.GetString("AuthOffDialogTitle"),
+                    Content = loader.GetString("AuthOffDialogDesc"),
+                    PrimaryButtonText = loader.GetString("OK")
+                }.ShowAsync();
+
+                AcrylicCover.Visibility = Visibility.Collapsed;
+                Canvas.SetZIndex(AcrylicCover, -99);
+                return;
             }
 
+            var result = await UserConsentVerifier.RequestVerificationAsync(loader.GetString("AuthTitle"));
+            if (result != UserConsentVerificationResult.Verified) {
+                Application.Current.Exit();
+                return;
+            }
+
+            var fadeOut = new DoubleAnimation {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.5),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+            };
+            var sbOut = new Storyboard();
+            sbOut.Children.Add(fadeOut);
+            Storyboard.SetTarget(fadeOut, AcrylicCover);
+            Storyboard.SetTargetProperty(fadeOut, "Opacity");
+            sbOut.Completed += (_, __) =>
+            {
+                AcrylicCover.Visibility = Visibility.Collapsed;
+                Canvas.SetZIndex(AcrylicCover, -99);
+            };
+            sbOut.Begin();
         }
 
         private List<NoteTag> currentTags = new List<NoteTag>();

@@ -46,19 +46,15 @@
                         x:Key="AboutTopBackground"  
                         StartPoint="0.1, -1.1"  
                         EndPoint="0.15, 1"
-                        Opacity="0.3"
-                        MappingMode="RelativeToBoundingBox"
-                        SpreadMethod="Reflect">
+                        Opacity="0.3">
                         <GradientStop Color="#AF72D3" Offset="0"/>
                         <GradientStop Color="#00AF72D3" Offset="0.8"/>
                     </LinearGradientBrush>
                     <LinearGradientBrush  
                         x:Key="AboutTopBackground2"  
-                        StartPoint="0.15, -1.1"  
-                        EndPoint="0.5, -1.1"
-                        Opacity="1"
-                        MappingMode="RelativeToBoundingBox"
-                        SpreadMethod="Reflect">
+                        StartPoint="0.9, -2"  
+                        EndPoint="0.85, 1"
+                        Opacity="0.4">
                         <GradientStop Color="#8FDDF1" Offset="0"/>
                         <GradientStop Color="#008FDDF1" Offset="0.8"/>
                     </LinearGradientBrush>

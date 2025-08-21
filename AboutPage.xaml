@@ -68,7 +68,8 @@
                     <Hyperlink NavigateUri="https://discord.gg/eBHZSKG"><Run x:Uid="Thanks16"/></Hyperlink>
                     <Run x:Uid="Thanks17"/>
                 </TextBlock>
-                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,0" FontFamily="Segoe UI Variable Display" x:Uid="DevelopedBy"/>
+                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,30" FontFamily="Segoe UI Variable Display" x:Uid="DevelopedBy"/>
+                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,30" FontFamily="Segoe UI Variable Display" Text="{x:Bind BetaNumber}"/>
             </StackPanel>
         </Grid>
     </Grid>
