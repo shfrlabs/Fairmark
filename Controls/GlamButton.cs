@@ -20,7 +20,6 @@ namespace Fairmark.Controls {
         private Run _priceRun;
         private Run _prevRun;
         private bool _isPointerOver;
-
         public string PlusPrice {
             get => (string)GetValue(PlusPriceProperty);
             set => SetValue(PlusPriceProperty, value);
@@ -31,6 +30,11 @@ namespace Fairmark.Controls {
             set => SetValue(PrevPriceProperty, value);
         }
 
+        public bool IsOnPromotion {
+            get => (bool)GetValue(IsOnPromotionProperty);
+            set => SetValue(IsOnPromotionProperty, value);
+        }
+
         public static readonly DependencyProperty PlusPriceProperty =
             DependencyProperty.Register(nameof(PlusPrice), typeof(string),
                 typeof(GlamButton), new PropertyMetadata(string.Empty, OnPlusPriceChanged));
@@ -39,15 +43,32 @@ namespace Fairmark.Controls {
             DependencyProperty.Register(nameof(PrevPrice), typeof(string),
                 typeof(GlamButton), new PropertyMetadata(string.Empty, OnPrevPriceChanged));
 
+        public static readonly DependencyProperty IsOnPromotionProperty =
+            DependencyProperty.Register(nameof(IsOnPromotion), typeof(bool),
+                typeof(GlamButton), new PropertyMetadata(false, OnIsOnPromotionChanged));
+
         private static void OnPlusPriceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             if (d is GlamButton button && button._priceRun != null)
                 button._priceRun.Text = e.NewValue?.ToString();
         }
         private static void OnPrevPriceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            if (d is GlamButton button && button._prevRun != null)
+            if (d is GlamButton button && button._prevRun != null) {
                 button._prevRun.Text = e.NewValue?.ToString();
+                button.UpdatePrevPriceVisibility();
+            }
         }
 
+        private static void OnIsOnPromotionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            if (d is GlamButton button) {
+                button.UpdatePrevPriceVisibility();
+            }
+        }
+
+        private void UpdatePrevPriceVisibility() {
+            if (_prevRun != null) {
+                _prevRun.Text = IsOnPromotion ? PrevPrice : null;
+            }
+        }
 
         public GlamButton() {
             DefaultStyleKey = typeof(GlamButton);
@@ -64,8 +85,10 @@ namespace Fairmark.Controls {
             if (_priceRun != null)
                 _priceRun.Text = PlusPrice;
 
-            if (_prevRun != null)
+            if (_prevRun != null) {
                 _prevRun.Text = PrevPrice;
+                UpdatePrevPriceVisibility();
+            }
 
             if (_glowCanvas != null) {
                 _glowCanvas.Draw += OnGlowDraw;

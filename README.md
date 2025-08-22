@@ -22,15 +22,14 @@ obsidian już się chowa na jego widok
 - Dostosowywanie motywu aplikacji
 - Sortowanie i filtrowanie notatek
 - Możliwość linkowania notatek do innych notatek przez URI
+- Przypinanie notatek
 
 **1.0**
-
 - Strona z FAQ, funkcjami, itp.
 
 **1.1**
 
 - Podział notatek na foldery **(\>3 z Plus)**
-- Przypinanie notatek
 - Integracja z Taskie **(Plus)**
   - Łączenie list zadań do notatek
   - Łączenie notatek do zadań

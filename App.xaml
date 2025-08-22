@@ -27,6 +27,7 @@
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <helpers:Settings x:Key="Settings"/>
+                    <SolidColorBrush x:Key="ListViewHeaderItemDividerStroke" Color="Transparent"/>
                     <AcrylicBrush x:Key="OverlayBrush"
                         BackgroundSource="HostBackdrop"
                         TintColor="{ThemeResource OverlayBrushTintColor}"

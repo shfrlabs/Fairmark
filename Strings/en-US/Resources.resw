@@ -691,7 +691,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="LogCard.Description" xml:space="preserve">
-    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. You will be asked for an anonymized version of these when you report a bug.</value>
+    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. This feature requires Plus.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="CopyLogs.Content" xml:space="preserve">
@@ -820,5 +820,65 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="Unpin.Text" xml:space="preserve">
     <value>Unpin note</value>
     <comment>Used in the "More" bottom menu.</comment>
+  </data>
+  <data name="ClearTags.Label" xml:space="preserve">
+    <value>Clear selection</value>
+    <comment>Filter button flyout.</comment>
+  </data>
+  <data name="CreateTag.Label" xml:space="preserve">
+    <value>Create tag</value>
+    <comment>Filter button flyout.</comment>
+  </data>
+  <data name="FilterBtn.Label" xml:space="preserve">
+    <value>Filter</value>
+    <comment>Top command bar.</comment>
+  </data>
+  <data name="ManageTags.Label" xml:space="preserve">
+    <value>Manage tags</value>
+    <comment>Filter button flyout.</comment>
+  </data>
+  <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reference note</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="RefNote.Content" xml:space="preserve">
+    <value>Insert reference</value>
+    <comment>Note reference flyout, button used to insert a reference to another note.</comment>
+  </data>
+  <data name="SortBtn.Label" xml:space="preserve">
+    <value>Sort</value>
+    <comment>Top command bar.</comment>
+  </data>
+  <data name="SortByDef.Text" xml:space="preserve">
+    <value>Default order</value>
+    <comment>Sort button flyout.</comment>
+  </data>
+  <data name="SortByName.Text" xml:space="preserve">
+    <value>By name</value>
+    <comment>Sort button flyout.</comment>
+  </data>
+  <data name="SortByTags.Text" xml:space="preserve">
+    <value>By tag names</value>
+    <comment>Sort button flyout.</comment>
+  </data>
+  <data name="FilterBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Filter</value>
+    <comment>Top command bar.</comment>
+  </data>
+  <data name="SortBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Sort</value>
+    <comment>Top command bar.</comment>
+  </data>
+  <data name="UpgradeFor" xml:space="preserve">
+    <value>Upgrade for</value>
+    <comment>Upgrade screen.</comment>
+  </data>
+  <data name="OthersGroup" xml:space="preserve">
+    <value>Unpinned</value>
+    <comment>Note group name in the sidebar, should stay empty</comment>
+  </data>
+  <data name="PinnedGroup" xml:space="preserve">
+    <value>Pinned</value>
+    <comment>Note group name in the sidebar</comment>
   </data>
 </root>

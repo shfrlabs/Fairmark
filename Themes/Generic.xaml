@@ -77,7 +77,7 @@
                                    FontSize="18"
                                    Padding="{TemplateBinding Padding}"
                                    Foreground="{TemplateBinding Foreground}">
-                            <Run>Upgrade for </Run>
+                            <Run x:Uid="UpgradeFor"/>
                             <Run x:Name="PrevPriceRun" TextDecorations="Strikethrough"/>
                             <Run x:Name="PriceRun" FontWeight="Bold"/>
                             </TextBlock>

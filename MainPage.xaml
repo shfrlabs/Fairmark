@@ -26,8 +26,12 @@
         <converters:CountVisibilityConverter x:Name="CountVisibilityConverter"/>
         <converters:BooleanVisibilityConverter x:Name="BooleanVisibilityConverter"/>
         <converters:BooleanFullScreenIconConverter x:Name="BooleanFullScreenIconConverter"/>
+        <converters:GroupHeaderNameConverter x:Name="GroupHeaderNameConverter"/>
         <helpers:GridLengthAnimationHelper x:Name="Dummy"/>
-        <!-- .net native will strip the whole thing without this here apparently -->
+        <CollectionViewSource x:Name="NotesViewSource"
+                          Source="{x:Bind helpers:NoteCollectionHelper.groupedNotes}"
+                          IsSourceGrouped="True"
+                          ItemsPath=""/>
     </Page.Resources>
     <Grid x:Name="ContentGrid">
         <Grid.Resources>
@@ -73,7 +77,7 @@
                                     <FontIcon Glyph="&#xE946;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Icon="ContactInfo" x:Name="Contact"  Click="Contact_Click" x:Uid="ContactButton" Loaded="Contact_Loaded"/> 
+                            <MenuFlyoutItem Icon="ContactInfo" x:Name="Contact" Click="Contact_Click" x:Uid="ContactButton" Loaded="Contact_Loaded"/> 
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -114,10 +118,25 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="1" x:Name="NoNoteText" Visibility="Collapsed" x:Uid="NoNoteText" Margin="20" Opacity=".7" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
-                    <ListView Grid.Row="1" x:Name="NoteList" ItemsSource="{x:Bind helpers:NoteCollectionHelper.notes, Mode=OneWay}" SelectionChanged="NoteList_SelectionChanged">
+                    <ListView Grid.Row="1" x:Name="NoteList" ItemsSource="{Binding Source={StaticResource NotesViewSource}}" SelectionChanged="NoteList_SelectionChanged">
+                        <ListView.GroupStyle>
+                            <GroupStyle HidesIfEmpty="True">
+                                <GroupStyle.HeaderContainerStyle>
+                                    <Style TargetType="ListViewHeaderItem">
+                                        <Setter Property="Padding" Value="10,8,12,0" />
+                                        <Setter Property="Margin" Value="0,0,0,-15"/>
+                                    </Style>
+                                </GroupStyle.HeaderContainerStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding HeaderName, Mode=OneWay}" FontSize="12" Opacity="0.7"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteMetadata">
-                                <Grid Background="{Binding Tags, Converter={StaticResource TagGradientConverter}, Mode=OneWay}" Margin="-12, -8, -8, -8" Padding="12, 10, 8, 10" CornerRadius="3">
+                                <Grid Background="{Binding Tags, Converter={StaticResource TagGradientConverter}, Mode=OneWay}" Margin="-12, -7, -8, -5" Padding="12, 7, 8, 5" CornerRadius="3" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="25"/>
                                         <ColumnDefinition Width="*"/>
@@ -125,19 +144,22 @@
                                     </Grid.ColumnDefinitions>
                                     <FontIcon Glyph="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" FontSize="11" Margin="5,0,0,0"/>
-                                    <FontIcon Opacity="0.7" FontSize="12" Glyph="&#xE718;" Grid.Column="2" Width="25" Height="25" Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BooleanVisibilityConverter}}"/>
+                                    <Button Grid.Column="2" Width="25" Height="25" BorderThickness="0" Background="Transparent" Margin="0" Padding="0" x:Name="UnpinBtn" Click="UnpinBtn_Click" Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BooleanVisibilityConverter}}" Tag="{x:Bind Id, Mode=OneWay}">
+                                        <FontIcon Opacity="0.7" FontSize="14" Glyph="&#xE718;"/>
+                                    </Button>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Grid Grid.Row="0" Margin="0,-50,-5,0">
                         <CommandBar HorizontalAlignment="Right">
-                            <AppBarButton Label="~~Filter" Icon="Filter" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
+                            <AppBarButton x:Uid="FilterBtn" Icon="Filter" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
                                         <Grid Margin="-10" MinWidth="250">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
                                             <ListView AllowFocusOnInteraction="True" Grid.Row="0" BorderThickness="0" ItemsSource="{x:Bind helpers:NoteCollectionHelper.tags}" x:Name="TagBox" MinWidth="100" x:Uid="TagBox" Margin="0,0,0,5" SelectionChanged="TagBox_SelectionChanged" SelectionMode="Multiple" AllowDrop="False" CanReorderItems="False" CanDragItems="False" HorizontalAlignment="Stretch">
@@ -155,42 +177,35 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
-                                            <CommandBar DefaultLabelPosition="Right" Grid.Row="1" MinHeight="35">
+                                            <CommandBar DefaultLabelPosition="Right" Grid.Row="1" MinHeight="35" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
                                                 <AppBarButton LabelPosition="Default" x:Name="ClearTags" x:Uid="ClearTags" Click="ClearTags_Click" HorizontalAlignment="Stretch" Margin="0,0,5,0" VerticalAlignment="Stretch">
                                                     <AppBarButton.Icon>
                                                         <FontIcon FontSize="14" Glyph="&#xE711;" />
                                                     </AppBarButton.Icon>
-                                                    <AppBarButton.Label>
-                                                        <x:String>~Clear</x:String>
-                                                    </AppBarButton.Label>
                                                 </AppBarButton>
                                                 <AppBarButton x:Name="CreateTag" x:Uid="CreateTag" AllowFocusOnInteraction="True" Click="CreateTag_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                     <AppBarButton.Icon>
                                                         <FontIcon FontSize="14" Glyph="&#xE710;" />
                                                     </AppBarButton.Icon>
-                                                    <AppBarButton.Label>
-                                                        <x:String>~New</x:String>
-                                                    </AppBarButton.Label>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="ManageTags" AllowFocusOnInteraction="True" Click="ManageTags_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            </CommandBar>
+                                            <CommandBar DefaultLabelPosition="Right" Grid.Row="2" MinHeight="35" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
+                                                <AppBarButton x:Name="ManageTags" x:Uid="ManageTags" AllowFocusOnInteraction="True" Click="ManageTags_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                     <AppBarButton.Icon>
                                                         <FontIcon FontSize="14" Glyph="&#xE8EC;" />
                                                     </AppBarButton.Icon>
-                                                    <AppBarButton.Label>
-                                                        <x:String>~Manage</x:String>
-                                                    </AppBarButton.Label>
                                                 </AppBarButton>
                                             </CommandBar>
                                         </Grid>
                                     </Flyout>
                                 </FlyoutBase.AttachedFlyout>
                             </AppBarButton>
-                            <AppBarButton Label="~~Sort" Icon="Sort" x:Name="Sort" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
+                            <AppBarButton x:Uid="SortBtn" Icon="Sort" x:Name="Sort" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
-                                        <ToggleMenuFlyoutItem Text="~~Default order" IsChecked="{x:Bind sortOptions.sortDefault, Mode=TwoWay}"/>
-                                        <ToggleMenuFlyoutItem Text="~~By name" IsChecked="{x:Bind sortOptions.sortName, Mode=TwoWay}"/>
-                                        <ToggleMenuFlyoutItem Text="~~By tag names" IsChecked="{x:Bind sortOptions.sortTag, Mode=TwoWay}"/>
+                                        <ToggleMenuFlyoutItem x:Uid="SortByDef" IsChecked="{x:Bind sortOptions.sortDefault, Mode=TwoWay}"/>
+                                        <ToggleMenuFlyoutItem x:Uid="SortByName" IsChecked="{x:Bind sortOptions.sortName, Mode=TwoWay}"/>
+                                        <ToggleMenuFlyoutItem x:Uid="SortByTags" IsChecked="{x:Bind sortOptions.sortTag, Mode=TwoWay}"/>
                                     </MenuFlyout>
                                 </FlyoutBase.AttachedFlyout>
                             </AppBarButton>

@@ -3,21 +3,22 @@ using CommunityToolkit.WinUI.Media;
 using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.ViewManagement;
-using System.Numerics;
-using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.Composition;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -470,28 +471,47 @@ namespace Fairmark
         }
 
         private void SortNotes() {
+            string? id = (NoteList.SelectedItem as NoteMetadata)?.Id;
+
+            var ignored = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () => {
+                    NoteCollectionHelper.Regroup(SortNotesInternal());
+
+                    if (id != null) {
+                        var item = NoteCollectionHelper.notes.FirstOrDefault(n => n.Id == id);
+                        if (item != null) {
+                            NoteList.SelectedItem = item;
+                            NoteList_SelectionChanged(NoteList, null);
+                        }
+                    }
+                }
+            );
+        }
+
+        private IEnumerable<NoteMetadata> SortNotesInternal() {
             switch (sortOptions) {
                 case { sortDefault: true, sortTag: false, sortName: false }:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                    return NoteCollectionHelper.notes
                         .OrderByDescending(n => n.IsPinned);
-                    break;
+
                 case { sortDefault: false, sortTag: true, sortName: false }:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                    return NoteCollectionHelper.notes
                         .OrderByDescending(n => n.IsPinned)
                         .ThenBy(n => string.Join(" ", n.Tags.OrderBy(t => t.Name).Select(t => t.Name)))
                         .ThenBy(n => n.Name);
-                    break;
+
                 case { sortDefault: false, sortTag: false, sortName: true }:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                    return NoteCollectionHelper.notes
                         .OrderByDescending(n => n.IsPinned)
                         .ThenBy(n => n.Name);
-                    break;
+
                 default:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                    return NoteCollectionHelper.notes
                         .OrderByDescending(n => n.IsPinned);
-                    break;
             }
         }
+
 
         private async Task PlusCheck() {
             if (!(await Variables.CheckIfPlusAsync())) {
@@ -981,32 +1001,33 @@ namespace Fairmark
 
         private void TagBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var listView = sender as ListView;
+
             if (listView?.SelectedItems != null && listView.SelectedItems.Count > 0) {
                 var selectedTags = listView.SelectedItems.Cast<NoteTag>().ToList();
                 Debug.WriteLine($"Selected tags: {string.Join(", ", selectedTags.Select(t => t.Name))}");
                 currentTags = selectedTags;
-                ObservableCollection<NoteMetadata> filteredNotes = new ObservableCollection<NoteMetadata>();
-                NoteList.ItemsSource = filteredNotes;
-                foreach (NoteMetadata note in NoteCollectionHelper.notes) {
-                    if (note.Tags != null) {
-                        if (selectedTags.All(t => note.Tags.Any(y => y.GUID == t.GUID))) {
-                            filteredNotes.Add(note);
-                        }
-                    }
-                }
+
+                var filtered = NoteCollectionHelper.notes
+                    .Where(note =>
+                        note.Tags != null &&
+                        selectedTags.All(t => note.Tags.Any(y => y.GUID == t.GUID)));
+
+                NoteCollectionHelper.Regroup(filtered);
             }
             else {
                 Debug.WriteLine("No tags selected");
                 currentTags = null;
-                NoteList.ItemsSource = NoteCollectionHelper.notes;
+
+                NoteCollectionHelper.Regroup(NoteCollectionHelper.notes);
             }
         }
+
 
         private void ClearTags_Click(object sender, RoutedEventArgs e)
         {
             currentTags = null;
             TagBox.SelectedItem = null;
-            NoteList.ItemsSource = NoteCollectionHelper.notes;
+            NoteCollectionHelper.Regroup(NoteCollectionHelper.notes);
         }
 
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -1368,6 +1389,12 @@ namespace Fairmark
                 PinUnPin_Loaded(sender, null);
             }
             PinUnPin_Loaded(sender, null);
+            SortNotes();
+        }
+
+        private void UnpinBtn_Click(object sender, RoutedEventArgs e) {
+            string id = (sender as Button).Tag as string;
+            NoteCollectionHelper.notes.FirstOrDefault(n => n.Id == id).IsPinned = false;
             SortNotes();
         }
     }

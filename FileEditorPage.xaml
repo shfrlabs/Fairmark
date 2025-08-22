@@ -103,7 +103,7 @@
                         <KeyboardAccelerator Key="X" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>-->
                 </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CupyButton" Width="42" Icon="Copy" Command="{x:Bind MarkEditor.CopyCommand}">
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CopyButton" Width="42" Icon="Copy" Command="{x:Bind MarkEditor.CopyCommand}">
                     <!--<AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator Key="C" Modifiers="Control"/>
                     </AppBarButton.KeyboardAccelerators>-->
@@ -230,7 +230,7 @@
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Width="42" x:Name="RefFlyout" Click="RefFlyout_Click">
+                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" Width="42" x:Uid="NoteRefBtn" x:Name="RefFlyout" Click="RefFlyout_Click">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8AD;"/>
                     </AppBarButton.Icon>
@@ -253,7 +253,7 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </ScrollViewer>
-                                <Button Margin="0,10,0,0" IsEnabled="{x:Bind ReferenceList.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" Content="~~Insert reference" x:Name="RefNote" Click="RefNote_Click"/>
+                                <Button Margin="0,10,0,0" IsEnabled="{x:Bind ReferenceList.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" x:Uid="RefNote" x:Name="RefNote" Click="RefNote_Click"/>
                             </StackPanel>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
