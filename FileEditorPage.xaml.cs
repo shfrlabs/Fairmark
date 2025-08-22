@@ -24,11 +24,15 @@ namespace Fairmark
         {
             InitializeComponent();
             FixHeaderSizes();
+            this.ActualThemeChanged += (s, e) => {
+                FixHeaderSizes();
+            };
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, e) =>
             {
                 if (Window.Current.Content is Frame frame)
                 {
                     frame.RequestedTheme = e.Theme;
+                    FixHeaderSizes();
                 }
             };
             (Application.Current.Resources["Settings"] as Settings).PropertyChanged += (s, e) => { FixHeaderSizes(); };
@@ -55,6 +59,7 @@ namespace Fairmark
                 theme.H4FontSize = baseSize * 1.2;
                 theme.H5FontSize = baseSize * 1.1;
                 theme.H6FontSize = baseSize;
+                theme.HeadingForeground = MarkBlock.Foreground;
                 config.Themes = theme;
                 MarkBlock.Config = config;
             }
@@ -67,6 +72,7 @@ namespace Fairmark
                 MarkBlock.Config.Themes.H4FontSize = baseSize * 1.2;
                 MarkBlock.Config.Themes.H5FontSize = baseSize * 1.1;
                 MarkBlock.Config.Themes.H6FontSize = baseSize;
+                MarkBlock.Config.Themes.HeadingForeground = MarkBlock.Foreground;
             }
 
             string original = MarkBlock.Text;

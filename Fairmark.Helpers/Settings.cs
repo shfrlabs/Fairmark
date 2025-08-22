@@ -145,7 +145,7 @@ namespace Fairmark.Helpers
         {
             get
             {
-                bool current = false; // disabled temporairly, in case I switch to a renderer that supports HTML
+                bool current = false;
                 return current;
             }
             set

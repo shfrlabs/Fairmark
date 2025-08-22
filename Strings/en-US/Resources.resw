@@ -813,4 +813,12 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Leave a review!</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
+  <data name="Pin.Text" xml:space="preserve">
+    <value>Pin note</value>
+    <comment>Used in the "More" bottom menu.</comment>
+  </data>
+  <data name="Unpin.Text" xml:space="preserve">
+    <value>Unpin note</value>
+    <comment>Used in the "More" bottom menu.</comment>
+  </data>
 </root>

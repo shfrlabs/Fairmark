@@ -472,18 +472,23 @@ namespace Fairmark
         private void SortNotes() {
             switch (sortOptions) {
                 case { sortDefault: true, sortTag: false, sortName: false }:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes;
+                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                        .OrderByDescending(n => n.IsPinned);
                     break;
                 case { sortDefault: false, sortTag: true, sortName: false }:
                     NoteList.ItemsSource = NoteCollectionHelper.notes
-                        .OrderBy(n => string.Join(" ", n.Tags.OrderBy(t => t.Name).Select(t => t.Name)))
+                        .OrderByDescending(n => n.IsPinned)
+                        .ThenBy(n => string.Join(" ", n.Tags.OrderBy(t => t.Name).Select(t => t.Name)))
                         .ThenBy(n => n.Name);
                     break;
                 case { sortDefault: false, sortTag: false, sortName: true }:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes.OrderBy(n => n.Name);
+                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                        .OrderByDescending(n => n.IsPinned)
+                        .ThenBy(n => n.Name);
                     break;
                 default:
-                    NoteList.ItemsSource = NoteCollectionHelper.notes;
+                    NoteList.ItemsSource = NoteCollectionHelper.notes
+                        .OrderByDescending(n => n.IsPinned);
                     break;
             }
         }
@@ -1326,6 +1331,8 @@ namespace Fairmark
                 currentView.ExitFullScreenMode();
             else
                 _ = currentView.TryEnterFullScreenMode();
+
+            Zen.Icon = new FontIcon() { Glyph = BooleanFullScreenIconConverter.Convert(currentView.IsFullScreenMode, null, null, null).ToString() };
         }
 
         private void MoreBtn_Click(object sender, RoutedEventArgs e)
@@ -1339,6 +1346,29 @@ namespace Fairmark
 
         private void ManageTags_Click(object sender, RoutedEventArgs e) {
             Settings_Click(Settings, null);
+        }
+
+        private void PinUnPin_Loaded(object sender, RoutedEventArgs e) {
+            if (NoteList.SelectedItem != null) {
+                (sender as MenuFlyoutItem).Icon = ((NoteList.SelectedItem as NoteMetadata).IsPinned ? new SymbolIcon(Symbol.UnPin) : new SymbolIcon(Symbol.Pin));
+                (sender as MenuFlyoutItem).Text = ((NoteList.SelectedItem as NoteMetadata).IsPinned ? loader.GetString("Unpin/Text") : loader.GetString("Pin/Text"));
+            }
+            else {
+                (sender as MenuFlyoutItem).Icon = new SymbolIcon(Symbol.Pin);
+                (sender as MenuFlyoutItem).Text = loader.GetString("Pin/Text");
+            }
+        }
+
+        private void PinUnPin_Click(object sender, RoutedEventArgs e) {
+            if (NoteList.SelectedItem != null) {
+                NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
+                NoteMetadata target = NoteCollectionHelper.notes.FirstOrDefault(n => n.Id == selectedNote.Id);
+                NoteCollectionHelper.notes.FirstOrDefault(n => n.Id == selectedNote.Id).IsPinned = !target.IsPinned;
+                _ = NoteCollectionHelper.SaveNotes();
+                PinUnPin_Loaded(sender, null);
+            }
+            PinUnPin_Loaded(sender, null);
+            SortNotes();
         }
     }
 }

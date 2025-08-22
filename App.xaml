@@ -15,11 +15,13 @@
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="DialogBGColor">#FFFFFFFF</Color>
+                            <Color x:Key="ZenColor">#FFFFFFFF</Color>
                             <Color x:Key="OverlayBrushTintColor">#FFFFFFFF</Color>
                             <AcrylicBrush x:Key="AppWindowBG" BackgroundSource="HostBackdrop" TintColor="#FFFFFFFF" FallbackColor="#FFFFFFFF"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <Color x:Key="DialogBGColor">#FF1E1E1E</Color>
+                            <Color x:Key="ZenColor">#000000</Color>
                             <Color x:Key="OverlayBrushTintColor">#FF000000</Color>
                             <AcrylicBrush x:Key="AppWindowBG" BackgroundSource="HostBackdrop" TintColor="#FF1E1E1E" FallbackColor="#FF1E1E1E"/>
                         </ResourceDictionary>
@@ -32,7 +34,7 @@
                         TintOpacity="0"
                         FallbackColor="{ThemeResource OverlayBrushTintColor}" />
                     <SolidColorBrush x:Key="DialogBG" Color="{ThemeResource DialogBGColor}" Opacity="0.7" />
-                    <SolidColorBrush x:Key="ZenBG" Color="{ThemeResource DialogBGColor}" Opacity="1" />
+                    <SolidColorBrush x:Key="ZenBG" Color="{ThemeResource ZenColor}" Opacity="1" />
                     <LinearGradientBrush  
                         x:Key="OOBEFrameBackground"  
                         StartPoint="0,0"  

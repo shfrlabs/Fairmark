@@ -121,6 +121,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BooleanFullScreenIconConverter.cs" />
+    <Compile Include="BooleanVisibilityConverter.cs" />
     <Compile Include="ColorBrushConverter.cs" />
     <Compile Include="ColorGradientConverter.cs" />
     <Compile Include="CountVisibilityConverter.cs" />

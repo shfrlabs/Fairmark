@@ -11,6 +11,7 @@ namespace Fairmark.Models
         private string _name;
         private string _emoji;
         private ObservableCollection<NoteTag> _tags;
+        private bool _isPinned;
 
         public NoteMetadata()
         {
@@ -52,6 +53,19 @@ namespace Fairmark.Models
                 if (_emoji != value)
                 {
                     _emoji = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsPinned
+        {
+            get => _isPinned;
+            set
+            {
+                if (_isPinned!= value)
+                {
+                    _isPinned = value;
                     OnPropertyChanged();
                 }
             }
