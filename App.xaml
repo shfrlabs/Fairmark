@@ -98,6 +98,7 @@
                     </DataTemplate>
                 </ResourceDictionary>
                 <ResourceDictionary>
+                    <TextTrimming x:Key="MenuFlyoutItemTextTrimming">CharacterEllipsis</TextTrimming>
                     <Style TargetType="controls:TabViewItem">
                         <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>

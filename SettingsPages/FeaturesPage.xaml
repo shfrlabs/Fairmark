@@ -24,7 +24,7 @@
                     <FontIcon Glyph="&#xE72E;" />
                 </toolkit:SettingsCard.HeaderIcon>
                 <ToggleSwitch
-                IsOn="{Binding AuthenticationEnabled, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded" HorizontalAlignment="Right">
+                IsOn="{Binding AuthenticationEnabled, Mode=TwoWay}" Toggled="ToggleSwitch_Toggled" Loaded="ToggleSwitch_Loaded" HorizontalAlignment="Right">
                 </ToggleSwitch>
             </toolkit:SettingsCard>
             <!--<toolkit:SettingsCard Header="Automatic embed" Description="Automatically convert supported pasted links into embeds.">

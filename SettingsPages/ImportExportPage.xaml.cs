@@ -1,10 +1,13 @@
 ﻿using Fairmark.Helpers;
 using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.Resources;
+using Windows.Security.Credentials.UI;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 
 namespace Fairmark.SettingsPages

@@ -98,6 +98,8 @@ namespace Fairmark
         private void InsertLink_Click(object sender, RoutedEventArgs e)
         {
             MarkEditor.InsertLink(LinkUrl.Text, LinkText.Text);
+            LinkUrl.Text = string.Empty;
+            LinkText.Text = string.Empty;
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -108,6 +110,8 @@ namespace Fairmark
         private void Details_Click(object sender, RoutedEventArgs e)
         {
             MarkEditor.InsertDetails(SummaryText.Text, DetailsText.Text);
+            SummaryText.Text = string.Empty;
+            DetailsText.Text = string.Empty;
         }
 
         private async void ImportImage_Click(object sender, RoutedEventArgs e)

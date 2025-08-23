@@ -473,31 +473,33 @@ namespace Fairmark.Controls
             }
             return closest;
         }
-        public void InsertLink(string url, string displayText = null)
-        {
-            if (_innerBox == null) return;
+        public void InsertLink(string url, string displayText = null) {
+            if (_innerBox == null)
+                return;
+
+            string text = Text ?? string.Empty;
+
             int start = _innerBox.SelectionStart;
+            if (start < 0 || start > text.Length)
+                start = text.Length;
+
             int length = _innerBox.SelectionLength;
-            string text = _innerBox.Text ?? string.Empty;
+            if (length < 0 || start + length > text.Length)
+                length = 0;
+
             if (string.IsNullOrEmpty(displayText))
-            {
                 displayText = url;
-            }
+
             string linkText = $"[{displayText}]({url})";
-            if (length > 0)
-            {
-                text = text.Remove(start, length).Insert(start, linkText);
-                _innerBox.SelectionStart = start + linkText.Length;
-                _innerBox.SelectionLength = 0;
-            }
-            else
-            {
-                text = text.Insert(start, linkText);
-                _innerBox.SelectionStart = start + linkText.Length;
-                _innerBox.SelectionLength = 0;
-            }
+
+            text = text.Remove(start, length).Insert(start, linkText);
+
             Text = text;
+            _innerBox.SelectionStart = start + linkText.Length;
+            _innerBox.SelectionLength = 0;
         }
+
+
         public async Task InsertImage(string selectedImage)
         {
             if (!((await (new ImageFolderHelper()).GetImageList()).Any(t => t.Name == selectedImage))) return;
@@ -670,12 +672,10 @@ namespace Fairmark.Controls
             Debug.WriteLine($"<< TryGetEmbedLink returns {ok}");
             return ok;
         }
-        public string Text
-        {
-            get => (string)GetValue(TextProperty);
-            set
-            {
-                SetValue(TextProperty, value);
+        public string Text {
+            get => (string)(GetValue(TextProperty) ?? string.Empty);
+            set {
+                SetValue(TextProperty, value ?? string.Empty);
                 UpdateCounts();
             }
         }
@@ -691,33 +691,37 @@ namespace Fairmark.Controls
             WordCount = string.IsNullOrWhiteSpace(text) ? 0 : text.Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries).Length;
         }
 
-        internal void InsertDetails(string summary, string details)
-        {
-            if (_innerBox == null) return;
-            int start = _innerBox.SelectionStart;
-            int length = _innerBox.SelectionLength;
-            string text = _innerBox.Text ?? string.Empty;
+        internal void InsertDetails(string summary, string details) {
+
             string instext = $"""
-            <details>
-            <summary>
-            {summary}
-            </summary>
-            {details}
-            </details>
-            """;
-            if (length > 0)
-            {
-                text = text.Remove(start, length).Insert(start, instext);
-                _innerBox.SelectionStart = start + instext.Length;
-                _innerBox.SelectionLength = 0;
-            }
-            else
-            {
-                text = text.Insert(start, instext);
-                _innerBox.SelectionStart = start + instext.Length;
-                _innerBox.SelectionLength = 0;
-            }
+<details>
+<summary>
+{summary}
+</summary>
+{details}
+</details>
+""";
+
+            if (_innerBox == null)
+                return;
+
+            string text = Text ?? string.Empty;
+
+            int start = _innerBox.SelectionStart;
+            if (start < 0 || start > text.Length)
+                start = text.Length;
+
+            int length = _innerBox.SelectionLength;
+            if (length < 0 || start + length > text.Length)
+                length = 0;
+
+            text = text.Remove(start, length).Insert(start, instext);
+
             Text = text;
+            _innerBox.SelectionStart = start + instext.Length;
+            _innerBox.SelectionLength = 0;
         }
+
+
     }
 }

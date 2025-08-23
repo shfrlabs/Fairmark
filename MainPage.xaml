@@ -156,7 +156,7 @@
                             <AppBarButton x:Uid="FilterBtn" Icon="Filter" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
-                                        <Grid Margin="-10" MinWidth="250">
+                                        <Grid Margin="-10" Width="300">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>

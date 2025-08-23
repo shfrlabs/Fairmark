@@ -875,7 +875,8 @@ namespace Fairmark
                 {
                     Text = tag.Emoji + " " + tag.Name,
                     Background = new ColorGradientConverter().Convert(tag.Color, null, null, null) as LinearGradientBrush,
-                    Tag = tag.GUID
+                    Tag = tag.GUID,
+                    MaxWidth = 300
                 };
                 mfi.Click += async (s, a) =>
                 {

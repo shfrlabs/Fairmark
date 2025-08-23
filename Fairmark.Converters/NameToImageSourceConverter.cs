@@ -12,7 +12,7 @@ namespace Fairmark.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return new BitmapImage(new Uri($"ms-appdata:///local/Images/{Uri.EscapeDataString(value.ToString())}"));
+            return new BitmapImage(new Uri($"ms-appdata:///local/default/Images/{Uri.EscapeDataString(value.ToString())}"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
