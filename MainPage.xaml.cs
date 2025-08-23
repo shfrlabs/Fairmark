@@ -257,10 +257,15 @@ namespace Fairmark
             {
                 mainFlyout.Closed += (s, e) =>
                 {
-                    addtagtip.IsOpen = true;
+                    FlyoutBase.GetAttachedFlyout(Filter).Opened += Filter_Opened;
                 };
             }
             addnotetip.Closed -= AddNoteTip_Closed;
+        }
+
+        private void Filter_Opened(object sender, object e) {
+            addtagtip.IsOpen = true;
+            FlyoutBase.GetAttachedFlyout(Filter).Opened -= Filter_Opened;
         }
 
         private void FirstNoteDialog(object sender, SelectionChangedEventArgs e)
@@ -691,7 +696,7 @@ namespace Fairmark
                     Title = loader.GetString("DeleteNoteDialogTitle"),
                     Content = string.Format(loader.GetString("DeleteNoteDialogDesc"), selectedNote.Name),
                     PrimaryButtonText = loader.GetString("DeleteButton"),
-                    SecondaryButtonText = loader.GetString("CancelButton"),
+                    SecondaryButtonText = loader.GetString("Cancel"),
                     DefaultButton = ContentDialogButton.Secondary
                 };
                 deleteDialog.PrimaryButtonClick += async (s, args) =>
