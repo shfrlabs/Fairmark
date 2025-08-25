@@ -8,8 +8,12 @@
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:controls="using:Fairmark.Controls"
     xmlns:models="using:Fairmark.Models"
+    xmlns:converters="using:Fairmark.Converters"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BooleanVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
     <ScrollViewer HorizontalScrollMode="Disabled">
         <Grid Padding="20">
             <Grid.RowDefinitions>
@@ -18,10 +22,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" x:Name="DebugPlusToggle" DataContext="{StaticResource Settings}">
-                <ToggleSwitch IsOn="{Binding DebugPlus, Mode=TwoWay}" Margin="0,0,-50,0" VerticalAlignment="Center"/>
-                <TextBlock Text="[DEBUG] Plus, the button below is disabled and the animation shouldnt work" TextWrapping="Wrap" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            </StackPanel>
             <Rectangle Fill="{ThemeResource UpgradeBackground}" Grid.RowSpan="4" Margin="-20,-80" Canvas.ZIndex="-2" HorizontalAlignment="Stretch" Height="600" VerticalAlignment="Top"/>
             <Rectangle Fill="{ThemeResource UpgradeBackground2}" Grid.RowSpan="4" Margin="-20,-80" Canvas.ZIndex="-2" HorizontalAlignment="Stretch" Height="600" VerticalAlignment="Top"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="0,40,0,0">
@@ -31,8 +31,8 @@
             </StackPanel>
             <StackPanel Orientation="Vertical" Grid.Row="2">
                 <TextBlock HorizontalAlignment="Center" MaxWidth="400" FontSize="18" FontWeight="Medium" TextWrapping="Wrap" TextAlignment="Center" Margin="20,0,20,20" x:Uid="PlusPromo1"/>
-                <controls:GlamButton Loaded="GlamButton_Loaded" PlusPrice="{x:Bind PlusPrice, Mode=OneWay}" PrevPrice="{x:Bind PrevPrice, Mode=OneWay}" VerticalAlignment="Top" Margin="10,-5,10,0"/>
-                <TextBlock Opacity="0.7" HorizontalAlignment="Center" Margin="5,10" TextAlignment="Center" x:Uid="PlusPromo2"/>
+                <controls:GlamButton Click="GlamButton_Click" Loaded="GlamButton_Loaded" PlusPrice="{x:Bind PlusPrice, Mode=OneWay}" IsOnPromotion="{x:Bind IsPromo, Mode=OneWay}" PrevPrice="{x:Bind PrevPrice, Mode=OneWay}" VerticalAlignment="Top" Margin="10,-5,10,0"/>
+                <TextBlock Opacity="0.7" HorizontalAlignment="Center" Margin="5,10" TextAlignment="Center" Visibility="{x:Bind IsPromo, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" x:Uid="PlusPromo2"/>
                 <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="20,10,20,0" FontSize="15" x:Uid="PlusPromo3"/>
             </StackPanel>
             <Grid Grid.Row="3" Margin="0,20,0,0">

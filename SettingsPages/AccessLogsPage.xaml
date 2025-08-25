@@ -19,7 +19,7 @@
                 <ToggleSwitch IsOn="{Binding AccessLogs, Mode=TwoWay}" Loaded="ToggleSwitch_Loaded"/>
             </toolkit:SettingsCard>
             <ScrollViewer HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4" Margin="0,20">
-                <TextBlock Margin="5" FontFamily="{Binding EditorFontFamily}" FontSize="{Binding EditorFontSize}" TextWrapping="WrapWholeWords" Text="{x:Bind logText, Mode=OneWay}" />
+                <TextBlock Margin="5" FontFamily="{Binding EditorFontFamily, Mode=OneWay}" FontSize="{Binding EditorFontSize, Mode=OneWay}" TextWrapping="WrapWholeWords" Text="{x:Bind logText}" />
             </ScrollViewer>
             <Grid HorizontalAlignment="Stretch" Height="60">
                 <Grid.ColumnDefinitions>

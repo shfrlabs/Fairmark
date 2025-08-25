@@ -38,7 +38,7 @@ namespace Fairmark.SettingsPages
             //}
         }
 
-        private async void DownloadModel_Click(object sender, RoutedEventArgs e)
+        private void DownloadModel_Click(object sender, RoutedEventArgs e)
         {
             //bool isDownloaded = false;
             //string model = string.Empty;

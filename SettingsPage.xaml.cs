@@ -91,9 +91,11 @@ namespace Fairmark
         }
 
         private async void NavigationViewItem_Loaded(object sender, RoutedEventArgs e) {
+#if !DEBUG
             if (SettingsNav.PaneDisplayMode != Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top) {
                 (sender as NavigationViewItem).Visibility = await Variables.CheckIfPlusAsync() ? Visibility.Collapsed : Visibility.Visible;
             }
+#endif
         }
     }
 }

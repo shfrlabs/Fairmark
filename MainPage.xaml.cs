@@ -476,7 +476,7 @@ namespace Fairmark
         }
 
         private void SortNotes() {
-            string? id = (NoteList.SelectedItem as NoteMetadata)?.Id;
+            string id = (NoteList.SelectedItem as NoteMetadata)?.Id;
 
             var ignored = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 Windows.UI.Core.CoreDispatcherPriority.Normal,
@@ -625,7 +625,7 @@ namespace Fairmark
                             Name = box.Text,
                             Emoji = emojiButton.Content.ToString(),
                             Id = newId,
-                            Tags = new ObservableCollection<NoteTag>()
+                            TagGuids = new List<string>()
                         };
                         if (currentTags != null) currentTags.ForEach(t => meta.Tags.Add(t));
                         NoteCollectionHelper.notes.Add(meta);
@@ -1230,74 +1230,76 @@ namespace Fairmark
             };
         }
 
-        private async void Settings_Click(object sender, RoutedEventArgs e)
-        {
-            AppWindow window = await AppWindow.TryCreateAsync();
+        private AppWindow _settingsWindow;
+
+        private async void Settings_Click(object sender, RoutedEventArgs e) {
+            if (_settingsWindow != null) {
+                _ = await _settingsWindow.TryShowAsync();
+                return;
+            }
+
+            _settingsWindow = await AppWindow.TryCreateAsync();
             Frame f = new Frame();
             f.Margin = new Thickness(0, 50, 0, 0);
+
             if (e == null) {
                 _ = f.Navigate(typeof(SettingsPage), "tag");
             }
             else {
                 _ = f.Navigate(typeof(SettingsPage));
             }
-            window.Title = loader.GetString("Settings/Text");
-            window.TitleBar.ExtendsContentIntoTitleBar = true;
-            window.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            window.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            _settingsWindow.Title = loader.GetString("Settings/Text");
+            _settingsWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            _settingsWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            _settingsWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
             var settings = Application.Current.Resources["Settings"] as Settings;
-            if (settings != null)
-            {
+            if (settings != null) {
                 ElementTheme initialTheme = ElementTheme.Default;
-                switch (settings.Theme)
-                {
-                    case "Light": initialTheme = ElementTheme.Light; break;
-                    case "Dark": initialTheme = ElementTheme.Dark; break;
-                    default: initialTheme = ElementTheme.Default; break;
+                switch (settings.Theme) {
+                    case "Light":
+                        initialTheme = ElementTheme.Light;
+                        break;
+                    case "Dark":
+                        initialTheme = ElementTheme.Dark;
+                        break;
+                    default:
+                        initialTheme = ElementTheme.Default;
+                        break;
                 }
+
                 f.RequestedTheme = initialTheme;
-                if (initialTheme == ElementTheme.Default)
-                {
-                    window.TitleBar.ButtonForegroundColor = null;
-                }
-                else if (initialTheme == ElementTheme.Dark)
-                {
-                    window.TitleBar.ButtonForegroundColor = Colors.White;
-                }
-                else if (initialTheme == ElementTheme.Light)
-                {
-                    window.TitleBar.ButtonForegroundColor = Colors.Black;
-                }
+                SetTitleBarButtonColor(_settingsWindow, initialTheme);
             }
 
-            ElementCompositionPreview.SetAppWindowContent(window, f);
+            ElementCompositionPreview.SetAppWindowContent(_settingsWindow, f);
+
             (Application.Current.Resources["Settings"] as Settings)?.ThemeSettingChanged += (s, args) =>
             {
                 f.RequestedTheme = args.Theme;
-                if (args.Theme == ElementTheme.Default)
-                {
-                    window.TitleBar.ButtonForegroundColor = null;
-                }
-                else if (args.Theme == ElementTheme.Dark)
-                {
-                    window.TitleBar.ButtonForegroundColor = Colors.White;
-                }
-                else if (args.Theme == ElementTheme.Light)
-                {
-                    window.TitleBar.ButtonForegroundColor = Colors.Black;
-                }
+                SetTitleBarButtonColor(_settingsWindow, args.Theme);
             };
 
-            _ = await window.TryShowAsync();
-            TopMore.Flyout.Opening += (s, a) =>
+            _ = await _settingsWindow.TryShowAsync();
+            Settings.IsEnabled = false;
+            _settingsWindow.Closed += (s, a) =>
             {
-                Settings.IsEnabled = window != null ? false : true;
-            };
-            window.Closed += (s, a) =>
-            {
-                window = null;
+                _settingsWindow = null;
                 Settings.IsEnabled = true;
             };
+        }
+
+        private void SetTitleBarButtonColor(AppWindow window, ElementTheme theme) {
+            if (theme == ElementTheme.Default) {
+                window.TitleBar.ButtonForegroundColor = null;
+            }
+            else if (theme == ElementTheme.Dark) {
+                window.TitleBar.ButtonForegroundColor = Colors.White;
+            }
+            else if (theme == ElementTheme.Light) {
+                window.TitleBar.ButtonForegroundColor = Colors.Black;
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -1308,9 +1310,11 @@ namespace Fairmark
                 AppTitleBar.ColumnDefinitions[0].Width = new GridLength(0);
                 MainCommands.Margin = new Thickness(-5, 0, -10, 0);
                 this.Background = Application.Current.Resources["ZenBG"] as SolidColorBrush;
+                TopMore.Visibility = Visibility.Collapsed;
             }
             else
             {
+                TopMore.Visibility = Visibility.Visible;
                 MainCommands.Margin = new Thickness(5, 0, -10, 0);
                 AppTitleBar.ColumnDefinitions[0].Width = GridLength.Auto;
                 this.Background = new SolidColorBrush(Colors.Transparent);

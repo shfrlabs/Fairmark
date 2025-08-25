@@ -38,12 +38,17 @@ namespace Fairmark.SettingsPages
         }
 
         private async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e) {
-            if (!(sender as ToggleSwitch).IsOn) {
-                (Application.Current.Resources["Settings"] as Settings)?.AuthenticationEnabled = true;
-                ResourceLoader loader = ResourceLoader.GetForCurrentView();
+            var toggle = (ToggleSwitch)sender;
+            toggle.Toggled -= ToggleSwitch_Toggled;
+            var settings = (Application.Current.Resources["Settings"] as Settings);
+            var loader = ResourceLoader.GetForCurrentView();
+
+            if (!toggle.IsOn)
+            {
+                toggle.IsOn = true;
+
                 var availability = await UserConsentVerifier.CheckAvailabilityAsync();
                 if (availability != UserConsentVerifierAvailability.Available) {
-                    (Application.Current.Resources["Settings"] as Settings)?.AuthenticationEnabled = false;
                     await new ContentDialog {
                         Title = loader.GetString("AuthOffDialogTitle"),
                         Content = loader.GetString("AuthOffDialogDesc"),
@@ -53,11 +58,14 @@ namespace Fairmark.SettingsPages
                 }
 
                 var result = await UserConsentVerifier.RequestVerificationAsync(loader.GetString("AuthTitle"));
-                if (result == UserConsentVerificationResult.Verified || result == UserConsentVerificationResult.NotConfiguredForUser || result == UserConsentVerificationResult.DisabledByPolicy) {
-                    (Application.Current.Resources["Settings"] as Settings)?.AuthenticationEnabled = false;
-                    return;
+                if (result == UserConsentVerificationResult.Verified) {
+                    settings.AuthenticationEnabled = false;
+                    toggle.IsOn = false;
                 }
             }
+            toggle.Toggled += ToggleSwitch_Toggled;
+
         }
+
     }
 }

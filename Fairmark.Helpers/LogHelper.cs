@@ -51,7 +51,7 @@ namespace Fairmark.Helpers
                 return;
             try
             {
-                StorageFile logfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("Fairmark.log", CreationCollisionOption.OpenIfExists);
+                StorageFile logfile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Fairmark.log", CreationCollisionOption.OpenIfExists);
                 _fileStream = new FileStream(logfile.Path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
                 _writer = new StreamWriter(_fileStream) { AutoFlush = true };
                 _isInitialized = true;

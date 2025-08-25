@@ -654,7 +654,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Editor font family</value>
     <comment>Used in Settings.</comment>
   </data>
-  <data name="EditorFontFamilyDescription" xml:space="preserve">
+  <data name="EditorFontFamilyCard.Description" xml:space="preserve">
     <value>Select what font is used by the note editor.</value>
     <comment>Used in Settings.</comment>
   </data>

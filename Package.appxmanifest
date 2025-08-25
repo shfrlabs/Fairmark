@@ -9,7 +9,7 @@
   <Identity
     Name="BRStudios.3763783C2F5C2"
     Publisher="CN=shef3r-beta"
-    Version="0.1.0.0" />
+    Version="0.2.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="d2f08440-3a32-4e31-8685-9b9976f294bb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

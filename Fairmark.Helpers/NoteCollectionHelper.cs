@@ -33,8 +33,6 @@ namespace Fairmark.Helpers
                         note.PropertyChanged -= Note_PropertyChanged;
                 }
             };
-            foreach (var note in notes)
-                note.PropertyChanged += Note_PropertyChanged;
             StorageFile notefile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
             StorageFile tagfile = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).CreateFileAsync("tags.json", CreationCollisionOption.OpenIfExists);
 
@@ -63,6 +61,7 @@ namespace Fairmark.Helpers
                 JsonSerializer.Deserialize<List<NoteTag>>(tagContent).ForEach(t => tags.Add(t));
             }
             catch { }
+            foreach (var note in notes) { note.PropertyChanged += Note_PropertyChanged; note.ResolveTagGuids(guid => GetTagByGUID(guid)); }
             Debug.WriteLine($"notes: {notes.Count}, groupedNotes: {groupedNotes.Count}");
 
         }
@@ -194,6 +193,11 @@ namespace Fairmark.Helpers
             }
             string tagContent = JsonSerializer.Serialize(tags, new JsonSerializerOptions { WriteIndented = true });
             await FileIO.WriteTextAsync(tagfile, tagContent);
+        }
+
+        public static NoteTag GetTagByGUID(string guid)
+        {
+            return tags.FirstOrDefault(t => t.GUID == guid);
         }
     }
 }

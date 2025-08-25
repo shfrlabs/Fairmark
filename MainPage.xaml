@@ -54,8 +54,8 @@
                 <ColumnDefinition Width="55"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreen, Mode=OneWay}">
-                <FontIcon Glyph="{x:Bind currentView.IsFullScreen, Mode=OneWay, Converter={StaticResource BooleanFullScreenIconConverter}}" />
+            <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode}">
+                <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}}" />
             </AppBarToggleButton>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>

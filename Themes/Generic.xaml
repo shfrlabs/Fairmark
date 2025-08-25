@@ -41,7 +41,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="customcontrols:GlamButton">
                     <Grid>
-                        <!-- Glow Effect -->
                         <win2d:CanvasControl 
                         x:Name="GlowCanvas"
                         IsHitTestVisible="False"
@@ -77,9 +76,6 @@
                                    FontSize="18"
                                    Padding="{TemplateBinding Padding}"
                                    Foreground="{TemplateBinding Foreground}">
-                            <Run x:Uid="UpgradeFor"/>
-                            <Run x:Name="PrevPriceRun" TextDecorations="Strikethrough"/>
-                            <Run x:Name="PriceRun" FontWeight="Bold"/>
                             </TextBlock>
                         </Grid>
 

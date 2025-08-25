@@ -37,17 +37,6 @@ namespace Fairmark
         }
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            DateTime targetDate = new DateTime(2025, 8, 25, 0, 0, 0);
-            bool isBeforeDeadline = DateTime.Now < targetDate;
-
-            if (!isBeforeDeadline) {
-                var xml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText01);
-                xml.GetElementsByTagName("text")[0].InnerText = "This beta is outdated. Thank you for participating in the private beta.";
-                ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(xml));
-                Application.Current.Exit();
-            }
-
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             if (rootFrame == null)

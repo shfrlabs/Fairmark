@@ -323,7 +323,6 @@ namespace Fairmark.Controls
                     string formattedText = pattern + selectedText + pattern;
                     newText = newText.Remove(newStart, newLength).Insert(newStart, formattedText);
                     newStart = newStart + patternLength;
-                    newLength = newLength;
                 }
                 else
                 {
@@ -360,7 +359,6 @@ namespace Fairmark.Controls
                         newText = newText.Remove(newStart + newLength, patternLength)
                                          .Remove(newStart - patternLength, patternLength);
                         newStart = newStart - patternLength;
-                        newLength = newLength;
                     }
                     else
                     {
