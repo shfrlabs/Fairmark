@@ -44,7 +44,7 @@ namespace Fairmark
                 }
             };
             this.InitializeComponent();
-            Variables.PlusStatusChanged += async (sender, e) =>
+            Variables.PlusStatusChanged += async (s) =>
             {
                 await PlusCheck();
             };

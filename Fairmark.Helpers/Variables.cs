@@ -14,7 +14,7 @@ namespace Fairmark.Helpers
     {
         private static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public static bool useStoreFeatures = true;
-        
+
 #if !DEBUG
         public static bool firstStartup => localSettings.Values.ContainsKey("firstStartup") ? (bool)localSettings.Values["firstStartup"] : true;
 #else
@@ -25,9 +25,13 @@ namespace Fairmark.Helpers
 #else
         public static bool secondStartup = false;
 #endif
-        public static event EventHandler PlusStatusChanged;
+
+        // Custom event delegate
+        public delegate void PlusStatusChangedEventHandler(StorePurchaseStatus status);
+        public static event PlusStatusChangedEventHandler PlusStatusChanged;
+
         private static StoreContext context;
-        
+
         // Always use Store for Plus state
         public static async Task<bool> CheckIfPlusAsync()
         {
@@ -69,7 +73,6 @@ namespace Fairmark.Helpers
             return "...";
         }
 
-        // Check for sales/promos using Store
         public static async Task<bool> CheckForPromoAsync() {
             if (!useStoreFeatures) return false;
             if (context == null) context = StoreContext.GetDefault();
@@ -100,5 +103,18 @@ namespace Fairmark.Helpers
         }
 
         public static string exportFolder => ApplicationData.Current.LocalFolder.Path;
+
+        public static async Task<StorePurchaseStatus> PurchaseAsync() {
+            var productId = "9P11H6Q5KQCQ";
+            var context = Windows.Services.Store.StoreContext.GetDefault();
+            var result = await context.RequestPurchaseAsync(productId);
+            if (result.ExtendedError != null) {
+                Debug.WriteLine($"Purchase error: {result.ExtendedError.Message}");
+            }
+            if (result.Status == StorePurchaseStatus.Succeeded || result.Status == StorePurchaseStatus.AlreadyPurchased) {
+                PlusStatusChanged?.Invoke(result.Status);
+            }
+            return result.Status;
+        }
     }
 }

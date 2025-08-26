@@ -8,10 +8,10 @@
 
   <Identity
     Name="BRStudios.3763783C2F5C2"
-    Publisher="CN=shef3r-beta"
-    Version="0.2.0.0" />
+    Publisher="CN=A43ACDD8-D8D2-4B12-B25B-98D2138C0CFE"
+    Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="d2f08440-3a32-4e31-8685-9b9976f294bb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="c18f4dc5-0d77-4ab9-a149-97bb8742f4d7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Fairmark</DisplayName>

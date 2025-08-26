@@ -3,6 +3,8 @@ using Fairmark.Converters;
 using Fairmark.Helpers;
 using System;
 using System.ComponentModel; // add this
+using System.Diagnostics;
+using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -45,14 +47,13 @@ namespace Fairmark.SettingsPages {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         private async void GlamButton_Click(object sender, RoutedEventArgs e) {
-            var productId = "9P11H6Q5KQCQ";
-            var context = Windows.Services.Store.StoreContext.GetDefault();
-            var result = await context.RequestPurchaseAsync(productId);
-            if (result.Status == Windows.Services.Store.StorePurchaseStatus.Succeeded) {
-                IsPromo = await Fairmark.Helpers.Variables.CheckForPromoAsync();
-                (PlusPrice, PrevPrice) = await Fairmark.Helpers.Variables.GetPricesAsync();
-            } else {
+            var mainWindow = Windows.UI.Xaml.Window.Current;
+            if (mainWindow != null) {
+                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                await appView.TryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.Default);
             }
+            StorePurchaseStatus status = await Variables.PurchaseAsync();
+            Debug.WriteLine($"[Store status] Purchase status: {status}");
         }
     }
 }
