@@ -1304,6 +1304,8 @@ namespace Fairmark
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Zen.IsEnabled = ApplicationView.GetForCurrentView().IsFullScreenMode;
+            Zen.Icon = new FontIcon() { Glyph = BooleanFullScreenIconConverter.Convert(ApplicationView.GetForCurrentView().IsFullScreenMode, null, null, null).ToString() };
             if (ApplicationView.GetForCurrentView().IsFullScreenMode)
             {
                 ClosePane_Click(null, null);
@@ -1364,6 +1366,7 @@ namespace Fairmark
                 _ = currentView.TryEnterFullScreenMode();
 
             Zen.Icon = new FontIcon() { Glyph = BooleanFullScreenIconConverter.Convert(currentView.IsFullScreenMode, null, null, null).ToString() };
+            Zen.IsChecked = currentView.IsFullScreenMode;
         }
 
         private void MoreBtn_Click(object sender, RoutedEventArgs e)

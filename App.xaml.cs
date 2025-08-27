@@ -5,6 +5,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.Globalization;
 using Windows.UI;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
@@ -14,12 +15,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Fairmark
 {
-    sealed partial class App : Application
-    {
+    sealed partial class App : Application {
         public static LogHelper LogHelper = new LogHelper();
 
-        public App()
-        {
+        public App() {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

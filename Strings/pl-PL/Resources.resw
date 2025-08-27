@@ -122,115 +122,115 @@
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_FairmarkAI.Description" xml:space="preserve">
-    <value>Summarize and write notes with a local AI assistant.</value>
+    <value>Podsumuj i pisz notatki z prywatnym asystentem AI.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MultipleTabs.Title" xml:space="preserve">
-    <value>Multiple tabs</value>
+    <value>Wiele kart</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MultipleTabs.Description" xml:space="preserve">
-    <value>Open and manage multiple notes at once.</value>
+    <value>Otwórz i zarządzaj wieloma notatkami jednocześnie.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_HideNotes.Title" xml:space="preserve">
-    <value>Hide your notes</value>
+    <value>Ukryj notatki</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_HideNotes.Description" xml:space="preserve">
-    <value>Require biometrics before opening and prevent screenshots of the app.</value>
+    <value>Wymagaj biometrii przed otwarciem aplikacji.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_AdvancedTagging.Title" xml:space="preserve">
-    <value>Advanced tagging</value>
+    <value>Zaawansowane etykiety</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_AdvancedTagging.Description" xml:space="preserve">
-    <value>Assign more than one tag per note and create more than 5 tags overall.</value>
+    <value>Dodaj więcej niż jedną etykietę do notatki oraz utwórz więcej niż 5 etykiet.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_LogAccess.Title" xml:space="preserve">
-    <value>Log app access</value>
+    <value>Zapisuj dostępy</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_LogAccess.Description" xml:space="preserve">
-    <value>Know everything that happens to your notes.</value>
+    <value>Sprawdź, co się dzieje z notatkami.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_TaskieIntegration.Title" xml:space="preserve">
-    <value>Taskie integration</value>
+    <value>Integracja z Taskie</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_TaskieIntegration.Description" xml:space="preserve">
-    <value>Link task lists to notes and notes to tasks. Requires Fairmark+ and Taskie Pro.</value>
+    <value>Połącz listy zadań z notatkami i notatki z zadaniami. Wymaga Fairmark+ oraz Taskie Pro.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_ZenMode.Title" xml:space="preserve">
-    <value>Zen mode</value>
+    <value>Tryb zen</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_ZenMode.Description" xml:space="preserve">
-    <value>Hide distractions. Focus on writing.</value>
+    <value>Ukryj rozproszenia. Skup się na pisaniu.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_ScanDocuments.Title" xml:space="preserve">
-    <value>Scan documents</value>
+    <value>Skanuj dokumenty</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_ScanDocuments.Description" xml:space="preserve">
-    <value>Turn images into formatted notes with a couple clicks.</value>
+    <value>Zamień zdjęcia w formatowane notatki kilkoma kliknięciami.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MultipleFormats.Title" xml:space="preserve">
-    <value>Multiple formats</value>
+    <value>Wiele formatów</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MultipleFormats.Description" xml:space="preserve">
-    <value>Import notes from or export notes into multiple convenient formats.</value>
+    <value>Importuj lub eksportuj notatki do wielu przydatnych formatów.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MoreFolders.Title" xml:space="preserve">
-    <value>More folders</value>
+    <value>Więcej folderów</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="CardItem_MoreFolders.Description" xml:space="preserve">
-    <value>Separate your notes into more than 3 folders.</value>
+    <value>Podziel notatki na więcej niż 3 foldery.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="AboutAppButton.Text" xml:space="preserve">
-    <value>About</value>
+    <value>O aplikacji</value>
     <comment>Used as a label in the "More" menu.</comment>
   </data>
   <data name="AboutTitle" xml:space="preserve">
-    <value>About Fairmark</value>
+    <value>O Fairmarku</value>
     <comment>Used in the "About" window's title.</comment>
   </data>
   <data name="AddNoteEmptyText" xml:space="preserve">
-    <value>Enter a name.</value>
+    <value>Wpisz nazwę</value>
     <comment>Used when the user tries to create a note/tag without a name.</comment>
   </data>
   <data name="AddNotePlaceholder" xml:space="preserve">
-    <value>Name your note...</value>
+    <value>Nazwij notatkę...</value>
     <comment>Used in the "Add note" dialog.</comment>
   </data>
   <data name="AddNoteTipSubtitle" xml:space="preserve">
-    <value>Use this button to create a note and confirm with the Enter key.</value>
+    <value>Uzyj tego przycisku, aby utworzyć notatkę i potwierdź przyciskiem Enter.</value>
     <comment>Used in the first-run tips.</comment>
   </data>
   <data name="AddNoteTipTitle" xml:space="preserve">
-    <value>Create your first note.</value>
+    <value>Utwórz pierwszą notatkę</value>
     <comment>Used in the first-run tips.</comment>
   </data>
   <data name="AddTagPlaceholder" xml:space="preserve">
-    <value>Name your tag...</value>
+    <value>Nazwij etykietę...</value>
     <comment>Used in the "Add tag" dialog.</comment>
   </data>
   <data name="AddTagTipSubtitle" xml:space="preserve">
-    <value>Use this button to create a tag. You can use tags to organize and filter notes.</value>
+    <value>Użyj tego przycisku, aby utworzyć etykietę. Etykiety są używane do organizacji i filtrowania notatek.</value>
     <comment>Used in the first-run tips.</comment>
   </data>
   <data name="AddTagTipTitle" xml:space="preserve">
-    <value>Create your first tag.</value>
+    <value>Utwórz pierwszą etykietę</value>
     <comment>Used in the first-run tips.</comment>
   </data>
   <data name="AINavViewItem.Content" xml:space="preserve">
@@ -238,83 +238,83 @@
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="AuthOffDialogDesc" xml:space="preserve">
-    <value>Make sure you didn't turn off your PIN/password/biometrics in Windows Settings.</value>
+    <value>Upewnij się, że uwierzytelnianie PINem lub biometrią jest włączone w Ustawieniach Windows.</value>
     <comment>Used in the dialog displayed when there's problem with Windows Hello and auth is on.</comment>
   </data>
   <data name="AuthOffDialogTitle" xml:space="preserve">
-    <value>Authentication was turned off due to a problem with Windows Hello.</value>
+    <value>Uwierzytelnianie zostało wyłączone, ponieważ wystąpił problem z Windows Hello.</value>
     <comment>Used in the dialog displayed when there's problem with Windows Hello and auth is on.</comment>
   </data>
   <data name="AuthTitle" xml:space="preserve">
-    <value>Fairmark needs your permission to continue. You can turn this off in Settings.</value>
+    <value>Fairmark potrzebuje zgody, aby kontynuować. Możesz wyłączyć to w Ustawieniach.</value>
     <comment>Used in the PIN/biometrics dialog if Authentication is on.</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Anuluj</value>
     <comment>Generic cancel button text.</comment>
   </data>
   <data name="ClosePaneButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close</value>
+    <value>Zamknij</value>
     <comment>Used in the top left button when Files/Find is open.</comment>
   </data>
   <data name="ContactButton.Text" xml:space="preserve">
-    <value>Contact me</value>
+    <value>Kontakt</value>
     <comment>Used as a label in the "More" menu.</comment>
   </data>
   <data name="ContactTitle" xml:space="preserve">
-    <value>Contact me</value>
+    <value>Kontakt</value>
     <comment>Used in the "Contact me" window's title.</comment>
   </data>
   <data name="ContinueButton.Content" xml:space="preserve">
-    <value>Continue</value>
+    <value>Kontynuuj</value>
     <comment>OOBE</comment>
   </data>
   <data name="DeleteButton" xml:space="preserve">
-    <value>Delete</value>
+    <value>Usuń</value>
     <comment>Generic delete button text.</comment>
   </data>
   <data name="DeleteNoteDialogDesc" xml:space="preserve">
-    <value>Are you sure you want to delete '{0}'?</value>
+    <value>Czy na pewno chcesz usunąć '{0}'?</value>
     <comment>Used in the dialog displayed when the user requests to delete a note.</comment>
   </data>
   <data name="DeleteNoteDialogTitle" xml:space="preserve">
-    <value>Delete note</value>
+    <value>Usuń notatkę</value>
     <comment>Used in the dialog displayed when the user requests to delete a note.</comment>
   </data>
   <data name="DisplayNavViewItem.Content" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Wygląd</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="EmojiSearchPlaceholder" xml:space="preserve">
-    <value>Search for an emoji...</value>
+    <value>Znajdź emoji...</value>
     <comment>Used in the emoji picker for notes/tags.</comment>
   </data>
   <data name="FeaturesNavViewItem.Content" xml:space="preserve">
-    <value>Features</value>
+    <value>Funkcje</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="FilesButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Files</value>
+    <value>Pliki</value>
     <comment>Used as the tooltip in the navigation bar's Explorer/Files button.</comment>
   </data>
   <data name="FindButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Search notes</value>
+    <value>Wyszukaj</value>
     <comment>Used as the tooltip in the navigation bar's Search/Find button.</comment>
   </data>
   <data name="FinishButton.Content" xml:space="preserve">
-    <value>Finish</value>
+    <value>Koniec</value>
     <comment>OOBE</comment>
   </data>
   <data name="ImExNavViewItem.Content" xml:space="preserve">
-    <value>Import/Export</value>
+    <value>Importuj/Eksportuj</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="LogsNavViewItem.Content" xml:space="preserve">
-    <value>Access logs</value>
+    <value>Dziennik działań</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="MoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More</value>
+    <value>Więcej</value>
     <comment>Used as the tooltip in the navigation bar's and bottom bar's overflow buttons.</comment>
   </data>
   <data name="OK" xml:space="preserve">
@@ -322,147 +322,147 @@
     <comment>OK</comment>
   </data>
   <data name="RenameNotePlaceholder" xml:space="preserve">
-    <value>Enter the new name...</value>
+    <value>Wpisz nową nazwę...</value>
     <comment>Used in the dialog displayed when the user requests renaming a note.</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Ustawienia Fairmarka</value>
     <comment>Used in the "Settings" window's title.</comment>
   </data>
   <data name="SettingsButton.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Ustawienia</value>
     <comment>Used as a label in the "More" menu.</comment>
   </data>
   <data name="StatsNavViewItem.Content" xml:space="preserve">
-    <value>Stats</value>
+    <value>Statystyki</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="TagNavViewItem.Content" xml:space="preserve">
-    <value>Tag manager</value>
+    <value>Zarządzanie etykietami</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="NoNotesText.Text" xml:space="preserve">
-    <value>No notes here! Create one using the button below.</value>
+    <value>Brak notatek! Użyj poniższego przycisku, aby je utworzyć.</value>
     <comment>Displayed in the Files pane when no notes are present.</comment>
   </data>
   <data name="ClearTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Clear tag filter</value>
+    <value>Wyczyść filtr etykiet</value>
     <comment>Used in the X button next to the tag filter.</comment>
   </data>
   <data name="CreateTag.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create tag</value>
+    <value>Utwórz etykietę</value>
     <comment>Used in the + button next to the tag filter.</comment>
   </data>
   <data name="CreateNoteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create note</value>
+    <value>Utwórz notatkę</value>
     <comment>Used in the + button on the bottom, which is used to create a note.</comment>
   </data>
   <data name="RenameNoteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rename note</value>
+    <value>Zmień nazwę notatki</value>
     <comment>Used in the button on the bottom, which used to rename a note.</comment>
   </data>
   <data name="DeleteNoteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Delete note</value>
+    <value>Usuń notatkę</value>
     <comment>Used in the button on the bottom, which used to delete a note.</comment>
   </data>
   <data name="ChangeEmojiBtn.Text" xml:space="preserve">
-    <value>Change emoji</value>
+    <value>Zmień emoji</value>
     <comment>Used in the "Change emoji" button in the bottom overflow.</comment>
   </data>
   <data name="AssignTagsBtn.Text" xml:space="preserve">
-    <value>Assign tags</value>
+    <value>Przydziel etykiety</value>
     <comment>Used in the "Assign tags" button in the bottom overflow.</comment>
   </data>
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
-    <value>Search notes...</value>
+    <value>Szukaj notatek...</value>
     <comment>Used in the note search box in the Find pane.</comment>
   </data>
   <data name="ZenButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zen mode</value>
+    <value>Tryb zen</value>
     <comment>Used in the top right button, which is used to activate Zen mode.</comment>
   </data>
   <data name="BoldButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bold (Ctrl+B)</value>
+    <value>Pogrubienie (Ctrl+B)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="ItalicButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Italic (Ctrl+I)</value>
+    <value>Kursywa (Ctrl+I)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="StrikeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Strikethrough (Ctrl+S)</value>
+    <value>Przekreślenie (Ctrl+S)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="CopyButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copy (Ctrl+C)</value>
+    <value>Kopiuj (Ctrl+C)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="CutButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Cut (Ctrl+X)</value>
+    <value>Wytnij (Ctrl+X)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="PasteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Paste (Ctrl+V)</value>
+    <value>Wklej (Ctrl+V)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="RedoButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Redo (Ctrl+Y)</value>
+    <value>Ponów (Ctrl+Y)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="UndoButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Undo (Ctrl+Z)</value>
+    <value>Cofnij (Ctrl+Z)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="CodeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Code (Ctrl+M)</value>
+    <value>Kod (Ctrl+M)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="QuoteButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Quote (Ctrl+Q)</value>
+    <value>Cytat (Ctrl+Q)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="BulletButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bulleted list (Ctrl+U)</value>
+    <value>Lista punktowana (Ctrl+U)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="LineButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Insert horizontal line (Ctrl+L)</value>
+    <value>Dodaj poziomą linię (Ctrl+L)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="Head1Button.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Heading 1 (Ctrl+1)</value>
+    <value>Nagłówek 1 (Ctrl+1)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="Head2Button.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Heading 2 (Ctrl+2)</value>
+    <value>Nagłówek 2 (Ctrl+2)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="Head3Button.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Heading 3 (Ctrl+3)</value>
+    <value>Nagłówek 3 (Ctrl+3)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="NoNoteSelected.Text" xml:space="preserve">
-    <value>No note selected. Use the side panel to select or create one.</value>
+    <value>Brak wybranej notatki. Użyj panelu bocznego, aby ją wybrać lub utworzyć.</value>
     <comment>Used in the main pane when no note is selected.</comment>
   </data>
   <data name="ContactWindow.Text" xml:space="preserve">
-    <value>Contact me</value>
+    <value>Skontaktuj się ze mną</value>
     <comment>Used in the "Contact me" window's titlebar. Use a longer version of "ContactTitle" if possible.</comment>
   </data>
   <data name="BugReport.Text" xml:space="preserve">
-    <value>In case you'd like to leave feature requests or bug reports for Fairmark, do so via the below email:</value>
+    <value>Użyj tego adresu e-mail, aby zgłaszać błędy i proponować funkcje do aplikacji, po polsku lub po angielsku:</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="GeneralContact.Text" xml:space="preserve">
-    <value>In any other cases, you can also contact me on:</value>
+    <value>W każdym innym przypadku, możesz także się ze mną skontaktować przez:</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="NoDonations.Text" xml:space="preserve">
-    <value>Thank you for supporting me! I don't take donations in any form, except Fairmark+ purchases. However, I appreciate reviews!</value>
+    <value>Dziękuję za wsparcie! Nie przyjmuję darowizn, oprócz zakupu Fairmark+, lecz doceniam opinie. Pozdrowienia z Polski!</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="RateButton.Text" xml:space="preserve">
-    <value>Rate Fairmark!</value>
+    <value>Oceń Fairmarka!</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="!GUIDELINES" xml:space="preserve">
@@ -479,406 +479,406 @@ Shorter translations are usually better.
 Don’t translate brand names or special terms unless instructed. Product names usually stay in English.</comment>
   </data>
   <data name="AboutWindow.Text" xml:space="preserve">
-    <value>About Fairmark</value>
+    <value>O Fairmarku</value>
     <comment>Used in the "Contact me" window's titlebar. Use a longer version of "AboutTitle" if possible.</comment>
   </data>
   <data name="LocalNotes.Text" xml:space="preserve">
-    <value>Your notes never leave your device without your permission.</value>
+    <value>Twoje notatki nigdy nie opuszczą urządzenia bez zgody.</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="AboutIntelligence.Text" xml:space="preserve">
-    <value>Fairmark Intelligence is powered by your selected model, ran via pollinations.ai. No logins, no keys, no data stored.</value>
+    <value>Fairmark Intelligence używa wybranego modelu i działa przy pomocy pollinations.ai, który nie przechowuje wysyłanych danych.</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="Website.Text" xml:space="preserve">
-    <value>website</value>
+    <value>stronę</value>
     <comment>Used in the "About" window.</comment>
   </data>
   <data name="MoreInfo.Text" xml:space="preserve">
-    <value>For more information, visit the project's </value>
+    <value>Po więcej informacji, otwórz </value>
     <comment>Used in the "About" window. Keep the space at the end.</comment>
   </data>
   <data name="Thanks1.Text" xml:space="preserve">
-    <value>Special thanks to:</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>Specjalne podziękowanie dla:</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks2.Text" xml:space="preserve">
-    <value>the </value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>deweloperów</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks3.Text" xml:space="preserve">
-    <value>pollinations.ai team</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>pollinations.ai</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks4.Text" xml:space="preserve">
-    <value> for their work on the API used by Fairmark Intelligence,</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>za ich pracę nad API używanego przez Fairmark Intelligence,</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks5.Text" xml:space="preserve">
-    <value>the</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>deweloperów</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks6.Text" xml:space="preserve">
-    <value>Win2D team</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>Win2D</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks7.Text" xml:space="preserve">
-    <value>for their graphics library,</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>za ich bibliotekę graficzną,</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks8.Text" xml:space="preserve">
-    <value>the</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>deweloperów</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks9.Text" xml:space="preserve">
-    <value>Community Toolkit contributors</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>Community Toolkit</value>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks10.Text" xml:space="preserve">
-    <value>for GridSplitter and MarkdownTextBlock,</value>
-    <comment>Used in the "About" window. Don't translate the names. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>za ich pracę nad GridSplitter oraz MarkdownTextBlock,</value>
+    <comment>Used in the "About" window. Don't translate the names.</comment>
   </data>
   <data name="Thanks11.Text" xml:space="preserve">
     <value>Unicode.net</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks12.Text" xml:space="preserve">
-    <value>for their text processing library,</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>za ich bibliotekę przetwarzania tekstu,</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks13.Text" xml:space="preserve">
-    <value>and the communities on</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>oraz społeczności</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks14.Text" xml:space="preserve">
     <value>shefer's labs</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks15.Text" xml:space="preserve">
-    <value>and</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>i</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="Thanks16.Text" xml:space="preserve">
     <value>Windows App Community</value>
-    <comment>Used in the "About" window. Don't translate the name. You can reorder the strings to fit grammar rules in your language.</comment>
+    <comment>Used in the "About" window. Don't translate the name.</comment>
   </data>
   <data name="Thanks17.Text" xml:space="preserve">
-    <value>for their support and feedback.</value>
-    <comment>Used in the "About" window. You can reorder the strings to fit grammar rules in your language.</comment>
+    <value>za ich wsparcie oraz pomoc w testowaniu Fairmarka.</value>
+    <comment>Used in the "About" window.</comment>
   </data>
   <data name="DevelopedBy.Text" xml:space="preserve">
-    <value>developed by shef3r in Poland.</value>
+    <value>utworzony przez shef3r w Polsce.</value>
     <comment>Used in the "About" window. Add a new line and credit yourself here, for example "translated by _____."</comment>
   </data>
   <data name="TagManagerRename.Content" xml:space="preserve">
-    <value>Rename tag</value>
+    <value>Zmień nazwę etykiety</value>
     <comment>Used in the tag manager.</comment>
   </data>
   <data name="TagManagerEmoji.Content" xml:space="preserve">
-    <value>Change tag emoji</value>
+    <value>Zmień emoji etykiety</value>
     <comment>Used in the tag manager.</comment>
   </data>
   <data name="TagManagerRecolor.Content" xml:space="preserve">
-    <value>Change tag color</value>
+    <value>Zmień kolor etykiety</value>
     <comment>Used in the tag manager.</comment>
   </data>
   <data name="TagManagerDelete.Content" xml:space="preserve">
-    <value>Delete tag</value>
+    <value>Usuń etykietę</value>
     <comment>Used in the tag manager.</comment>
   </data>
   <data name="ImportVaultHeader.Text" xml:space="preserve">
-    <value>Import vault</value>
+    <value>Importuj folder</value>
     <comment>Used in the Import/Export page.</comment>
   </data>
   <data name="ImportVaultDesc.Text" xml:space="preserve">
-    <value>Import all notes from a previous vault. Tags are stripped. Use a *.fmbkp file here.</value>
+    <value>Importuj notatki z poprzedniego folderu. Etykiety są pomijane. Użyj pliku *.fmbkp.</value>
     <comment>Used in the Import/Export page.</comment>
   </data>
   <data name="ImportVaultButton.Content" xml:space="preserve">
-    <value>Import vault</value>
+    <value>Importuj folder</value>
     <comment>Used in the Import/Export page. Use a shorter version if ImportVaultHeader.Text if possible.</comment>
   </data>
   <data name="ExportVaultHeader.Text" xml:space="preserve">
-    <value>Export vault</value>
+    <value>Eksportuj folder</value>
     <comment>Used in the Import/Export page.</comment>
   </data>
   <data name="ExportVaultDesc.Text" xml:space="preserve">
-    <value>Export all notes and tags to to a *.fmbkp file here.</value>
+    <value>Eksportuj wszystkie notatki oraz etykiety do pliku *.fmbkp tutaj.</value>
     <comment>Used in the Import/Export page.</comment>
   </data>
   <data name="ExportVaultButton.Content" xml:space="preserve">
-    <value>Export vault</value>
+    <value>Eksportuj folder</value>
     <comment>Used in the Import/Export page. Use a shorter version of "ExportVaultHeader.Text" if possible.</comment>
   </data>
   <data name="HideCard.Header" xml:space="preserve">
-    <value>Hide from screenshots</value>
+    <value>Ukrywaj na zrzutach ekranu</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="HideCard.Description" xml:space="preserve">
-    <value>Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline. Requires Plus.</value>
+    <value>Wybierz, czy aplikacja powinna chronić swoje treści od zrzutów ekranu oraz Windows Recall. Wymaga Plus.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Header" xml:space="preserve">
-    <value>Authentication</value>
+    <value>Uwierzytelnianie</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Description" xml:space="preserve">
-    <value>Select whether the app should require biometrics or a PIN before opening. Requires Plus.</value>
+    <value>Wybierz, czy aplikacja pyta o potwierdzenie biometrią lub PINem przed otwarciem. Wymaga Plus.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeCard.Header" xml:space="preserve">
-    <value>App theme</value>
+    <value>Motyw aplikacji</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeCard.Description" xml:space="preserve">
-    <value>Select what theme the app applies.</value>
+    <value>Wybierz motyw stosowany przez aplikację.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeSelector.PlaceholderText" xml:space="preserve">
-    <value>Select theme</value>
+    <value>Wybierz motyw</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="Theme_Dark" xml:space="preserve">
-    <value>Dark</value>
+    <value>Ciemny</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="Theme_Default" xml:space="preserve">
-    <value>System</value>
+    <value>Domyślny</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="Theme_Light" xml:space="preserve">
-    <value>Light</value>
+    <value>Jasny</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="EditorFontFamilyCard.Header" xml:space="preserve">
-    <value>Editor font family</value>
+    <value>Czcionka edytora</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="EditorFontFamilyCard.Description" xml:space="preserve">
-    <value>Select what font is used by the note editor.</value>
+    <value>Wybierz czcionkę używaną przez edytor.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="FontSelector.PlaceholderText" xml:space="preserve">
-    <value>Select font</value>
+    <value>Wybierz czcionkę</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="EditorFontSizeCard.Header" xml:space="preserve">
-    <value>Editor font size</value>
+    <value>Rozmiar czcionki edytora</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="EditorFontSizeCard.Description" xml:space="preserve">
-    <value>Select the font size used by the note editor.</value>
+    <value>Wybierz rozmiar czcionki używany przez edytor.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="PreviewFontFamily.Header" xml:space="preserve">
-    <value>Preview font family</value>
+    <value>Czcionka podglądu</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="PreviewFontFamily.Description" xml:space="preserve">
-    <value>Select what font is used by the Markdown note preview.</value>
+    <value>Wybierz czcionkę używaną przez podgląd Markdown.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="PreviewFontSize.Header" xml:space="preserve">
-    <value>Preview font size</value>
+    <value>Rozmiar czcionki podglądu</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="PreviewFontSize.Description" xml:space="preserve">
-    <value>Select the font size used by the Markdown note preview.</value>
+    <value>Wybierz rozmiar czcionki używany przez podgląd Markdown.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="LogCard.Header" xml:space="preserve">
-    <value>Log app access</value>
+    <value>Rejestruj działania aplikacji</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="LogCard.Description" xml:space="preserve">
-    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. This feature requires Plus.</value>
+    <value>Rejestruj tutaj ostatnie 300 zdarzeń w aplikacji (otwieranie aplikacji, czytanie notatek, błędy, komunikaty diagnostyczne itp.), aby chronić swoją prywatność. Rejestrów nie można wyczyścić. Ta funkcja wymaga Plus.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="CopyLogs.Content" xml:space="preserve">
-    <value>Copy personal logs</value>
+    <value>Kopiuj prywatny dziennik</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="CopyDebugLogs.Content" xml:space="preserve">
-    <value>Copy debug logs</value>
+    <value>Kopiuj dziennik debugowania</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="WelcomeHeader.Text" xml:space="preserve">
-    <value>Welcome to</value>
+    <value>Witaj w</value>
     <comment>OOBE</comment>
   </data>
   <data name="PromoDesc.Text" xml:space="preserve">
-    <value>Say hello to Fairmark, your next favorite note-taking app! Tag, customize and organize your notes with ease. Choose your preferred options on the next page to get started.</value>
+    <value>Poznaj Fairmark, swoją nową ulubioną aplikację do robienia notatek! Dodaj etykiety, personalizuj i porządkuj swoje notatki z łatwością. Wybierz preferowane opcje na następnej stronie, aby rozpocząć.</value>
     <comment>OOBE</comment>
   </data>
   <data name="LinkButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Add link</value>
+    <value>Dodaj link</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="ExpandButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Insert expandable content</value>
+    <value>Dodaj rozwijalne szczegóły</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
   <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
-    <value>Displayed text</value>
+    <value>Wyświetlany tekst</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
   <data name="LinkAddress.PlaceholderText" xml:space="preserve">
-    <value>Link address</value>
+    <value>Adres linku</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
   <data name="InsertLinkButton.Content" xml:space="preserve">
-    <value>Insert link</value>
+    <value>Dodaj link</value>
     <comment>Used in the "Add link" flyout.</comment>
   </data>
   <data name="SummaryText.PlaceholderText" xml:space="preserve">
-    <value>Summary</value>
+    <value>Podsumowanie</value>
     <comment>Used in the "Insert expandable" flyout.</comment>
   </data>
   <data name="DetailsText.PlaceholderText" xml:space="preserve">
-    <value>Expanded details</value>
+    <value>Rozwijalne szczegóły</value>
     <comment>Used in the "Insert expandable" flyout.</comment>
   </data>
   <data name="InsertDetailsButton.Content" xml:space="preserve">
-    <value>Insert element</value>
+    <value>Dodaj element</value>
     <comment>Used in the "Insert expandable" and "Insert image" flyouts.</comment>
   </data>
   <data name="CharCount.Text" xml:space="preserve">
-    <value>Character count:</value>
+    <value>Liczba znaków:</value>
     <comment>Bottom command bar.</comment>
   </data>
   <data name="WordCount.Text" xml:space="preserve">
-    <value>Word count:</value>
+    <value>Liczba słów:</value>
     <comment>Bottom command bar.</comment>
   </data>
   <data name="ImportImages.Content" xml:space="preserve">
-    <value>Import images...</value>
+    <value>Importuj zdjęcia...</value>
     <comment>Used in the "Insert image" flyout.</comment>
   </data>
   <data name="ImageButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Insert image</value>
+    <value>Dodaj zdjęcie</value>
     <comment>Used in the bottom command bar.</comment>
   </data>
   <data name="DeleteImage.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Delete image</value>
+    <value>Usuń zdjęcie</value>
     <comment>Used in the "Insert image" flyout.</comment>
   </data>
   <data name="UpgradeNavViewItem.Content" xml:space="preserve">
-    <value>Upgrade</value>
+    <value>Ulepsz</value>
     <comment>Navigation menu item in Settings.</comment>
   </data>
   <data name="PlusLimit" xml:space="preserve">
-    <value>Limit exceeded. Get Plus.</value>
+    <value>Limit przekroczony. Plus wymagany.</value>
   </data>
   <data name="PlusPromo1.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
+    <value>Podnieś poziom swoich notatek.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="PlusPromo6.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
+    <value>Podnieś poziom swoich notatek.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="PlusPromo5.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
+    <value>Podnieś poziom swoich notatek.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="PlusPromo4.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
+    <value>Podnieś poziom swoich notatek.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="PlusPromo3.Text" xml:space="preserve">
-    <value>Unlock advanced organization &amp; writing features.</value>
+    <value>Odblokuj zaawansowane funkcje organizacji i pisania.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="PlusPromo2.Text" xml:space="preserve">
-    <value>Founder's discount. Limited time offer.</value>
+    <value>Oferta ograniczona czasowo.</value>
     <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
-    <value>Leave a review</value>
+    <value>Oceń Fairmarka!</value>
     <comment>Shown after 2 minutes on the second launch</comment>
   </data>
   <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
-    <value>Don't ask again</value>
+    <value>Nie pytaj ponownie</value>
     <comment>Shown after 2 minutes on the second launch</comment>
   </data>
   <data name="ReviewTip.Subtitle" xml:space="preserve">
-    <value>Consider leaving a review or feedback! You can contact me via the top three-dot menu.</value>
+    <value>Rozważ pozostawienie recenzji lub opinii! Możesz się ze mną skontaktować, klikając w menu z trzema kropkami u góry.</value>
     <comment>Shown after 2 minutes on the second launch</comment>
   </data>
   <data name="ReviewTip.Title" xml:space="preserve">
-    <value>👋 Liking Fairmark?</value>
+    <value>👋 Lubisz Fairmarka?</value>
     <comment>Shown after 2 minutes on the second launch</comment>
   </data>
   <data name="ReviewBtn.Content" xml:space="preserve">
-    <value>Leave a review!</value>
+    <value>Oceń Fairmarka!</value>
     <comment>Used in the "Contact me" window.</comment>
   </data>
   <data name="Pin.Text" xml:space="preserve">
-    <value>Pin note</value>
+    <value>Przypnij notatkę</value>
     <comment>Used in the "More" bottom menu.</comment>
   </data>
   <data name="Unpin.Text" xml:space="preserve">
-    <value>Unpin note</value>
+    <value>Odepnij notatkę</value>
     <comment>Used in the "More" bottom menu.</comment>
   </data>
   <data name="ClearTags.Label" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Wyczyść wybór</value>
     <comment>Filter button flyout.</comment>
   </data>
   <data name="CreateTag.Label" xml:space="preserve">
-    <value>Create tag</value>
+    <value>Utwórz etykietę</value>
     <comment>Filter button flyout.</comment>
   </data>
   <data name="FilterBtn.Label" xml:space="preserve">
-    <value>Filter</value>
+    <value>Filtruj</value>
     <comment>Top command bar.</comment>
   </data>
   <data name="ManageTags.Label" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Zarządzaj etykietami</value>
     <comment>Filter button flyout.</comment>
   </data>
   <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reference note</value>
+    <value>Odwołaj się do notatki</value>
     <comment>Bottom command bar.</comment>
   </data>
   <data name="RefNote.Content" xml:space="preserve">
-    <value>Insert reference</value>
+    <value>Wstaw odwołanie</value>
     <comment>Note reference flyout, button used to insert a reference to another note.</comment>
   </data>
   <data name="SortBtn.Label" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortuj</value>
     <comment>Top command bar.</comment>
   </data>
   <data name="SortByDef.Text" xml:space="preserve">
-    <value>Default order</value>
+    <value>Domyślna kolejność</value>
     <comment>Sort button flyout.</comment>
   </data>
   <data name="SortByName.Text" xml:space="preserve">
-    <value>By name</value>
+    <value>Po nazwie</value>
     <comment>Sort button flyout.</comment>
   </data>
   <data name="SortByTags.Text" xml:space="preserve">
-    <value>By tag names</value>
+    <value>Po nazwach etykiet</value>
     <comment>Sort button flyout.</comment>
   </data>
   <data name="FilterBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Filter</value>
+    <value>Filtruj</value>
     <comment>Top command bar.</comment>
   </data>
   <data name="SortBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortuj</value>
     <comment>Top command bar.</comment>
   </data>
   <data name="UpgradeFor" xml:space="preserve">
-    <value>Upgrade for</value>
+    <value>Ulepsz za</value>
     <comment>Upgrade screen.</comment>
   </data>
   <data name="OthersGroup" xml:space="preserve">
-    <value>Unpinned</value>
+    <value>Odpięte</value>
     <comment>Note group name in the sidebar, should stay empty</comment>
   </data>
   <data name="PinnedGroup" xml:space="preserve">
-    <value>Pinned</value>
+    <value>Przypięte</value>
     <comment>Note group name in the sidebar</comment>
   </data>
 </root>

@@ -55,7 +55,7 @@
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode}">
-                <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}}" />
+                <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}, Mode=OneWay}" />
             </AppBarToggleButton>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>
@@ -156,7 +156,7 @@
                             <AppBarButton x:Uid="FilterBtn" Icon="Filter" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
-                                        <Grid Margin="-10" Width="300">
+                                        <Grid Margin="-10" MaxWidth="500">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>

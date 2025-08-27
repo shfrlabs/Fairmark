@@ -31,7 +31,7 @@
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="/Assets/StoreLogo.scale-400.png" Width="64" Height="64" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <Image Source="/Assets/Logo.png" Width="64" Height="64" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0">
                         <TextBlock Text="Fairmark" FontSize="24" FontWeight="Bold"/>
                         <TextBlock Text="{x:Bind Version}" FontSize="14" Opacity="0.7"/>
@@ -69,7 +69,6 @@
                     <Run x:Uid="Thanks17"/>
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,30" FontFamily="Segoe UI Variable Display" x:Uid="DevelopedBy"/>
-                <TextBlock TextWrapping="Wrap" Opacity="0.6" CharacterSpacing="80" Margin="0,30,0,30" FontFamily="Segoe UI Variable Display" Text="{x:Bind BetaNumber}"/>
             </StackPanel>
         </Grid>
     </Grid>
