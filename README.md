@@ -1,52 +1,59 @@
-# Fairmark
-obsidian już się chowa na jego widok
+<img src="https://i.imgur.com/p4aetEO.png" align="left" width=210>
 
-**Zrobione**
-- Podstawowy edytor MD z przyciskami i skalowalnym edytorem/podglądem
-- Galeria zdjęć trzymanych w aplikacji, możliwość dodawania ich do MD
-- Interfejs dodawania linków do MD
-- Interfejs dodawania rozsuwalnych sekcji (Expander)
-- Licznik słów i znaków
-- Zaawansowany system kategoryzacji notatek
-  - Etykiety z emoji i kolorami
-  - Notatki z emoji i etykietą **(\>1 z Plus)**
-- Karty **(Plus)**
-- Ukrywanie notatek **(Plus)**
-  - Możliwość wymagania biometrii przed otwarciem aplikacji
-  - Możliwość ukrycia aplikacji ze zrzutów ekranu oraz Windows Recall
-- Log działania aplikacji do wglądu **(Plus)**
-- Podstawowa wyszukiwarka po nazwach notatek i etykiet
-- Dostosowywanie czcionki po obu stronach
-- Menedżer etykiet
-- Małe czasem prośby w rogu o opinię
-- Dostosowywanie motywu aplikacji
-- Sortowanie i filtrowanie notatek
-- Możliwość linkowania notatek do innych notatek przez URI
-- Przypinanie notatek
+<div id="user-content-toc">
+  <ul style="list-style: none;">
+    <summary>
+	<br><br>
+      <h1>Fairmark</h1>
+	  <p>A completely free markdown note editor optimized for Windows 11.</p>
+    </summary>
+  </ul>
+</div>
 
-**1.0**
-- Strona z FAQ, funkcjami, itp.
+[<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="220">](https://www.microsoft.com/store/productId/9pdm2qk92715?mode=direct)
 
-**1.1**
+<br>
 
-- Podział notatek na foldery **(\>3 z Plus)**
-- Integracja z Taskie **(Plus)**
-  - Łączenie list zadań do notatek
-  - Łączenie notatek do zadań
+## Contribution
+Open issues for bugs or feature requests.
+Got a fix or translation? Feel free to create a PR right away.
+Don't create PRs with new features without approval via Issues.
 
-**1.2**
+## Features
+### Implemented
+- Basic MD editor with buttons and scalable editor/preview
+- Photo gallery held within the app, with the ability to add them to MD
+- Interface for adding links to MD
+- Interface for adding expandable sections (Expander)
+- Word and character counter
+- Advanced note categorization system
+  - Labels with emojis and colors
+  - Notes with an emoji and a label
+- Cards
+- Hiding notes
+  - Option to require biometrics before opening the application
+  - Option to hide the application from screenshots and Windows Recall
+- Application activity log for viewing
+- Basic search engine by note names and labels
+- Font customization on both sides (editor and preview)
+- Label manager
+- Small, occasional requests for feedback in the corner
+- Application theme customization
+- Sorting and filtering of notes
+- Ability to link notes to other notes via URI
+- Pinning notes
 
-- Kategorie etykiet **(Plus?)**
-- Importowanie i eksportowanie do/z wielu formatów **(Plus)**
-
-**1.3**
-
-- Skanowanie zdjęć do notatek przez OCR **(Plus)**
-
-**1.4**
-
-- Fairmark AI **(Plus)**
-  - Podsumowanie notatek
-  - Pisanie notatek na dany temat
-  - Czat o danym folderze/notatce
-  - Podsumowanie na głównej stronie: np. 4 notatki oznaczone jako ważne
+### Planned
+- Page with FAQ, features, etc.
+- Dividing notes into folders
+- Integration with Taskie
+  - Linking to-do lists to notes
+  - Linking notes to tasks
+- Label categories
+- Importing and exporting to/from multiple formats
+- Scanning photos into notes via OCR
+- Fairmark AI
+  - Summarizing notes
+  - Writing notes on a given topic
+  - Chat about a specific folder/note
+  - Summary on the main page: e.g., 4 notes marked as important
