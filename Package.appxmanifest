@@ -4,7 +4,8 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
+  IgnorableNamespaces="uap mp uap18">
 
   <Identity
     Name="BRStudios.3763783C2F5C2"
@@ -30,7 +31,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="shef3r.MarkProject">
+      EntryPoint="shef3r.MarkProject" uap18:TrustLevel="appContainer" uap18:RuntimeBehavior="windowsApp">
       <uap:VisualElements
         DisplayName="Fairmark"
         Square150x150Logo="Assets\Square150x150Logo.png"
@@ -46,6 +47,9 @@
 				<uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
 				<uap:DisplayName>Fairmark</uap:DisplayName>
 			</uap:Protocol>
+		</uap:Extension>
+		<uap:Extension Category="windows.appService" EntryPoint="Fairmark.AppServices.AppServiceTask">
+		<uap:AppService Name="com.sheferslabs.fairmarkservices"/>
 		</uap:Extension>
       </Extensions>
     </Application>

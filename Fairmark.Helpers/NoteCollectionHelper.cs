@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
 
 namespace Fairmark.Helpers
 {
@@ -198,6 +199,49 @@ namespace Fairmark.Helpers
         public static NoteTag GetTagByGUID(string guid)
         {
             return tags.FirstOrDefault(t => t.GUID == guid);
+        }
+        public static async Task<(string Id, string Name, string Emoji, Color[] Colors)[]> GetNoteListAsync()
+        {
+            try
+            {
+                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists);
+                var noteFile = await folder.CreateFileAsync("notes.json", CreationCollisionOption.OpenIfExists);
+                var tagFile = await folder.CreateFileAsync("tags.json", CreationCollisionOption.OpenIfExists);
+
+                string noteContent = await FileIO.ReadTextAsync(noteFile);
+                string tagContent = await FileIO.ReadTextAsync(tagFile);
+
+                List<NoteMetadata> noteList;
+                try { noteList = JsonSerializer.Deserialize<List<NoteMetadata>>(noteContent) ?? new List<NoteMetadata>(); }
+                catch { noteList = new List<NoteMetadata>(); }
+
+                List<NoteTag> tagList;
+                try { tagList = JsonSerializer.Deserialize<List<NoteTag>>(tagContent) ?? new List<NoteTag>(); }
+                catch { tagList = new List<NoteTag>(); }
+
+                var tagDict = tagList.Where(t => t != null && t.GUID != null).ToDictionary(t => t.GUID, t => t);
+
+                var result = noteList.Select(n =>
+                {
+                    Color[] colors = new Color[0];
+                    try
+                    {
+                        if (n?.TagGuids != null)
+                        {
+                            colors = n.TagGuids.Select(g => tagDict.ContainsKey(g) ? tagDict[g].Color : new Color()).ToArray();
+                        }
+                    }
+                    catch { }
+
+                    return (n?.Id ?? string.Empty, n?.Name ?? string.Empty, n?.Emoji ?? string.Empty, colors);
+                }).ToArray();
+
+                return result;
+            }
+            catch
+            {
+                return new (string, string, string, Color[])[0];
+            }
         }
     }
 }
