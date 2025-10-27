@@ -43,6 +43,12 @@ namespace Fairmark.Helpers
             }
         }
 
+        public static async Task<DateTimeOffset?> GetNoteLastModifiedAsync(string noteId)
+        {
+            var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md") as StorageFile;
+            return file?.DateCreated;
+        }
+
         public static async Task<StorageFile> GetVaultBackupFileAsync()
         {
             var localFolder = (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists));

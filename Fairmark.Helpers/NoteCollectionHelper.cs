@@ -200,7 +200,7 @@ namespace Fairmark.Helpers
         {
             return tags.FirstOrDefault(t => t.GUID == guid);
         }
-        public static async Task<(string Id, string Name, string Emoji, Color[] Colors)[]> GetNoteListAsync()
+        public static async Task<(string Id, string Name, string Emoji, Color[] Colors, bool IsPinned, DateTimeOffset? LastModified)[]> GetNoteListAsync()
         {
             try
             {
@@ -221,7 +221,7 @@ namespace Fairmark.Helpers
 
                 var tagDict = tagList.Where(t => t != null && t.GUID != null).ToDictionary(t => t.GUID, t => t);
 
-                var result = noteList.Select(n =>
+                var result = await Task.WhenAll(noteList.Select(async n =>
                 {
                     Color[] colors = new Color[0];
                     try
@@ -233,14 +233,21 @@ namespace Fairmark.Helpers
                     }
                     catch { }
 
-                    return (n?.Id ?? string.Empty, n?.Name ?? string.Empty, n?.Emoji ?? string.Empty, colors);
-                }).ToArray();
+                    DateTimeOffset? lastModified = null;
+                    try
+                    {
+                        lastModified = await NoteFileHandlingHelper.GetNoteLastModifiedAsync(n?.Id);
+                    }
+                    catch { }
+
+                    return (n?.Id ?? string.Empty, n?.Name ?? string.Empty, n?.Emoji ?? string.Empty, colors, n?.IsPinned ?? false, lastModified);
+                }));
 
                 return result;
             }
             catch
             {
-                return new (string, string, string, Color[])[0];
+                return new (string, string, string, Color[], bool, DateTimeOffset?)[0];
             }
         }
     }

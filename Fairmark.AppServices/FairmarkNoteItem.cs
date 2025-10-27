@@ -17,5 +17,9 @@ namespace Fairmark.AppServices
         public string Emoji { get; set; } = "📋";
         [JsonPropertyName("colors")]
         public Windows.UI.Color[] Colors { get; set; } = null;
+        [JsonPropertyName("isPinned")]
+        public bool IsPinned { get; set; } = false;
+        [JsonPropertyName("lastModified")]
+        public DateTimeOffset? LastModified { get; set; } = null;
     }
 }

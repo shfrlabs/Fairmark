@@ -75,7 +75,7 @@ namespace Fairmark.AppServices
         {
             try
             {
-                (string Id, string Name, string Emoji, Color[] Colors)[] values = await Fairmark.Helpers.NoteCollectionHelper.GetNoteListAsync();
+                (string Id, string Name, string Emoji, Color[] Colors, bool IsPinned, DateTimeOffset? LastModified)[] values = await Fairmark.Helpers.NoteCollectionHelper.GetNoteListAsync();
                 List<FairmarkNoteItem> noteItems = new List<FairmarkNoteItem>();
 
                 Debug.WriteLine(values.Count());
@@ -86,7 +86,9 @@ namespace Fairmark.AppServices
                         ID = value.Id,
                         Name = value.Name,
                         Emoji = value.Emoji,
-                        Colors = value.Colors
+                        Colors = value.Colors,
+                        IsPinned = value.IsPinned,
+                        LastModified = value.LastModified
                     });
                 }
 
