@@ -36,13 +36,6 @@ namespace Fairmark
                     view.TitleBar.ButtonForegroundColor = Colors.Black;
                 }
             };
-            Variables.PlusStatusChanged += (s) => {
-                if (s == Windows.Services.Store.StorePurchaseStatus.Succeeded || s == Windows.Services.Store.StorePurchaseStatus.AlreadyPurchased) {
-                    SettingsNav.SelectedItem = SettingsNav.MenuItems.First();
-                    _ = settingsFrame.Navigate(typeof(DisplayPage));
-                    NavUpgrade.Visibility = Visibility.Collapsed;
-                }
-            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -56,7 +49,6 @@ namespace Fairmark
                 NavLog.Visibility = Visibility.Collapsed;
                 NavImEx.Visibility = Visibility.Collapsed;
                 NavTag.Visibility = Visibility.Collapsed;
-                NavUpgrade.Visibility = Visibility.Collapsed;
                 _ = settingsFrame.Navigate(typeof(DisplayPage));
             }
             else if (e.Parameter != null && e.Parameter.ToString() == "tag") {
@@ -86,8 +78,6 @@ namespace Fairmark
                     _ = settingsFrame.Navigate(typeof(StatsPage)); break;
                 case "Tags":
                     _ = settingsFrame.Navigate(typeof(TagManagerPage)); break;
-                case "Upgrade":
-                    _ = settingsFrame.Navigate(typeof(UpgradePage)); break;
                 default:
                     settingsFrame.Content = null; break;
             }
@@ -98,9 +88,6 @@ namespace Fairmark
         }
 
         private async void NavigationViewItem_Loaded(object sender, RoutedEventArgs e) {
-            if (SettingsNav.PaneDisplayMode != Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top) {
-                (sender as NavigationViewItem).Visibility = await Variables.CheckIfPlusAsync() ? Visibility.Collapsed : Visibility.Visible;
-            }
         }
     }
 }

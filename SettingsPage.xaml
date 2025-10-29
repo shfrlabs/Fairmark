@@ -63,11 +63,6 @@
                         <FontIcon Glyph="&#xE8EC;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="UpgradeNavViewItem" x:Name="NavUpgrade" Tag="Upgrade" Loaded="NavigationViewItem_Loaded">
-                    <controls:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE74A;" />
-                    </controls:NavigationViewItem.Icon>
-                </controls:NavigationViewItem>
                 <!--<controls:NavigationViewItem x:Uid="StatsNavViewItem" Tag="Stats">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE9D2;" />

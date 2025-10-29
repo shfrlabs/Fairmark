@@ -42,7 +42,6 @@ namespace Fairmark
         }
 
         private void Button_Loaded(object sender, RoutedEventArgs e) {
-            (sender as Button).IsEnabled = Variables.useStoreFeatures;
         }
     }
 }

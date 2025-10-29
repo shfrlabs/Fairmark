@@ -138,7 +138,6 @@
       <DependentUpon>ContactPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\FileEditorBox.cs" />
-    <Compile Include="Controls\GlamButton.cs" />
     <Compile Include="EmptyTabPage.xaml.cs">
       <DependentUpon>EmptyTabPage.xaml</DependentUpon>
     </Compile>
@@ -178,9 +177,6 @@
     </Compile>
     <Compile Include="SettingsPages\TagManagerPage.xaml.cs">
       <DependentUpon>TagManagerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsPages\UpgradePage.xaml.cs">
-      <DependentUpon>UpgradePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -314,10 +310,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsPages\TagManagerPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingsPages\UpgradePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

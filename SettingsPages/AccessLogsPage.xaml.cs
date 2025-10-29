@@ -40,10 +40,6 @@ namespace Fairmark.SettingsPages
         }
 
         private async void ToggleSwitch_Loaded(object sender, RoutedEventArgs e) {
-            if (!(await Variables.CheckIfPlusAsync())) {
-                (sender as ToggleSwitch).IsOn = false;
-                (sender as ToggleSwitch).IsEnabled = false;
-            }
         }
     }
 }

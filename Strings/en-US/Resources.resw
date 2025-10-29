@@ -117,86 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CardItem_FairmarkAI.Title" xml:space="preserve">
-    <value>Fairmark AI</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_FairmarkAI.Description" xml:space="preserve">
-    <value>Summarize and write notes with a local AI assistant.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleTabs.Title" xml:space="preserve">
-    <value>Multiple tabs</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleTabs.Description" xml:space="preserve">
-    <value>Open and manage multiple notes at once.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_HideNotes.Title" xml:space="preserve">
-    <value>Hide your notes</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_HideNotes.Description" xml:space="preserve">
-    <value>Require biometrics before opening and prevent screenshots of the app.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_AdvancedTagging.Title" xml:space="preserve">
-    <value>Advanced tagging</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_AdvancedTagging.Description" xml:space="preserve">
-    <value>Assign more than one tag per note and create more than 5 tags overall.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_LogAccess.Title" xml:space="preserve">
-    <value>Log app access</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_LogAccess.Description" xml:space="preserve">
-    <value>Know everything that happens to your notes.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_TaskieIntegration.Title" xml:space="preserve">
-    <value>Taskie integration</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_TaskieIntegration.Description" xml:space="preserve">
-    <value>Link task lists to notes and notes to tasks. Requires Fairmark+ and Taskie Pro.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ZenMode.Title" xml:space="preserve">
-    <value>Zen mode</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ZenMode.Description" xml:space="preserve">
-    <value>Hide distractions. Focus on writing.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ScanDocuments.Title" xml:space="preserve">
-    <value>Scan documents</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ScanDocuments.Description" xml:space="preserve">
-    <value>Turn images into formatted notes with a couple clicks.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleFormats.Title" xml:space="preserve">
-    <value>Multiple formats</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleFormats.Description" xml:space="preserve">
-    <value>Import notes from or export notes into multiple convenient formats.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MoreFolders.Title" xml:space="preserve">
-    <value>More folders</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MoreFolders.Description" xml:space="preserve">
-    <value>Separate your notes into more than 3 folders.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
   <data name="AboutAppButton.Text" xml:space="preserve">
     <value>About</value>
     <comment>Used as a label in the "More" menu.</comment>
@@ -615,7 +535,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="HideCard.Description" xml:space="preserve">
-    <value>Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline. Requires Plus.</value>
+    <value>Select whether the app should hide its content from screenshots, including Windows Recall's AI timeline.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Header" xml:space="preserve">
@@ -623,7 +543,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Description" xml:space="preserve">
-    <value>Select whether the app should require biometrics or a PIN before opening. Requires Plus.</value>
+    <value>Select whether the app should require biometrics or a PIN before opening.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeCard.Header" xml:space="preserve">
@@ -691,7 +611,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="LogCard.Description" xml:space="preserve">
-    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. This feature requires Plus.</value>
+    <value>Log the last 300 events in the app (opening the app, reading a note, errors, diagnostic messages etc) here to protect your privacy. Logs cannot be cleared. </value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="CopyLogs.Content" xml:space="preserve">
@@ -761,37 +681,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="DeleteImage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Delete image</value>
     <comment>Used in the "Insert image" flyout.</comment>
-  </data>
-  <data name="UpgradeNavViewItem.Content" xml:space="preserve">
-    <value>Upgrade</value>
-    <comment>Navigation menu item in Settings.</comment>
-  </data>
-  <data name="PlusLimit" xml:space="preserve">
-    <value>Limit exceeded. Get Plus.</value>
-  </data>
-  <data name="PlusPromo1.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo6.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo5.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo4.Text" xml:space="preserve">
-    <value>Level up your notes.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo3.Text" xml:space="preserve">
-    <value>Unlock advanced organization &amp; writing features.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo2.Text" xml:space="preserve">
-    <value>Founder's discount. Limited time offer.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
     <value>Leave a review</value>
@@ -868,10 +757,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="SortBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sort</value>
     <comment>Top command bar.</comment>
-  </data>
-  <data name="UpgradeFor" xml:space="preserve">
-    <value>Upgrade for</value>
-    <comment>Upgrade screen.</comment>
   </data>
   <data name="OthersGroup" xml:space="preserve">
     <value>Unpinned</value>

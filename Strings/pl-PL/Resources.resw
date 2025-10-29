@@ -117,86 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CardItem_FairmarkAI.Title" xml:space="preserve">
-    <value>Fairmark AI</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_FairmarkAI.Description" xml:space="preserve">
-    <value>Podsumuj i pisz notatki z prywatnym asystentem AI.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleTabs.Title" xml:space="preserve">
-    <value>Wiele kart</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleTabs.Description" xml:space="preserve">
-    <value>Otwórz i zarządzaj wieloma notatkami jednocześnie.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_HideNotes.Title" xml:space="preserve">
-    <value>Ukryj notatki</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_HideNotes.Description" xml:space="preserve">
-    <value>Wymagaj biometrii przed otwarciem aplikacji.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_AdvancedTagging.Title" xml:space="preserve">
-    <value>Zaawansowane etykiety</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_AdvancedTagging.Description" xml:space="preserve">
-    <value>Dodaj więcej niż jedną etykietę do notatki oraz utwórz więcej niż 5 etykiet.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_LogAccess.Title" xml:space="preserve">
-    <value>Zapisuj dostępy</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_LogAccess.Description" xml:space="preserve">
-    <value>Sprawdź, co się dzieje z notatkami.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_TaskieIntegration.Title" xml:space="preserve">
-    <value>Integracja z Taskie</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_TaskieIntegration.Description" xml:space="preserve">
-    <value>Połącz listy zadań z notatkami i notatki z zadaniami. Wymaga Fairmark+ oraz Taskie Pro.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ZenMode.Title" xml:space="preserve">
-    <value>Tryb zen</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ZenMode.Description" xml:space="preserve">
-    <value>Ukryj rozproszenia. Skup się na pisaniu.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ScanDocuments.Title" xml:space="preserve">
-    <value>Skanuj dokumenty</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_ScanDocuments.Description" xml:space="preserve">
-    <value>Zamień zdjęcia w formatowane notatki kilkoma kliknięciami.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleFormats.Title" xml:space="preserve">
-    <value>Wiele formatów</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MultipleFormats.Description" xml:space="preserve">
-    <value>Importuj lub eksportuj notatki do wielu przydatnych formatów.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MoreFolders.Title" xml:space="preserve">
-    <value>Więcej folderów</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="CardItem_MoreFolders.Description" xml:space="preserve">
-    <value>Podziel notatki na więcej niż 3 foldery.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
   <data name="AboutAppButton.Text" xml:space="preserve">
     <value>O aplikacji</value>
     <comment>Used as a label in the "More" menu.</comment>
@@ -615,7 +535,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="HideCard.Description" xml:space="preserve">
-    <value>Wybierz, czy aplikacja powinna chronić swoje treści od zrzutów ekranu oraz Windows Recall. Wymaga Plus.</value>
+    <value>Wybierz, czy aplikacja powinna chronić swoje treści od zrzutów ekranu oraz Windows Recall.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Header" xml:space="preserve">
@@ -623,7 +543,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="AuthCard.Description" xml:space="preserve">
-    <value>Wybierz, czy aplikacja pyta o potwierdzenie biometrią lub PINem przed otwarciem. Wymaga Plus.</value>
+    <value>Wybierz, czy aplikacja pyta o potwierdzenie biometrią lub PINem przed otwarciem.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="ThemeCard.Header" xml:space="preserve">
@@ -691,7 +611,7 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <comment>Used in Settings.</comment>
   </data>
   <data name="LogCard.Description" xml:space="preserve">
-    <value>Rejestruj tutaj ostatnie 300 zdarzeń w aplikacji (otwieranie aplikacji, czytanie notatek, błędy, komunikaty diagnostyczne itp.), aby chronić swoją prywatność. Rejestrów nie można wyczyścić. Ta funkcja wymaga Plus.</value>
+    <value>Rejestruj tutaj ostatnie 300 zdarzeń w aplikacji (otwieranie aplikacji, czytanie notatek, błędy, komunikaty diagnostyczne itp.), aby chronić swoją prywatność. Rejestrów nie można wyczyścić.</value>
     <comment>Used in Settings.</comment>
   </data>
   <data name="CopyLogs.Content" xml:space="preserve">
@@ -761,37 +681,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="DeleteImage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Usuń zdjęcie</value>
     <comment>Used in the "Insert image" flyout.</comment>
-  </data>
-  <data name="UpgradeNavViewItem.Content" xml:space="preserve">
-    <value>Ulepsz</value>
-    <comment>Navigation menu item in Settings.</comment>
-  </data>
-  <data name="PlusLimit" xml:space="preserve">
-    <value>Limit przekroczony. Plus wymagany.</value>
-  </data>
-  <data name="PlusPromo1.Text" xml:space="preserve">
-    <value>Podnieś poziom swoich notatek.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo6.Text" xml:space="preserve">
-    <value>Podnieś poziom swoich notatek.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo5.Text" xml:space="preserve">
-    <value>Podnieś poziom swoich notatek.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo4.Text" xml:space="preserve">
-    <value>Podnieś poziom swoich notatek.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo3.Text" xml:space="preserve">
-    <value>Odblokuj zaawansowane funkcje organizacji i pisania.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
-  </data>
-  <data name="PlusPromo2.Text" xml:space="preserve">
-    <value>Oferta ograniczona czasowo.</value>
-    <comment>Used in the Upgrade page in Settings.</comment>
   </data>
   <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
     <value>Oceń Fairmarka!</value>
@@ -868,10 +757,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="SortBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sortuj</value>
     <comment>Top command bar.</comment>
-  </data>
-  <data name="UpgradeFor" xml:space="preserve">
-    <value>Ulepsz za</value>
-    <comment>Upgrade screen.</comment>
   </data>
   <data name="OthersGroup" xml:space="preserve">
     <value>Odpięte</value>
