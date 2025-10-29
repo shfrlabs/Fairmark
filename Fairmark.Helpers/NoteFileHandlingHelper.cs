@@ -46,7 +46,11 @@ namespace Fairmark.Helpers
         public static async Task<DateTimeOffset?> GetNoteLastModifiedAsync(string noteId)
         {
             var file = await (await ApplicationData.Current.LocalFolder.CreateFolderAsync("default", CreationCollisionOption.OpenIfExists)).TryGetItemAsync(noteId + ".md") as StorageFile;
-            return file?.DateCreated;
+            if (file == null)
+                return null;
+
+            var props = await file.GetBasicPropertiesAsync();
+            return props?.DateModified;
         }
 
         public static async Task<StorageFile> GetVaultBackupFileAsync()

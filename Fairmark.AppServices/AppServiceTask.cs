@@ -92,7 +92,15 @@ namespace Fairmark.AppServices
                     });
                 }
 
-                return System.Text.Json.JsonSerializer.Serialize(noteItems);
+                var sortedNoteItems = noteItems.OrderByDescending(note => note.LastModified.Value.Ticks).ToList();
+
+                foreach (var item in sortedNoteItems)
+                {
+                    Debug.WriteLine(item.Name + ": " + item.LastModified.Value.Ticks);
+                }
+
+                Debug.Write(System.Text.Json.JsonSerializer.Serialize(sortedNoteItems[0]));
+                return System.Text.Json.JsonSerializer.Serialize(sortedNoteItems);
             }
             catch
             {
