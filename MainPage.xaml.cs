@@ -44,6 +44,7 @@ namespace Fairmark
                 }
             };
             this.InitializeComponent();
+            EditorViewToggle.IsEnabled = false;
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
             if (Window.Current.Content is Frame frame)
@@ -397,10 +398,26 @@ namespace Fairmark
             if (tab != null && tab.Tag is NoteMetadata data)
             {
                 NoteList.SelectedItem = data;
+                EditorViewToggle.IsEnabled = true;
+                
+                var settings = Application.Current.Resources["Settings"] as Settings;
+                int layoutOption = settings?.EditorLayoutOptions ?? 0;
+                
+                if (layoutOption >= 0 && layoutOption < EditorViewToggle.Items.Count)
+                {
+                    EditorViewToggle.SelectedItem = EditorViewToggle.Items[layoutOption];
+                }
+                else
+                {
+                    EditorViewToggle.SelectedIndex = 0;
+                }
+                
                 _ = contentFrame.Navigate(typeof(FileEditorPage), data);
             }
             else
             {
+                EditorViewToggle.IsEnabled = false;
+                EditorViewToggle.SelectedIndex = -1;
                 NoteList.SelectedItem = null;
                 _ = contentFrame.Navigate(typeof(EmptyTabPage));
             }
@@ -1386,6 +1403,18 @@ namespace Fairmark
             string id = (sender as Button).Tag as string;
             NoteCollectionHelper.notes.FirstOrDefault(n => n.Id == id).IsPinned = false;
             SortNotes();
+        }
+
+        private void EditorViewToggle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EditorViewToggle.SelectedIndex >= 0)
+            {
+                var settings = Application.Current.Resources["Settings"] as Settings;
+                if (settings != null)
+                {
+                    settings.EditorLayoutOptions = EditorViewToggle.SelectedIndex;
+                }
+            }
         }
     }
 }

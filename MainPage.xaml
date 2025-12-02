@@ -51,12 +51,31 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Grid.Column="3" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode}">
-                <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}, Mode=OneWay}" />
-            </AppBarToggleButton>
+            <StackPanel Orientation="Horizontal" Grid.Column="3">
+                <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" Width="50" x:Name="Zen" Click="Zen_Click" Margin="5,0,0,0" IsChecked="{x:Bind currentView.IsFullScreenMode}">
+                    <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}, Mode=OneWay}" />
+                </AppBarToggleButton>
+                <toolkit:Segmented x:Uid="EditorViewToggle" SelectionChanged="EditorViewToggle_SelectionChanged" x:Name="EditorViewToggle" Margin="5,0,0,0">
+                    <toolkit:SegmentedItem Tag="Left">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xEA61;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                    <toolkit:SegmentedItem Tag="Toggle">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xEF1F;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                    <toolkit:SegmentedItem Tag="Right">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xE746;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                </toolkit:Segmented>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                 <Image Source="Assets/StoreLogo.png" Width="15" Height="15" VerticalAlignment="Center" Margin="15,0,0,0"/>
                 <TextBlock Text="Fairmark" FontSize="12" Margin="15,2,0,0" FontFamily="Segoe UI Variable Display"/>

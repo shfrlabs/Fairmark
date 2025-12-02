@@ -146,6 +146,27 @@ namespace Fairmark.Helpers
             }
         }
 
+        public int EditorLayoutOptions
+        {
+            get
+            {
+                if (_localSettings.Values.TryGetValue("editorLayout", out object layObj) && layObj is int b)
+                {
+                    return b;
+                }
+                return 0; // Default to first option (Left side-by-side)
+            }
+            set
+            {
+                var old = EditorLayoutOptions;
+                if (old != value)
+                {
+                    _localSettings.Values["editorLayout"] = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EditorLayoutOptions)));
+                }
+            }
+        }
+
         public bool AutoEmbed
         {
             get
