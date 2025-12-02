@@ -24,10 +24,11 @@ namespace Fairmark.Helpers
             _execute(parameter);
         }
 
-        public event EventHandler CanExecuteChanged
+        public event EventHandler CanExecuteChanged;
+
+        public void RaiseCanExecuteChanged()
         {
-            add { }
-            remove { }
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
