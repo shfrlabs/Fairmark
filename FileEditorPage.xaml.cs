@@ -104,7 +104,7 @@ namespace Fairmark
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            FlyoutBase.GetAttachedFlyout((FrameworkElement)sender).ShowAt(Insert);
         }
 
         private void Details_Click(object sender, RoutedEventArgs e)
@@ -182,8 +182,5 @@ namespace Fairmark
             ReferenceList.ItemsSource = NoteCollectionHelper.notes.ToList();
         }
 
-        private void RefFlyout_Click(object sender, RoutedEventArgs e) {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-        }
     }
 }

@@ -349,6 +349,26 @@
     <value>Dodaj poziomą linię (Ctrl+L)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
+  <data name="LineButton.Text" xml:space="preserve">
+    <value>Pozioma linia</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+<data name="LinkButton.Text" xml:space="preserve">
+    <value>Dodaj link</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="Head1Button.Text" xml:space="preserve">
+    <value>Nagłówek 1</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+	<data name="Head2Button.Text" xml:space="preserve">
+    <value>Nagłówek 2</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+	<data name="Head3Button.Text" xml:space="preserve">
+    <value>Nagłówek 3</value>
+    <comment>Bottom command bar.</comment>
+  </data>
   <data name="Head1Button.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nagłówek 1 (Ctrl+1)</value>
     <comment>Bottom command bar tooltip.</comment>
@@ -638,7 +658,11 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Dodaj rozwijalne szczegóły</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-  <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
+<data name="ExpandButton.Text" xml:space="preserve">
+    <value>Rozwijalne szczegóły</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+	<data name="LinkDisplay.PlaceholderText" xml:space="preserve">
     <value>Wyświetlany tekst</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
@@ -682,25 +706,37 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Usuń zdjęcie</value>
     <comment>Used in the "Insert image" flyout.</comment>
   </data>
-  <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
-    <value>Oceń Fairmarka!</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
+  <data name="ImageButton.Text" xml:space="preserve">
+    <value>Dodaj zdjęcie</value>
+    <comment>Bottom command bar.</comment>
   </data>
-  <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
-    <value>Nie pytaj ponownie</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
+  <data name="DeleteImage.Text" xml:space="preserve">
+    <value>Usuń zdjęcie</value>
+    <comment>Used in the "Insert image" flyout.</comment>
   </data>
-  <data name="ReviewTip.Subtitle" xml:space="preserve">
-    <value>Rozważ pozostawienie recenzji lub opinii! Możesz się ze mną skontaktować, klikając w menu z trzema kropkami u góry.</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
+  <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Odwołaj się do notatki</value>
+    <comment>Bottom command bar.</comment>
   </data>
-  <data name="ReviewTip.Title" xml:space="preserve">
-    <value>👋 Lubisz Fairmarka?</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
+  <data name="NoteRefBtn.Text" xml:space="preserve">
+    <value>Odwołaj się do notatki</value>
+    <comment>Bottom command bar.</comment>
   </data>
-  <data name="ReviewBtn.Content" xml:space="preserve">
-    <value>Oceń Fairmarka!</value>
-    <comment>Used in the "Contact me" window.</comment>
+  <data name="RateExperience.Text" xml:space="preserve">
+    <value>Jakie to było doświadczenie?</value>
+    <comment>Shown in the feedback flyout.</comment>
+  </data>
+  <data name="ShareExperienceBtn.Text" xml:space="preserve">
+    <value>Podziel się swoim doświadczeniem</value>
+    <comment>Shown in the feedback flyout.</comment>
+  </data>
+  <data name="NotNowButton.Text" xml:space="preserve">
+    <value>Nie teraz</value>
+    <comment>Shown in the feedback flyout.</comment>
+  </data>
+  <data name="ThanksFeedback.Text" xml:space="preserve">
+    <value>Dziękuję za opinię!</value>
+    <comment>Shown in the feedback flyout.</comment>
   </data>
   <data name="Pin.Text" xml:space="preserve">
     <value>Przypnij notatkę</value>

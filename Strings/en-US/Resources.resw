@@ -129,6 +129,10 @@
     <value>Enter a name.</value>
     <comment>Used when the user tries to create a note/tag without a name.</comment>
   </data>
+	<data name="LineButton.Text" xml:space="preserve">
+    <value>Horizontal line</value>
+    <comment>Bottom command bar.</comment>
+  </data>
   <data name="AddNotePlaceholder" xml:space="preserve">
     <value>Name your note...</value>
     <comment>Used in the "Add note" dialog.</comment>
@@ -348,6 +352,18 @@
   <data name="LineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Insert horizontal line (Ctrl+L)</value>
     <comment>Bottom command bar tooltip.</comment>
+  </data>
+  <data name="Head1Button.Text" xml:space="preserve">
+    <value>Heading 1</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+	<data name="Head2Button.Text" xml:space="preserve">
+    <value>Heading 2</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+	<data name="Head3Button.Text" xml:space="preserve">
+    <value>Heading 3</value>
+    <comment>Bottom command bar.</comment>
   </data>
   <data name="Head1Button.ToolTipService.ToolTip" xml:space="preserve">
     <value>Heading 1 (Ctrl+1)</value>
@@ -634,11 +650,19 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Add link</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
+  <data name="LinkButton.Text" xml:space="preserve">
+    <value>Add link</value>
+    <comment>Bottom command bar.</comment>
+  </data>
   <data name="ExpandButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Insert expandable content</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-  <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
+    <data name="ExpandButton.Text" xml:space="preserve">
+        <value>Insert expandable content</value>
+    <comment>Bottom command bar tooltip.</comment>
+  </data>
+	<data name="LinkDisplay.PlaceholderText" xml:space="preserve">
     <value>Displayed text</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
@@ -681,6 +705,22 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="DeleteImage.ToolTipService.ToolTip" xml:space="preserve">
     <value>Delete image</value>
     <comment>Used in the "Insert image" flyout.</comment>
+  </data>
+  <data name="ImageButton.Text" xml:space="preserve">
+    <value>Insert image</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="DeleteImage.Text" xml:space="preserve">
+    <value>Delete image</value>
+    <comment>Used in the "Insert image" flyout.</comment>
+  </data>
+  <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reference note</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="NoteRefBtn.Text" xml:space="preserve">
+    <value>Reference note</value>
+    <comment>Bottom command bar.</comment>
   </data>
   <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
     <value>Leave a review</value>
