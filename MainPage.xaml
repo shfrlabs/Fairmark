@@ -129,7 +129,11 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <AppBarButton Icon="ClosePane" x:Uid="ClosePaneButton" Click="ClosePane_Click" LabelPosition="Collapsed" Width="50"/>
+                <AppBarButton x:Uid="ClosePaneButton" Click="ClosePane_Click" LabelPosition="Collapsed" Margin="0,0,5,0" Height="40" Width="40" FontSize="10">
+                    <AppBarButton.Icon>
+                        <SymbolIcon Symbol="ClosePane" Margin="0,-3,0,3"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="235">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -172,7 +176,10 @@
                     </ListView>
                     <Grid Grid.Row="0" Margin="0,-50,-5,0">
                         <CommandBar HorizontalAlignment="Right">
-                            <AppBarButton x:Uid="FilterBtn" Icon="Filter" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
+                            <AppBarButton x:Uid="FilterBtn" FontSize="10" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Margin="0,0,5,0" Height="40" Width="40">
+                                <AppBarButton.Icon>
+                                    <SymbolIcon Symbol="Filter" Margin="0,-3,0,3"/>
+                                </AppBarButton.Icon>
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
                                         <Grid Margin="-10" MaxWidth="500">
@@ -219,7 +226,10 @@
                                     </Flyout>
                                 </FlyoutBase.AttachedFlyout>
                             </AppBarButton>
-                            <AppBarButton x:Uid="SortBtn" Icon="Sort" x:Name="Sort" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Width="50">
+                            <AppBarButton x:Uid="SortBtn" x:Name="Sort" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Margin="0,0,0,0" Height="40" Width="40" FontSize="10">
+                                <AppBarButton.Icon>
+                                    <SymbolIcon Symbol="Sort" Margin="0,-3,0,3"/>
+                                </AppBarButton.Icon>
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
                                         <ToggleMenuFlyoutItem x:Uid="SortByDef" IsChecked="{x:Bind sortOptions.sortDefault, Mode=TwoWay}"/>
@@ -233,15 +243,31 @@
                     </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <AppBarButton Icon="Add" Width="62" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" Label="Create note" LabelPosition="Collapsed" x:Name="CreateButton" Click="CreateButton_Click" x:Uid="CreateNoteButton"/>
-                        <AppBarButton Icon="Rename" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" Label="Rename" LabelPosition="Collapsed" x:Name="RenameButton" x:Uid="RenameNoteButton" Click="RenameButton_Click"/>
-                        <AppBarButton Icon="Delete" Width="62" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" Label="Delete" LabelPosition="Collapsed" x:Name="DeleteButton" x:Uid="DeleteNoteButton" Click="DeleteButton_Click"/>
-                        <AppBarButton Icon="More" Width="60" x:Name="MoreBtn" x:Uid="MoreButton" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" LabelPosition="Collapsed" Click="MoreBtn_Click">
+                        <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CreateNoteButton" Height="40" Width="40" FontSize="10" AllowFocusOnInteraction="True" HorizontalAlignment="Center" Grid.Column="0" x:Name="CreateButton" Click="CreateButton_Click">
+                            <AppBarButton.Icon>
+                                <SymbolIcon Symbol="Add" Margin="0,-3,0,3" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="RenameNoteButton" Height="40" Width="40" FontSize="10" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="1" x:Name="RenameButton" Click="RenameButton_Click">
+                            <AppBarButton.Icon>
+                                <SymbolIcon Symbol="Rename" Margin="0,-3,0,3" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="DeleteNoteButton" Height="40" Width="40" FontSize="10" AllowFocusOnInteraction="True" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" Grid.Column="2" x:Name="DeleteButton" Click="DeleteButton_Click">
+                            <AppBarButton.Icon>
+                                <SymbolIcon Symbol="Delete" Margin="0,-3,0,3" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Margin="0" Height="40" Width="40" FontSize="10" x:Name="MoreBtn" x:Uid="MoreButton" IsEnabled="{x:Bind NoteList.SelectedItem, Mode=OneWay, Converter={StaticResource NullBooleanConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="4" LabelPosition="Collapsed" Click="MoreBtn_Click">
+                            <AppBarButton.Icon>
+                                <SymbolIcon Symbol="More" Margin="0,-3,0,3" />
+                            </AppBarButton.Icon>
                             <FlyoutBase.AttachedFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem x:Uid="ChangeEmojiBtn" Loaded="MenuFlyoutItem_Loaded">
