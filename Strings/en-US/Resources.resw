@@ -129,10 +129,6 @@
     <value>Enter a name.</value>
     <comment>Used when the user tries to create a note/tag without a name.</comment>
   </data>
-	<data name="LineButton.Text" xml:space="preserve">
-    <value>Horizontal line</value>
-    <comment>Bottom command bar.</comment>
-  </data>
   <data name="AddNotePlaceholder" xml:space="preserve">
     <value>Name your note...</value>
     <comment>Used in the "Add note" dialog.</comment>
@@ -353,15 +349,23 @@
     <value>Insert horizontal line (Ctrl+L)</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
+  <data name="LineButton.Text" xml:space="preserve">
+    <value>Horizontal line</value>
+    <comment>Bottom command bar.</comment>
+  </data>
+  <data name="LinkButton.Text" xml:space="preserve">
+    <value>Add link</value>
+    <comment>Bottom command bar.</comment>
+  </data>
   <data name="Head1Button.Text" xml:space="preserve">
     <value>Heading 1</value>
     <comment>Bottom command bar.</comment>
   </data>
-	<data name="Head2Button.Text" xml:space="preserve">
+  <data name="Head2Button.Text" xml:space="preserve">
     <value>Heading 2</value>
     <comment>Bottom command bar.</comment>
   </data>
-	<data name="Head3Button.Text" xml:space="preserve">
+  <data name="Head3Button.Text" xml:space="preserve">
     <value>Heading 3</value>
     <comment>Bottom command bar.</comment>
   </data>
@@ -650,19 +654,15 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Add link</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-  <data name="LinkButton.Text" xml:space="preserve">
-    <value>Add link</value>
-    <comment>Bottom command bar.</comment>
-  </data>
   <data name="ExpandButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Insert expandable content</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-    <data name="ExpandButton.Text" xml:space="preserve">
-        <value>Insert expandable content</value>
+  <data name="ExpandButton.Text" xml:space="preserve">
+    <value>Insert expandable content</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-	<data name="LinkDisplay.PlaceholderText" xml:space="preserve">
+  <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
     <value>Displayed text</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
@@ -722,26 +722,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Reference note</value>
     <comment>Bottom command bar.</comment>
   </data>
-  <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
-    <value>Leave a review</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
-  </data>
-  <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
-    <value>Don't ask again</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
-  </data>
-  <data name="ReviewTip.Subtitle" xml:space="preserve">
-    <value>Consider leaving a review or feedback! You can contact me via the top three-dot menu.</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
-  </data>
-  <data name="ReviewTip.Title" xml:space="preserve">
-    <value>👋 Liking Fairmark?</value>
-    <comment>Shown after 2 minutes on the second launch</comment>
-  </data>
-  <data name="ReviewBtn.Content" xml:space="preserve">
-    <value>Leave a review!</value>
-    <comment>Used in the "Contact me" window.</comment>
-  </data>
   <data name="Pin.Text" xml:space="preserve">
     <value>Pin note</value>
     <comment>Used in the "More" bottom menu.</comment>
@@ -765,10 +745,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="ManageTags.Label" xml:space="preserve">
     <value>Manage tags</value>
     <comment>Filter button flyout.</comment>
-  </data>
-  <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reference note</value>
-    <comment>Bottom command bar.</comment>
   </data>
   <data name="RefNote.Content" xml:space="preserve">
     <value>Insert reference</value>
@@ -805,5 +781,29 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="PinnedGroup" xml:space="preserve">
     <value>Pinned</value>
     <comment>Note group name in the sidebar</comment>
+  </data>
+  <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
+    <value>Leave a review</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
+    <value>Don't ask again</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.Subtitle" xml:space="preserve">
+    <value>Consider leaving a review or feedback! You can contact me via the top three-dot menu.</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewTip.Title" xml:space="preserve">
+    <value>👋 Liking Fairmark?</value>
+    <comment>Shown after 2 minutes on the second launch</comment>
+  </data>
+  <data name="ReviewBtn.Content" xml:space="preserve">
+    <value>Leave a review!</value>
+    <comment>Used in the "Contact me" window.</comment>
+  </data>
+  <data name="AIButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Fairmark AI</value>
+    <comment>Used as the tooltip in the navigation bar's Search/Find button.</comment>
   </data>
 </root>

@@ -44,7 +44,6 @@ namespace Fairmark
                 }
             };
             this.InitializeComponent();
-            EditorViewToggle.IsEnabled = false;
             Window.Current.SetTitleBar(DragRegion);
             Helpers.Settings s = new Settings();
             if (Window.Current.Content is Frame frame)
@@ -398,26 +397,14 @@ namespace Fairmark
             if (tab != null && tab.Tag is NoteMetadata data)
             {
                 NoteList.SelectedItem = data;
-                EditorViewToggle.IsEnabled = true;
                 
                 var settings = Application.Current.Resources["Settings"] as Settings;
                 int layoutOption = settings?.EditorLayoutOptions ?? 0;
-                
-                if (layoutOption >= 0 && layoutOption < EditorViewToggle.Items.Count)
-                {
-                    EditorViewToggle.SelectedItem = EditorViewToggle.Items[layoutOption];
-                }
-                else
-                {
-                    EditorViewToggle.SelectedIndex = 0;
-                }
                 
                 _ = contentFrame.Navigate(typeof(FileEditorPage), data);
             }
             else
             {
-                EditorViewToggle.IsEnabled = false;
-                EditorViewToggle.SelectedIndex = -1;
                 NoteList.SelectedItem = null;
                 _ = contentFrame.Navigate(typeof(EmptyTabPage));
             }
@@ -1298,20 +1285,16 @@ namespace Fairmark
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Zen.IsEnabled = ApplicationView.GetForCurrentView().IsFullScreenMode;
-            Zen.Icon = new FontIcon() { Glyph = BooleanFullScreenIconConverter.Convert(ApplicationView.GetForCurrentView().IsFullScreenMode, null, null, null).ToString() };
             if (ApplicationView.GetForCurrentView().IsFullScreenMode)
             {
                 ClosePane_Click(null, null);
                 AppTitleBar.ColumnDefinitions[0].Width = new GridLength(0);
-                MainCommands.Margin = new Thickness(-5, 0, -10, 0);
                 this.Background = Application.Current.Resources["ZenBG"] as SolidColorBrush;
                 TopMore.Visibility = Visibility.Collapsed;
             }
             else
             {
                 TopMore.Visibility = Visibility.Visible;
-                MainCommands.Margin = new Thickness(5, 0, -10, 0);
                 AppTitleBar.ColumnDefinitions[0].Width = GridLength.Auto;
                 this.Background = new SolidColorBrush(Colors.Transparent);
 
@@ -1351,17 +1334,6 @@ namespace Fairmark
         }
 
         public ApplicationView currentView => ApplicationView.GetForCurrentView();
-
-        private void Zen_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentView.IsFullScreenMode)
-                currentView.ExitFullScreenMode();
-            else
-                _ = currentView.TryEnterFullScreenMode();
-
-            Zen.Icon = new FontIcon() { Glyph = BooleanFullScreenIconConverter.Convert(currentView.IsFullScreenMode, null, null, null).ToString() };
-            Zen.IsChecked = currentView.IsFullScreenMode;
-        }
 
         private void MoreBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -1405,16 +1377,9 @@ namespace Fairmark
             SortNotes();
         }
 
-        private void EditorViewToggle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TopMore_Click(object sender, RoutedEventArgs e)
         {
-            if (EditorViewToggle.SelectedIndex >= 0)
-            {
-                var settings = Application.Current.Resources["Settings"] as Settings;
-                if (settings != null)
-                {
-                    settings.EditorLayoutOptions = EditorViewToggle.SelectedIndex;
-                }
-            }
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }

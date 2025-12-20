@@ -14,10 +14,12 @@
     xmlns:converters="using:Fairmark.Converters"
     xmlns:customcontrols="using:Fairmark.Controls"
     xmlns:storage="using:Windows.Storage"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    SizeChanged="Page_SizeChanged">
     <Page.Resources>
         <converters:NameToImageSourceConverter x:Key="NameToImageSourceConverter"/>
         <converters:NullBooleanConverter x:Key="NullBoolConverter"/>
+        <converters:BooleanFullScreenIconConverter x:Name="BooleanFullScreenIconConverter"/>
         <SolidColorBrush
             x:Key="NoteEditorBackground"
             Color="{ThemeResource LayerFillColorDefault}"
@@ -35,7 +37,7 @@
         />
     </Page.Resources>
     <Grid
-        Margin="5"
+        Margin="5,5,5,0"
         CornerRadius="4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="200"/>
@@ -43,7 +45,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <Grid
             Background="{ThemeResource NotePreviewBackground}"
@@ -85,246 +87,273 @@
            Margin="0,0,-4.2,0"
            VerticalAlignment="Stretch" HorizontalAlignment="Right">
         </toolkit:GridSplitter>
-        <ScrollViewer Margin="-2,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" MinWidth="0" VerticalScrollMode="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="UndoButton" Height="40" Width="40" Command="{x:Bind MarkEditor.UndoCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="Z" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="RedoButton" Height="40" Width="40" Command="{x:Bind MarkEditor.RedoCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="Y" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarSeparator/>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CutButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CutCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CopyButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CopyCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="PasteButton" Height="40" Width="40" Command="{x:Bind MarkEditor.PasteCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarSeparator/>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Height="40" Width="40" Command="{x:Bind MarkEditor.BoldCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="B" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ItalicButton" Height="40" Width="40" Command="{x:Bind MarkEditor.ItalicCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="I" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="StrikeButton" Height="40" Width="40" Command="{x:Bind MarkEditor.StrikethroughCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEDE0;" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="S" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CodeButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CodeCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE943;" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="M" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="QuoteButton" Height="40" Width="40" Command="{x:Bind MarkEditor.QuoteCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE9B1;" Margin="0,-3,0,3" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="Q" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BulletButton" Height="40" Width="40" Command="{x:Bind MarkEditor.BulletCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8FD;" Margin="0,-2.5,0,2.5" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="U" Modifiers="Control"/>
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarSeparator/>
-                <AppBarButton Width="50" Height="40" x:Name="Insert" Margin="0,0,5,0">
-                    <AppBarButton.Resources>
-                        <Thickness x:Key="AppBarButtonSubItemChevronMargin">-18,16,5,16</Thickness>
-                    </AppBarButton.Resources>
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="-5,-4,0,4" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="LineButton" Command="{x:Bind MarkEditor.HorizontalLineCommand}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE738;" />
-                                </MenuFlyoutItem.Icon>
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="L" Modifiers="Control"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="LinkButton" Click="AppBarButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE71B;"/>
-                                </MenuFlyoutItem.Icon>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <StackPanel Width="250" Margin="-10">
-                                            <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
-                                            <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
-                                            <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="ExpandButton" Click="AppBarButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C4;"/>
-                                </MenuFlyoutItem.Icon>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <StackPanel Width="250" Margin="-10">
-                                            <TextBox x:Name="SummaryText" AllowFocusOnInteraction="True" x:Uid="SummaryText" />
-                                            <TextBox x:Name="DetailsText" AllowFocusOnInteraction="True" x:Uid="DetailsText" TextWrapping="Wrap" Height="120" Margin="0,10,0,10"/>
-                                            <Button Content="Insert element" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" Click="Details_Click"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="ImageButton" Click="AppBarButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8B9;"/>
-                                </MenuFlyoutItem.Icon>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <StackPanel Width="250" Margin="-10">
-                                            <HyperlinkButton HorizontalAlignment="Stretch" x:Uid="ImportImages" Click="ImportImage_Click" Margin="0,0,0,10"/>
-                                            <ScrollViewer Height="300" HorizontalAlignment="Stretch">
-                                                <ListView HorizontalAlignment="Stretch" x:Name="Images" Loaded="Images_Loaded">
-                                                    <ListView.Resources>
-                                                        <SolidColorBrush Color="Transparent" x:Key="ListViewItemPlaceholderBackground"/>
-                                                    </ListView.Resources>
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate x:DataType="storage:StorageFile">
-                                                            <Grid HorizontalAlignment="Stretch" Height="60" Margin="-12,2,-8,2" CornerRadius="5" Background="{ThemeResource LayerFillColorDefaultBrush}">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="60"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="55"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Image Source="{x:Bind Name, Converter={StaticResource NameToImageSourceConverter}}" Stretch="UniformToFill" Width="60" Height="60"/>
-                                                                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                                                                    <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" FontSize="14" Margin="15,0,5,0"/>
-                                                                    <TextBlock Text="{x:Bind DisplayType}" FontSize="12" Opacity="0.7" Margin="15,0,5,0"/>
-                                                                </StackPanel>
-                                                                <MenuFlyoutItem Icon="Delete" x:Uid="DeleteImage" x:Name="DeleteImage" Grid.Column="2" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Tag="{x:Bind}" Click="DeleteImage_Click"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            </ScrollViewer>
-                                            <Button Margin="0,10,0,0" IsEnabled="{x:Bind Images.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" x:Name="InsertImage" Click="InsertImage_Click"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="NoteRefBtn" x:Name="RefFlyout" Click="AppBarButton_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8AD;"/>
-                                </MenuFlyoutItem.Icon>
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <StackPanel Width="250" Margin="-10">
-                                            <ScrollViewer Height="300" HorizontalAlignment="Stretch">
-                                                <ListView HorizontalAlignment="Stretch" x:Name="ReferenceList" Loaded="ReferenceList_Loaded">
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:NoteMetadata">
-                                                            <Grid Margin="-12, -8, -8, -8" Padding="12, 10, 8, 10" CornerRadius="3">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <FontIcon Glyph="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
-                                                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" FontSize="11" Margin="5,0,0,0"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            </ScrollViewer>
-                                            <Button Margin="0,10,0,0" IsEnabled="{x:Bind ReferenceList.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" x:Uid="RefNote" x:Name="RefNote" Click="RefNote_Click"/>
-                                        </StackPanel>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton Width="50" Height="40" Margin="0,0,5,0">
-                    <AppBarButton.Resources>
-                        <Thickness x:Key="AppBarButtonSubItemChevronMargin">-18,16,5,16</Thickness>
-                    </AppBarButton.Resources>
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="" Margin="-5,-4,0,4" FontSize="10"/>
-                    </AppBarButton.Icon>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Head1Button" Command="{x:Bind MarkEditor.Heading1Command}">
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Number1" Modifiers="Control"/>
-                                    <KeyboardAccelerator Key="NumberPad1" Modifiers="Control"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="Head2Button" Command="{x:Bind MarkEditor.Heading2Command}">
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Number2" Modifiers="Control"/>
-                                    <KeyboardAccelerator Key="NumberPad2" Modifiers="Control"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="Head3Button" Command="{x:Bind MarkEditor.Heading3Command}">
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Number3" Modifiers="Control"/>
-                                    <KeyboardAccelerator Key="NumberPad3" Modifiers="Control"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarElementContainer Visibility="Collapsed">
-                    <!--TODO-->
-                    <Grid VerticalAlignment="Stretch" Opacity="0.7" Margin="5,8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock FontSize="11"><Run x:Uid="WordCount"/> <Run Text="{x:Bind MarkEditor.WordCount, Mode=OneWay}"></Run></TextBlock>
-                        <TextBlock FontSize="11" Grid.Row="1"><Run x:Uid="CharCount"/> <Run Text="{x:Bind MarkEditor.CharacterCount, Mode=OneWay}"></Run></TextBlock>
-                    </Grid>
-                </AppBarElementContainer>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" x:Name="BottomBarGrid" Margin="0,2,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Margin="-2,0,0,-2" Grid.Column="0" HorizontalAlignment="Stretch" MinWidth="0" VerticalScrollMode="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="UndoButton" Height="40" Width="40" Command="{x:Bind MarkEditor.UndoCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Z" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="RedoButton" Height="40" Width="40" Command="{x:Bind MarkEditor.RedoCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Y" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarSeparator/>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CutButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CutCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CopyButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CopyCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="PasteButton" Height="40" Width="40" Command="{x:Bind MarkEditor.PasteCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarSeparator/>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BoldButton" Height="40" Width="40" Command="{x:Bind MarkEditor.BoldCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="B" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="ItalicButton" Height="40" Width="40" Command="{x:Bind MarkEditor.ItalicCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="I" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="StrikeButton" Height="40" Width="40" Command="{x:Bind MarkEditor.StrikethroughCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xEDE0;" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="CodeButton" Height="40" Width="40" Command="{x:Bind MarkEditor.CodeCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE943;" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="QuoteButton" Height="40" Width="40" Command="{x:Bind MarkEditor.QuoteCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE9B1;" Margin="0,-3,0,3" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="Q" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarButton LabelPosition="Collapsed" Margin="0,0,5,0" x:Uid="BulletButton" Height="40" Width="40" Command="{x:Bind MarkEditor.BulletCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8FD;" Margin="0,-2.5,0,2.5" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                        </AppBarButton.KeyboardAccelerators>
+                    </AppBarButton>
+                    <AppBarSeparator/>
+                    <AppBarButton Width="50" Height="40" x:Name="Insert" Margin="0,0,5,0">
+                        <AppBarButton.Resources>
+                            <Thickness x:Key="AppBarButtonSubItemChevronMargin">-18,16,5,16</Thickness>
+                        </AppBarButton.Resources>
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="-5,-4,0,4" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Uid="LineButton" Command="{x:Bind MarkEditor.HorizontalLineCommand}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE738;" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="LinkButton" Click="AppBarButton_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE71B;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <StackPanel Width="250" Margin="-10">
+                                                <TextBox x:Name="LinkText" AllowFocusOnInteraction="True" x:Uid="LinkDisplay" />
+                                                <TextBox x:Name="LinkUrl" AllowFocusOnInteraction="True" x:Uid="LinkAddress" Margin="0,10,0,10"/>
+                                                <Button Content="Insert link" HorizontalAlignment="Stretch" x:Uid="InsertLinkButton" Click="InsertLink_Click"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="ExpandButton" Click="AppBarButton_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C4;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <StackPanel Width="250" Margin="-10">
+                                                <TextBox x:Name="SummaryText" AllowFocusOnInteraction="True" x:Uid="SummaryText" />
+                                                <TextBox x:Name="DetailsText" AllowFocusOnInteraction="True" x:Uid="DetailsText" TextWrapping="Wrap" Height="120" Margin="0,10,0,10"/>
+                                                <Button Content="Insert element" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" Click="Details_Click"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="ImageButton" Click="AppBarButton_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8B9;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <StackPanel Width="250" Margin="-10">
+                                                <HyperlinkButton HorizontalAlignment="Stretch" x:Uid="ImportImages" Click="ImportImage_Click" Margin="0,0,0,10"/>
+                                                <ScrollViewer Height="300" HorizontalAlignment="Stretch">
+                                                    <ListView HorizontalAlignment="Stretch" x:Name="Images" Loaded="Images_Loaded">
+                                                        <ListView.Resources>
+                                                            <SolidColorBrush Color="Transparent" x:Key="ListViewItemPlaceholderBackground"/>
+                                                        </ListView.Resources>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="storage:StorageFile">
+                                                                <Grid HorizontalAlignment="Stretch" Height="60" Margin="-12,2,-8,2" CornerRadius="5" Background="{ThemeResource LayerFillColorDefaultBrush}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="60"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="55"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image Source="{x:Bind Name, Converter={StaticResource NameToImageSourceConverter}}" Stretch="UniformToFill" Width="60" Height="60"/>
+                                                                    <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                                                                        <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" FontSize="14" Margin="15,0,5,0"/>
+                                                                        <TextBlock Text="{x:Bind DisplayType}" FontSize="12" Opacity="0.7" Margin="15,0,5,0"/>
+                                                                    </StackPanel>
+                                                                    <MenuFlyoutItem Icon="Delete" x:Uid="DeleteImage" x:Name="DeleteImage" Grid.Column="2" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Tag="{x:Bind}" Click="DeleteImage_Click"/>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </ScrollViewer>
+                                                <Button Margin="0,10,0,0" IsEnabled="{x:Bind Images.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" x:Uid="InsertDetailsButton" x:Name="InsertImage" Click="InsertImage_Click"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="NoteRefBtn" x:Name="RefFlyout" Click="AppBarButton_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8AD;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <StackPanel Width="250" Margin="-10">
+                                                <ScrollViewer Height="300" HorizontalAlignment="Stretch">
+                                                    <ListView HorizontalAlignment="Stretch" x:Name="ReferenceList" Loaded="ReferenceList_Loaded">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="models:NoteMetadata">
+                                                                <Grid Margin="-12, -8, -8, -8" Padding="12, 10, 8, 10" CornerRadius="3">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="25"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <FontIcon Glyph="{x:Bind Emoji, Mode=OneWay}" FontFamily="Segoe UI Emoji" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
+                                                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Grid.Column="1" VerticalAlignment="Center" FontSize="11" Margin="5,0,0,0"/>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </ScrollViewer>
+                                                <Button Margin="0,10,0,0" IsEnabled="{x:Bind ReferenceList.SelectedValue, Converter={StaticResource NullBoolConverter}, Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" x:Uid="RefNote" x:Name="RefNote" Click="RefNote_Click"/>
+                                            </StackPanel>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Width="50" Height="40" Margin="0,0,5,0">
+                        <AppBarButton.Resources>
+                            <Thickness x:Key="AppBarButtonSubItemChevronMargin">-18,16,5,16</Thickness>
+                        </AppBarButton.Resources>
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="" Margin="-5,-4,0,4" FontSize="10"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Uid="Head1Button" Command="{x:Bind MarkEditor.Heading1Command}">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Number1" Modifiers="Control"/>
+                                        <KeyboardAccelerator Key="NumberPad1" Modifiers="Control"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="Head2Button" Command="{x:Bind MarkEditor.Heading2Command}">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Number2" Modifiers="Control"/>
+                                        <KeyboardAccelerator Key="NumberPad2" Modifiers="Control"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Uid="Head3Button" Command="{x:Bind MarkEditor.Heading3Command}">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Number3" Modifiers="Control"/>
+                                        <KeyboardAccelerator Key="NumberPad3" Modifiers="Control"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarElementContainer Visibility="Collapsed">
+                        <Grid VerticalAlignment="Stretch" Opacity="0.7" Margin="5,8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="11"><Run x:Uid="WordCount"/> <Run Text="{x:Bind MarkEditor.WordCount, Mode=OneWay}"></Run></TextBlock>
+                            <TextBlock FontSize="11" Grid.Row="1"><Run x:Uid="CharCount"/> <Run Text="{x:Bind MarkEditor.CharacterCount, Mode=OneWay}"></Run></TextBlock>
+                        </Grid>
+                    </AppBarElementContainer>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Stretch" x:Name="BottomRightControls">
+                <AppBarToggleButton LabelPosition="Collapsed" x:Uid="ZenButton" x:Name="Zen" Click="Zen_Click" Margin="0,0,5,0" Height="40" Width="40" IsChecked="{x:Bind currentView.IsFullScreenMode}">
+                    <FontIcon Glyph="{x:Bind currentView.IsFullScreenMode, Converter={StaticResource BooleanFullScreenIconConverter}, Mode=OneWay}" Margin="0,-2.5,0,2.5" FontSize="10" />
+                </AppBarToggleButton>
+                <!--<toolkit:Segmented x:Uid="EditorViewToggle" SelectionChanged="EditorViewToggle_SelectionChanged" x:Name="EditorViewToggle" Margin="5,0,0,0">
+                    <toolkit:SegmentedItem Tag="Left">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xEA61;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                    <toolkit:SegmentedItem Tag="Toggle">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xEF1F;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                    <toolkit:SegmentedItem Tag="Right">
+                        <toolkit:SegmentedItem.Icon>
+                            <FontIcon Glyph="&#xE746;" />
+                        </toolkit:SegmentedItem.Icon>
+                    </toolkit:SegmentedItem>
+                </toolkit:Segmented>--> <!-- Reserved for a future version -->
             </StackPanel>
-        </ScrollViewer>
-        
+        </Grid>
     </Grid>
 </Page>

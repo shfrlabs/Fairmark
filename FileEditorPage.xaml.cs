@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 using CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
+using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
 using System;
@@ -12,6 +13,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 
 namespace Fairmark
@@ -182,5 +184,51 @@ namespace Fairmark
             ReferenceList.ItemsSource = NoteCollectionHelper.notes.ToList();
         }
 
+        private void Zen_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentView.IsFullScreenMode)
+                currentView.ExitFullScreenMode();
+            else
+                _ = currentView.TryEnterFullScreenMode();
+
+            (Zen.Icon as FontIcon).Glyph = BooleanFullScreenIconConverter.Convert(currentView.IsFullScreenMode, null, null, null).ToString();
+            Zen.IsChecked = currentView.IsFullScreenMode;
+        }
+
+        //private void EditorViewToggle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (EditorViewToggle.SelectedIndex >= 0)
+        //    {
+        //        var settings = Application.Current.Resources["Settings"] as Settings;
+        //        if (settings != null)
+        //        {
+        //            settings.EditorLayoutOptions = EditorViewToggle.SelectedIndex;
+        //        }
+        //    }
+        //}
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width < 900)
+            {
+                BottomRightControls.Visibility = Visibility.Collapsed;
+                BottomBarGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                BottomBarGrid.ColumnDefinitions[1].Width = new GridLength(0);
+                BottomBarGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                BottomRightControls.Visibility = Visibility.Visible;
+                BottomBarGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Auto);
+                BottomBarGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                BottomBarGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
+            }
+            Zen.IsChecked = ApplicationView.GetForCurrentView().IsFullScreenMode;
+            if (Zen.Icon == null)
+            {
+                Zen.Icon = new FontIcon() { Margin = new Thickness(0, -2.5, 0, 2.5), FontSize = 10 };
+            }
+            (Zen.Icon as FontIcon).Glyph = BooleanFullScreenIconConverter.Convert(ApplicationView.GetForCurrentView().IsFullScreenMode, null, null, null).ToString();
+        }
     }
 }

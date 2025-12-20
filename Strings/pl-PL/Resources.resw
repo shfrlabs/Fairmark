@@ -353,7 +353,7 @@
     <value>Pozioma linia</value>
     <comment>Bottom command bar.</comment>
   </data>
-<data name="LinkButton.Text" xml:space="preserve">
+  <data name="LinkButton.Text" xml:space="preserve">
     <value>Dodaj link</value>
     <comment>Bottom command bar.</comment>
   </data>
@@ -361,11 +361,11 @@
     <value>Nagłówek 1</value>
     <comment>Bottom command bar.</comment>
   </data>
-	<data name="Head2Button.Text" xml:space="preserve">
+  <data name="Head2Button.Text" xml:space="preserve">
     <value>Nagłówek 2</value>
     <comment>Bottom command bar.</comment>
   </data>
-	<data name="Head3Button.Text" xml:space="preserve">
+  <data name="Head3Button.Text" xml:space="preserve">
     <value>Nagłówek 3</value>
     <comment>Bottom command bar.</comment>
   </data>
@@ -658,11 +658,11 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Dodaj rozwijalne szczegóły</value>
     <comment>Bottom command bar tooltip.</comment>
   </data>
-<data name="ExpandButton.Text" xml:space="preserve">
+  <data name="ExpandButton.Text" xml:space="preserve">
     <value>Rozwijalne szczegóły</value>
     <comment>Bottom command bar.</comment>
   </data>
-	<data name="LinkDisplay.PlaceholderText" xml:space="preserve">
+  <data name="LinkDisplay.PlaceholderText" xml:space="preserve">
     <value>Wyświetlany tekst</value>
     <comment>Used in the "Add link" flyout</comment>
   </data>
@@ -762,10 +762,6 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Zarządzaj etykietami</value>
     <comment>Filter button flyout.</comment>
   </data>
-  <data name="NoteRefBtn.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Odwołaj się do notatki</value>
-    <comment>Bottom command bar.</comment>
-  </data>
   <data name="RefNote.Content" xml:space="preserve">
     <value>Wstaw odwołanie</value>
     <comment>Note reference flyout, button used to insert a reference to another note.</comment>
@@ -801,5 +797,9 @@ Don’t translate brand names or special terms unless instructed. Product names 
   <data name="PinnedGroup" xml:space="preserve">
     <value>Przypięte</value>
     <comment>Note group name in the sidebar</comment>
+  </data>
+  <data name="AIButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Fairmark AI</value>
+    <comment>Used as the tooltip in the navigation bar's Fairmark AI button.</comment>
   </data>
 </root>

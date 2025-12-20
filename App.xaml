@@ -103,7 +103,7 @@
                         <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-                        <Setter Property="MinHeight" Value="{ThemeResource TabViewItemMinHeight}"/>
+                        <Setter Property="MinHeight" Value="42"/>
                         <Setter Property="CornerRadius" Value="4" />
                         <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Template">
@@ -404,6 +404,57 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <LinearGradientBrush x:Key="OOBEShadowBrush" StartPoint="0,0" EndPoint="1,1" MappingMode="RelativeToBoundingBox">
+                        <GradientStop Color="#80AF72D3" Offset="0"/>
+                        <GradientStop Color="#808FDDF1" Offset="1"/>
+                    </LinearGradientBrush>
+
+                    <AcrylicBrush x:Key="AIAcrylic"
+                        BackgroundSource="HostBackdrop"
+                        TintColor="#AF72D3"
+                        TintOpacity="0.2"/>
+
+                    <LinearGradientBrush x:Key="AIBG2" StartPoint="0,0" EndPoint="1,1" MappingMode="RelativeToBoundingBox">
+                        <GradientStop Color="#008FDDF1" Offset="0"/>
+                        <GradientStop Color="#408FDDF1" Offset="1"/>
+                    </LinearGradientBrush>
+
+                    <Style x:Key="AIButtonMenuFlyoutPresenterStyle" TargetType="MenuFlyoutPresenter">
+                        <Setter Property="Background" Value="{ThemeResource AIAcrylic}" />
+                        <Setter Property="BorderBrush" Value="{ThemeResource OOBEShadowBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Padding" Value="6" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuFlyoutPresenter">
+                                    <Grid>
+                                            <Border x:Name="Root"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="6"
+                                                Padding="0">
+                                                    <ScrollViewer x:Name="ScrollViewer"
+                                                          HorizontalScrollMode="Disabled"
+                                                          HorizontalScrollBarVisibility="Disabled"
+                                                          VerticalScrollMode="Auto"
+                                                          VerticalScrollBarVisibility="Auto"
+                                                          IsTabStop="False"
+                                                          Background="{ThemeResource AIBG2}"
+                                                          Padding="{TemplateBinding Padding}">
+                                                        <ItemsPresenter />
+                                                    </ScrollViewer>
+                                            </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style x:Key="AIButtonMenuFlyoutStyle" TargetType="MenuFlyout">
+                        <Setter Property="MenuFlyoutPresenterStyle" Value="{StaticResource AIButtonMenuFlyoutPresenterStyle}" />
                     </Style>
                 </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
