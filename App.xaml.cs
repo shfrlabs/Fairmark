@@ -1,4 +1,5 @@
 ﻿using Fairmark.Helpers;
+using Fairmark.Intelligence;
 using System;
 using System.Diagnostics;
 using Windows.ApplicationModel;
@@ -17,7 +18,7 @@ namespace Fairmark
 {
     sealed partial class App : Application {
         public static LogHelper LogHelper = new LogHelper();
-
+        public static AISettings AISettings = new AISettings();
         public App() {
             this.InitializeComponent();
             this.Suspending += OnSuspending;

@@ -360,6 +360,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Fairmark.AI\Fairmark.Intelligence.csproj">
+      <Project>{5e14e2da-00d7-49c7-ad2e-4924b757544a}</Project>
+      <Name>Fairmark.Intelligence</Name>
+    </ProjectReference>
     <ProjectReference Include="Fairmark.AppServices\Fairmark.AppServices.csproj">
       <Project>{a0a8e73f-f3cf-43c0-9600-c735b57774c3}</Project>
       <Name>Fairmark.AppServices</Name>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.WinUI.Animations;
 using CommunityToolkit.WinUI.Media;
+using Fairmark.Intelligence;
 using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
@@ -33,6 +34,7 @@ namespace Fairmark
 {
     public sealed partial class MainPage : Page
     {
+        public Intelligence.AISettings ais => App.AISettings;
         public ResourceLoader loader = ResourceLoader.GetForCurrentView();
         public MainPage()
         {
@@ -94,6 +96,10 @@ namespace Fairmark
                 {
                     ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
                 }
+            };
+            ais.PropertyChanged += (sender, e) =>
+            {
+                SetAIButtonAvialability();
             };
             if (s.HideFromRecall)
             {
@@ -927,6 +933,7 @@ namespace Fairmark
 
         private void NoteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SetAIButtonAvialability();
             if (NoteList.SelectedItem != null)
             {
                 NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
@@ -1380,6 +1387,53 @@ namespace Fairmark
         private void TopMore_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void AIButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetAIButtonAvialability();
+        }
+
+        private void SetAIButtonAvialability()
+        {
+            if (!ais.IsAIEnabled)
+            {
+                AIButton.Visibility = Visibility.Collapsed;
+                SummarizeAIButton.IsEnabled = false;
+                ChatAIButton.IsEnabled = false;
+                CreateAIButton.IsEnabled = false;
+            }
+            else
+            {
+                AIButton.Visibility = Visibility.Visible;
+                ChatAIButton.IsEnabled = false;
+                SummarizeAIButton.IsEnabled = false;
+                CreateAIButton.IsEnabled = true;
+                if (NoteList.SelectedItem != null)
+                {
+                    NoteMetadata selectedNote = NoteList.SelectedItem as NoteMetadata;
+                    if (!string.IsNullOrWhiteSpace(selectedNote.Id))
+                    {
+                        SummarizeAIButton.IsEnabled = true;
+                        ChatAIButton.IsEnabled = true;
+                    }
+                }
+            }
+        }
+
+        private void SummarizeAIButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChatAIButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateAIButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

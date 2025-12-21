@@ -33,14 +33,14 @@
             PaneDisplayMode="LeftCompact"
             Grid.Row="1">
             <controls:NavigationView.MenuItems>
-                <!--<controls:NavigationViewItem x:Uid="AINavViewItem" Tag="AI">
-                    <controls:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xF4A5;" />
-                    </controls:NavigationViewItem.Icon>
-                </controls:NavigationViewItem>-->
                 <controls:NavigationViewItem x:Uid="DisplayNavViewItem" Tag="Display">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem x:Uid="AINavViewItem" Tag="AI">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF4A5;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
                 <controls:NavigationViewItem x:Uid="FeaturesNavViewItem" Tag="Features">

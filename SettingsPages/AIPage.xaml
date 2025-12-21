@@ -9,35 +9,25 @@
     xmlns:helpers="using:Fairmark.Helpers"
     xmlns:converters="using:Fairmark.Converters"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.Text"
+    xmlns:intelligence="using:Fairmark.Intelligence" 
     mc:Ignorable="d">
-    <!-- xmlns:intelligence="using:Fairmark.Intelligence" -->
     <ScrollViewer Padding="20">
-        <TextBlock Opacity="0.7">You shouldn't be here.</TextBlock>
-        <!--<StackPanel Orientation="Vertical" DataContext="{StaticResource Settings}">
-            <toolkit:SettingsCard IsEnabled="False" Header="Fairmark AI" Description="Allow local AI models to process your notes. No data ever leaves your device.">
-                <toolkit:SettingsCard.HeaderIcon>
-                    <FontIcon Glyph="&#xF4A5;" />
-                </toolkit:SettingsCard.HeaderIcon>
-                <ToggleSwitch IsOn="{Binding AI, Mode=TwoWay}"/>
-            </toolkit:SettingsCard>
-            <TextBlock Text="Select and download models" FontSize="13" FontWeight="SemiBold" Margin="2,10,0,7"/>
-            <Grid HorizontalAlignment="Stretch" Height="300" Background="{ThemeResource DialogBG}" CornerRadius="4">
-                <ListView SelectionMode="None">
-                    --><!--ItemsSource="{x:Bind intelligence:ModelHelper.AvailableModels}"--><!--
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding}"/>
-                                <Button Content="Download" Tag="{Binding}" x:Name="DownloadModel" Loaded="DownloadModel_Loaded" Click="DownloadModel_Click" Grid.Column="1"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </StackPanel>-->
+        <StackPanel Orientation="Vertical">
+            <TextBlock Opacity="0.7">You shouldn't be here.</TextBlock>
+            <StackPanel Orientation="Vertical" DataContext="{x:Bind ais}">
+                <toolkit:SettingsCard Header="Fairmark Intelligence" Description="Allow local or online AI models to process your notes.">
+                    <toolkit:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xF4A5;" />
+                    </toolkit:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{Binding IsAIEnabled, Mode=TwoWay}"/>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard Header="Select provider" Description="Select who should process your AI requests.">
+                    <ComboBox SelectedItem="{Binding SelectedProvider, Mode=TwoWay}" ItemsSource="{Binding AvailableProviders, Mode=OneWay}"/>
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard Header="Select model" Description="Select which of the available models should process your AI requests.">
+                    <ComboBox SelectedItem="{Binding SelectedModel, Mode=TwoWay}" ItemsSource="{Binding AvailableModels, Mode=OneWay}" DisplayMemberPath="Description"/>
+                </toolkit:SettingsCard>
+            </StackPanel>
+        </StackPanel>
     </ScrollViewer>
 </Page>

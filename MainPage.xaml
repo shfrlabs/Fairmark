@@ -80,23 +80,23 @@
                         </MenuFlyout>
                     </FlyoutBase.AttachedFlyout>
                 </AppBarButton>
-                <AppBarButton Grid.Column="3" CornerRadius="4" Width="50" Height="44" x:Name="AIButton" x:Uid="AIButton" Click="TopMore_Click">
+                <AppBarButton Grid.Column="3" CornerRadius="4" Width="50" Height="44" x:Name="AIButton" IsEnabled="{Binding ais.IsAIEnabled, Mode=TwoWay}" x:Uid="AIButton" Click="TopMore_Click" Loaded="AIButton_Loaded">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="" Margin="0,-1,0,1"/>
                     </AppBarButton.Icon>
                     <FlyoutBase.AttachedFlyout>
                         <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource AIButtonMenuFlyoutPresenterStyle}">
-                            <MenuFlyoutItem Text="Summarize">
+                            <MenuFlyoutItem Text="Summarize" x:Name="SummarizeAIButton" Click="SummarizeAIButton_Click">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8E4;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Chat">
+                            <MenuFlyoutItem Text="Chat" x:Name="ChatAIButton" Click="ChatAIButton_Click">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8F2;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Icon="Add" Text="Create"/>
+                            <MenuFlyoutItem Icon="Add" Text="Create" x:Name="CreateAIButton" Click="CreateAIButton_Click"/>
                         </MenuFlyout>
                     </FlyoutBase.AttachedFlyout>
                 </AppBarButton>

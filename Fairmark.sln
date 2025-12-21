@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11121.172 d18.0
+VisualStudioVersion = 18.0.11121.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark", "Fairmark.csproj", "{8F4911A2-F803-4A7C-BC4A-7753C429AE63}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.Converters", "Fairmark.Converters\Fairmark.Converters.csproj", "{1B68F495-3E45-40E8-BCDB-9F12E17685A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.AppServices", "Fairmark.AppServices\Fairmark.AppServices.csproj", "{A0A8E73F-F3CF-43C0-9600-C735B57774C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fairmark.Intelligence", "Fairmark.AI\Fairmark.Intelligence.csproj", "{5E14E2DA-00D7-49C7-AD2E-4924B757544A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,22 @@ Global
 		{A0A8E73F-F3CF-43C0-9600-C735B57774C3}.Release|x64.Build.0 = Release|x64
 		{A0A8E73F-F3CF-43C0-9600-C735B57774C3}.Release|x86.ActiveCfg = Release|x86
 		{A0A8E73F-F3CF-43C0-9600-C735B57774C3}.Release|x86.Build.0 = Release|x86
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|ARM.Build.0 = Debug|ARM
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|ARM64.Build.0 = Debug|ARM64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|x64.ActiveCfg = Debug|x64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|x64.Build.0 = Debug|x64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|x86.ActiveCfg = Debug|x86
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Debug|x86.Build.0 = Debug|x86
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|ARM.ActiveCfg = Release|ARM
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|ARM.Build.0 = Release|ARM
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|ARM64.ActiveCfg = Release|ARM64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|ARM64.Build.0 = Release|ARM64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|x64.ActiveCfg = Release|x64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|x64.Build.0 = Release|x64
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|x86.ActiveCfg = Release|x86
+		{5E14E2DA-00D7-49C7-AD2E-4924B757544A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

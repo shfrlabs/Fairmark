@@ -185,25 +185,6 @@ namespace Fairmark.Helpers
             }
         }
 
-        public bool AI
-        {
-            get
-            {
-                bool current = _localSettings.Values.TryGetValue("fairmarkAI", out object hideObj)
-                               && hideObj is bool b && b;
-                return current;
-            }
-            set
-            {
-                var old = AI;
-                if (old != value)
-                {
-                    _localSettings.Values["fairmarkAI"] = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AI)));
-                }
-            }
-        }
-
         public bool AccessLogs
         {
             get
