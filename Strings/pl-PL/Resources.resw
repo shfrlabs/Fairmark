@@ -802,4 +802,112 @@ Don’t translate brand names or special terms unless instructed. Product names 
     <value>Fairmark AI</value>
     <comment>Used as the tooltip in the navigation bar's Fairmark AI button.</comment>
   </data>
+  <data name="AIPage_Warning.Text" xml:space="preserve">
+    <value>Ta sekcja umożliwia testowanie funkcji przed pełnym wydaniem.</value>
+  </data>
+  <data name="AIPage_EnableAI.Header" xml:space="preserve">
+    <value>Fairmark Intelligence (BETA)</value>
+  </data>
+  <data name="AIPage_EnableAI.Description" xml:space="preserve">
+    <value>Wybierz lokalne lub sieciowe modele do przetwarzania notatek.</value>
+  </data>
+  <data name="AIPage_SelectProvider.Header" xml:space="preserve">
+    <value>Wybierz dostawcę</value>
+  </data>
+  <data name="AIPage_SelectProvider.Description" xml:space="preserve">
+    <value>Wybierz, kto przetwarza zapytania AI.</value>
+  </data>
+  <data name="AIPage_SelectModel.Header" xml:space="preserve">
+    <value>Wybierz model</value>
+  </data>
+  <data name="AIPage_SelectModel.Description" xml:space="preserve">
+    <value>Wybierz, który z dostępnych modeli odpowiada na pytania.</value>
+  </data>
+  <data name="AIPage_ApiKey.Header" xml:space="preserve">
+    <value>Klucz API</value>
+  </data>
+  <data name="AIPage_ApiKey.Description" xml:space="preserve">
+    <value>Jeżeli wybrany dostawca wymaga klucza API, wpisz go tutaj.</value>
+  </data>
+  <data name="AIPage_ApiKeyInput.PlaceholderText" xml:space="preserve">
+    <value>Wpisz tu klucz API</value>
+  </data>
+  <data name="AIPage_TestExpander.Header" xml:space="preserve">
+    <value>Potrzeba coś przetestować?</value>
+  </data>
+  <data name="AIPage_TestExpander.Description" xml:space="preserve">
+    <value>Możesz tutaj sprawdzić, jak dostawcy odpowiadają na zapytania aplikacji.</value>
+  </data>
+  <data name="Provider_Debug" xml:space="preserve">
+    <value>Dostawca do debugowania</value>
+  </data>
+  <data name="Provider_Pollinations" xml:space="preserve">
+    <value>Pollinations.ai</value>
+  </data>
+  <data name="Model_Error_Description" xml:space="preserve">
+    <value>Problem z pobieraniem modeli</value>
+  </data>
+  <data name="Model_Fallback_OpenAI" xml:space="preserve">
+    <value>OpenAI (rezerwowy)</value>
+  </data>
+  <data name="Model_Debug_Description" xml:space="preserve">
+    <value>Model LLM do debugowania (fałszywy)</value>
+  </data>
+  <data name="AIPage_Status_Processing" xml:space="preserve">
+    <value>Przetwarzanie...</value>
+  </data>
+  <data name="AIPage_Error_NoSelection" xml:space="preserve">
+    <value>Nie wybrano modelu lub dostawcy.</value>
+  </data>
+  <data name="AIPage_Error_Instantiation" xml:space="preserve">
+    <value>Problem z uruchomieniem instancji dostawcy.</value>
+  </data>
+  <data name="AIPage_Status_Completed" xml:space="preserve">
+    <value>[Gotowe]</value>
+  </data>
+  <data name="AIPage_Status_Cancelled" xml:space="preserve">
+    <value>[Anulowane]</value>
+  </data>
+  <data name="AIPage_Error_Generic" xml:space="preserve">
+    <value>Błąd: {0}</value>
+  </data>
+  <data name="Error_ConnectionFailed" xml:space="preserve">
+    <value>Błąd połączenia: {0}</value>
+  </data>
+  <data name="Error_ApiReturned" xml:space="preserve">
+    <value>API zwróciło {0}</value>
+  </data>
+  <data name="Title_ConnectionError" xml:space="preserve">
+    <value>Problem z połączeniem</value>
+  </data>
+  <data name="Title_ApiError" xml:space="preserve">
+    <value>Problem z API</value>
+  </data>
+  <data name="Title_ChatResponse" xml:space="preserve">
+    <value>Tytuł odpowiedzi czatu</value>
+  </data>
+  <data name="Title_PollinationsResponse" xml:space="preserve">
+    <value>Pollinations AI</value>
+  </data>
+  <data name="AIPage_TestInput.PlaceholderText" xml:space="preserve">
+    <value>Przetestuj LLM tutaj</value>
+  </data>
+  <data name="AIPage_SendButton.Content" xml:space="preserve">
+    <value>Wyślij</value>
+  </data>
+  <data name="ReviewTip.ActionButtonContent" xml:space="preserve">
+    <value>Oceń aplikację</value>
+  </data>
+  <data name="ReviewTip.CloseButtonContent" xml:space="preserve">
+    <value>Nie pytaj ponownie</value>
+  </data>
+  <data name="ReviewTip.Subtitle" xml:space="preserve">
+    <value>Rozważ pozostawienie recenzji lub opinii! Możesz się ze mną skontaktować, klikając w menu z trzema kropkami u góry.</value>
+  </data>
+  <data name="ReviewTip.Title" xml:space="preserve">
+    <value>👋 Lubisz Fairmarka?</value>
+  </data>
+  <data name="ReviewBtn.Content" xml:space="preserve">
+    <value>Oceń nas!</value>
+  </data>
 </root>

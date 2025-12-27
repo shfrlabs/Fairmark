@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Fairmark.Intelligence
@@ -14,108 +16,115 @@ namespace Fairmark.Intelligence
         private const string ModelKey = "selectedModel";
         private const string AIEnabledKey = "fairmarkAI";
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private LLMModelInfo[] _availableModels = Array.Empty<LLMModelInfo>();
+
         public AISettings()
         {
+            // Opcjonalnie: zainicjuj ładowanie modeli dla domyślnego dostawcy przy starcie
+            _ = UpdateAvailableModelsAsync();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public string[] AvailableProviders
         {
             get
             {
-                List<string> providers = new List<string>();
+                // Refleksja jest OK, ale warto odfiltrować abstrakcyjne typy
                 var providerAssembly = typeof(ILLMProvider).Assembly;
-                var providerTypes = providerAssembly.GetTypes()
-                    .Where(t => typeof(ILLMProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-                foreach (var type in providerTypes)
-                {
-                    if (Activator.CreateInstance(type) is ILLMProvider provider)
-                    {
-                        providers.Add(provider.Name);
-                    }
-                }
-                return providers.ToArray();
+                return providerAssembly.GetTypes()
+                    .Where(t => typeof(ILLMProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    .Select(t => {
+                        try
+                        {
+                            // Tworzymy instancję tylko by pobrać nazwę
+                            return (Activator.CreateInstance(t) as ILLMProvider)?.Name;
+                        }
+                        catch { return null; }
+                    })
+                    .Where(name => name != null)
+                    .ToArray();
             }
         }
 
         public LLMModelInfo[] AvailableModels
         {
-            get
+            get => _availableModels;
+            private set
             {
-                var providerType = ProviderByName(SelectedProvider);
-                if (providerType != null && Activator.CreateInstance(providerType) is ILLMProvider provider)
+                _availableModels = value;
+                OnPropertyChanged(nameof(AvailableModels));
+                // Powiadamiamy, że SelectedModel mógł się zmienić w wyniku zmiany listy modeli
+                OnPropertyChanged(nameof(SelectedModel));
+            }
+        }
+
+        public async Task UpdateAvailableModelsAsync()
+        {
+            var providerType = ProviderByName(SelectedProvider);
+            if (providerType != null && Activator.CreateInstance(providerType) is ILLMProvider provider)
+            {
+                try
                 {
-                    return provider.GetAvailableModels().ToArray();
+                    var models = await provider.GetAvailableModelsAsync();
+                    AvailableModels = models?.ToArray() ?? Array.Empty<LLMModelInfo>();
+                    ValidateSelectedModel();
                 }
-                return new LLMModelInfo[0];
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to load models for {provider.Name}: {ex.Message}");
+                    AvailableModels = Array.Empty<LLMModelInfo>();
+                }
+            }
+        }
+
+        private void ValidateSelectedModel()
+        {
+            var currentModelName = _localSettings.Values.ContainsKey(ModelKey) ? _localSettings.Values[ModelKey]?.ToString() : null;
+            var match = AvailableModels.FirstOrDefault(m => m.Name == currentModelName);
+
+            // Jeśli zapamiętany model nie istnieje w nowym dostawcy, wybierz pierwszy dostępny
+            if (match == null && AvailableModels.Length > 0)
+            {
+                SelectedModel = AvailableModels[0];
             }
         }
 
         public Type ProviderByName(string name)
         {
             var providerAssembly = typeof(ILLMProvider).Assembly;
-            var providerTypes = providerAssembly.GetTypes()
-                .Where(t => typeof(ILLMProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-            var result = providerTypes.FirstOrDefault(t =>
-            {
-                if (Activator.CreateInstance(t) is ILLMProvider provider)
+            return providerAssembly.GetTypes()
+                .Where(t => typeof(ILLMProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                .FirstOrDefault(t =>
                 {
-                    return provider.Name == name;
-                }
-                return false;
-            });
-            return result;
+                    try
+                    {
+                        return (Activator.CreateInstance(t) as ILLMProvider)?.Name == name;
+                    }
+                    catch { return false; }
+                });
         }
 
         public string SelectedProvider
         {
             get
             {
-                string providerName = null;
-                if (_localSettings.Values.TryGetValue(ProviderKey, out object providerObj) && providerObj is string pn && !string.IsNullOrWhiteSpace(pn))
+                if (_localSettings.Values.TryGetValue(ProviderKey, out object providerObj) && providerObj is string pn)
                 {
-                    if (AvailableProviders.Contains(pn))
-                        providerName = pn;
+                    return pn;
                 }
-                if (providerName == null)
-                    providerName = AvailableProviders.FirstOrDefault() ?? string.Empty;
-                return providerName;
+                return AvailableProviders.FirstOrDefault() ?? string.Empty;
             }
             set
             {
-                string newProvider = value;
-                if (!string.IsNullOrWhiteSpace(newProvider) && AvailableProviders.Contains(newProvider))
+                if (SelectedProvider != value)
                 {
-                    _localSettings.Values[ProviderKey] = newProvider;
-                }
-                else if (AvailableProviders.Length > 0)
-                {
-                    newProvider = AvailableProviders[0];
-                    _localSettings.Values[ProviderKey] = newProvider;
-                }
-                else
-                {
-                    newProvider = string.Empty;
-                    _localSettings.Values[ProviderKey] = newProvider;
-                }
+                    _localSettings.Values[ProviderKey] = value;
+                    OnPropertyChanged(nameof(SelectedProvider));
 
-                string newModelName = string.Empty;
-                if (!string.IsNullOrEmpty(newProvider))
-                {
-                    var providerType = ProviderByName(newProvider);
-                    if (providerType != null && Activator.CreateInstance(providerType) is ILLMProvider provider)
-                    {
-                        var availableModels = provider.GetAvailableModels();
-                        newModelName = availableModels.FirstOrDefault()?.Name ?? string.Empty;
-                    }
+                    // Odśwież modele asynchronicznie - to zaktualizuje AvailableModels i SelectedModel
+                    _ = UpdateAvailableModelsAsync();
                 }
-                _localSettings.Values[ModelKey] = newModelName;
-                OnPropertyChanged(nameof(SelectedProvider));
-                OnPropertyChanged(nameof(AvailableModels));
-                OnPropertyChanged(nameof(SelectedModel));
             }
         }
 
@@ -123,38 +132,18 @@ namespace Fairmark.Intelligence
         {
             get
             {
-                string providerName = SelectedProvider;
-                var availableModels = AvailableModels;
-                if (string.IsNullOrEmpty(providerName) || availableModels == null || availableModels.Length == 0)
-                    return availableModels?.FirstOrDefault();
-
-                if (_localSettings.Values.TryGetValue(ModelKey, out object modelObj) && modelObj is string modelName && !string.IsNullOrWhiteSpace(modelName))
-                {
-                    var found = availableModels.FirstOrDefault(m => m.Name == modelName);
-                    if (found != null)
-                        return found;
-                }
-                return availableModels.FirstOrDefault();
+                var modelName = _localSettings.Values.ContainsKey(ModelKey) ? _localSettings.Values[ModelKey]?.ToString() : null;
+                return AvailableModels.FirstOrDefault(m => m.Name == modelName) ?? AvailableModels.FirstOrDefault();
             }
             set
             {
-                var availableModels = AvailableModels;
-                if (value == null || availableModels == null || availableModels.Length == 0)
+                if (value != null)
                 {
-                    var fallback = availableModels?.FirstOrDefault();
-                    _localSettings.Values[ModelKey] = fallback?.Name ?? string.Empty;
-                    OnPropertyChanged(nameof(SelectedModel));
-                    return;
-                }
-                var match = availableModels.FirstOrDefault(m => m.Name == value.Name);
-                if (match != null)
-                {
-                    _localSettings.Values[ModelKey] = match.Name;
+                    _localSettings.Values[ModelKey] = value.Name;
                 }
                 else
                 {
-                    var fallback = availableModels.FirstOrDefault();
-                    _localSettings.Values[ModelKey] = fallback?.Name ?? string.Empty;
+                    _localSettings.Values[ModelKey] = string.Empty;
                 }
                 OnPropertyChanged(nameof(SelectedModel));
             }
@@ -162,10 +151,7 @@ namespace Fairmark.Intelligence
 
         public bool IsAIEnabled
         {
-            get
-            {
-                return _localSettings.Values.TryGetValue(AIEnabledKey, out object aiObj) && aiObj is bool b && b;
-            }
+            get => _localSettings.Values.TryGetValue(AIEnabledKey, out object aiObj) && aiObj is bool b && b;
             set
             {
                 _localSettings.Values[AIEnabledKey] = value;
@@ -175,8 +161,7 @@ namespace Fairmark.Intelligence
 
         public void RefreshModels()
         {
-            OnPropertyChanged(nameof(AvailableModels));
-            OnPropertyChanged(nameof(SelectedModel));
+            _ = UpdateAvailableModelsAsync();
         }
 
         protected void OnPropertyChanged(string propertyName)

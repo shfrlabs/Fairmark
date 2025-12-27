@@ -13,20 +13,37 @@
     mc:Ignorable="d">
     <ScrollViewer Padding="20">
         <StackPanel Orientation="Vertical">
-            <TextBlock Opacity="0.7">You shouldn't be here.</TextBlock>
+            <TextBlock x:Uid="AIPage_Warning" Opacity="0.7" Margin="5" />
+
             <StackPanel Orientation="Vertical" DataContext="{x:Bind ais}">
-                <toolkit:SettingsCard Header="Fairmark Intelligence" Description="Allow local or online AI models to process your notes.">
+                <toolkit:SettingsCard x:Uid="AIPage_EnableAI">
                     <toolkit:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xF4A5;" />
                     </toolkit:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{Binding IsAIEnabled, Mode=TwoWay}"/>
                 </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Select provider" Description="Select who should process your AI requests.">
+
+                <toolkit:SettingsCard x:Uid="AIPage_SelectProvider">
                     <ComboBox SelectedItem="{Binding SelectedProvider, Mode=TwoWay}" ItemsSource="{Binding AvailableProviders, Mode=OneWay}"/>
                 </toolkit:SettingsCard>
-                <toolkit:SettingsCard Header="Select model" Description="Select which of the available models should process your AI requests.">
+
+                <toolkit:SettingsCard x:Uid="AIPage_SelectModel">
                     <ComboBox SelectedItem="{Binding SelectedModel, Mode=TwoWay}" ItemsSource="{Binding AvailableModels, Mode=OneWay}" DisplayMemberPath="Description"/>
                 </toolkit:SettingsCard>
+
+                <toolkit:SettingsCard x:Uid="AIPage_ApiKey" DataContext="{x:Bind currentProvider, Mode=OneWay}">
+                    <TextBox x:Uid="AIPage_ApiKeyInput" Text="{Binding ApiKey, Mode=TwoWay}" MinWidth="250" />
+                </toolkit:SettingsCard>
+
+                <toolkit:SettingsExpander x:Uid="AIPage_TestExpander">
+                    <toolkit:SettingsExpander.Items>
+                        <StackPanel Orientation="Vertical">
+                            <TextBox x:Uid="AIPage_TestInput" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Button x:Name="Send" x:Uid="AIPage_SendButton" HorizontalAlignment="Left" Click="Send_Click" Margin="0,10,0,0" />
+                            <TextBlock x:Name="Response" TextWrapping="Wrap" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

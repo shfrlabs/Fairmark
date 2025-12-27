@@ -1,26 +1,28 @@
-﻿using System;
+﻿using Fairmark.Intelligence.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using Fairmark.Intelligence.Models;
+using System.Threading.Tasks;
 
 namespace Fairmark.Intelligence
 {
     public interface ILLMProvider
     {
         string Name { get; }
-        IEnumerable<LLMModelInfo> GetAvailableModels();
+        string ApiKey { get; set; }
+        Task<IEnumerable<LLMModelInfo>> GetAvailableModelsAsync();
 
-        IEnumerable<LLMStreamedNote> StreamSummarizeNote(
+        IAsyncEnumerable<LLMStreamedNote> StreamSummarizeNote(
             string noteContent,
             string modelName = null,
             CancellationToken cancellationToken = default);
 
-        IEnumerable<LLMStreamedNote> StreamCreateNote(
+        IAsyncEnumerable<LLMStreamedNote> StreamCreateNote(
             string promptOrDocument,
             string modelName = null,
             CancellationToken cancellationToken = default);
 
-        IEnumerable<LLMStreamedNote> StreamChat(
+        IAsyncEnumerable<LLMStreamedNote> StreamChat(
             IEnumerable<LLMChatMessage> chatHistory,
             string modelName = null,
             CancellationToken cancellationToken = default);

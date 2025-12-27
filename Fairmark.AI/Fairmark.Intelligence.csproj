@@ -16,6 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -122,18 +123,23 @@
   <ItemGroup>
     <Compile Include="AISettings.cs" />
     <Compile Include="ILLMProvider.cs" />
+    <Compile Include="Keys.cs" />
     <Compile Include="Models\LLMChatMessage.cs" />
     <Compile Include="Models\LLMModelInfo.cs" />
     <Compile Include="Models\LLMStreamedNote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DebugProvider2.cs" />
     <Compile Include="Providers\DebugProvider.cs" />
+    <Compile Include="Providers\PollinationsProvider.cs" />
     <Compile Include="SystemPrompts.cs" />
     <EmbeddedResource Include="Properties\Fairmark.AI.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>10.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
