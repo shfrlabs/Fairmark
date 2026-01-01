@@ -339,6 +339,12 @@
 	            PlacementMargin="10"
                 ActionButtonStyle="{ThemeResource AccentButtonStyle}">
             </controls:TeachingTip>
+            <controls:TeachingTip x:Name="AnnouncementTip"
+                Grid.Column="1"
+                PreferredPlacement="BottomRight"
+                PlacementMargin="10"
+                IsOpen="False">
+            </controls:TeachingTip>
         </Grid>
     </Grid>
 </Page>

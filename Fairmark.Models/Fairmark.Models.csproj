@@ -121,6 +121,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Announcement.cs" />
     <Compile Include="CardItem.cs" />
     <Compile Include="NoteGroup.cs" />
     <Compile Include="NoteMetadata.cs" />

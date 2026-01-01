@@ -110,7 +110,25 @@ namespace Fairmark
                 ApplicationView.GetForCurrentView().IsScreenCaptureEnabled = true;
             }
             _ = AuthenticateAsync(s);
+            _ = UpdateAnnouncements();
 
+        }
+
+        private async Task<bool> UpdateAnnouncements()
+        {
+            Announcement announcement = await AnnouncementHelper.GetCurrentAnnoucement();
+            if (announcement != null)
+            {
+                AnnouncementTip.Subtitle = announcement.message;
+                AnnouncementTip.CloseButtonClick += (s, e) =>
+                {
+                    AnnouncementHelper.DismissAnnouncement(announcement.id);
+                    AnnouncementTip.IsOpen = false;
+                };
+                AnnouncementTip.IsOpen = true;
+                return true;
+            }
+            return false;
         }
 
         private async Task AuthenticateAsync(Settings s) {

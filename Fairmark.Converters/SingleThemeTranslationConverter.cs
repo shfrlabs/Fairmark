@@ -18,7 +18,6 @@ namespace Fairmark.Converters {
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             if (value is string localizedTheme) {
-                // Find the original theme name by checking which localized string matches
                 foreach (var originalTheme in _originalThemes) {
                     var resourceKey = $"Theme_{originalTheme}";
                     var localizedValue = _resourceLoader.GetString(resourceKey);
@@ -29,7 +28,6 @@ namespace Fairmark.Converters {
                     }
                 }
 
-                // Fallback: return the value as-is if no match found
                 return localizedTheme;
             }
             return value;

@@ -22,7 +22,6 @@ namespace Fairmark.Intelligence
 
         public AISettings()
         {
-            // Opcjonalnie: zainicjuj ładowanie modeli dla domyślnego dostawcy przy starcie
             _ = UpdateAvailableModelsAsync();
         }
 
@@ -30,14 +29,12 @@ namespace Fairmark.Intelligence
         {
             get
             {
-                // Refleksja jest OK, ale warto odfiltrować abstrakcyjne typy
                 var providerAssembly = typeof(ILLMProvider).Assembly;
                 return providerAssembly.GetTypes()
                     .Where(t => typeof(ILLMProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                     .Select(t => {
                         try
                         {
-                            // Tworzymy instancję tylko by pobrać nazwę
                             return (Activator.CreateInstance(t) as ILLMProvider)?.Name;
                         }
                         catch { return null; }
@@ -54,37 +51,62 @@ namespace Fairmark.Intelligence
             {
                 _availableModels = value;
                 OnPropertyChanged(nameof(AvailableModels));
-                // Powiadamiamy, że SelectedModel mógł się zmienić w wyniku zmiany listy modeli
                 OnPropertyChanged(nameof(SelectedModel));
             }
         }
 
+        private string GetPerProviderModelKey()
+        {
+            var provider = SelectedProvider;
+            if (string.IsNullOrEmpty(provider)) return ModelKey;
+            return $"{ModelKey}_{provider}";
+        }
+
         public async Task UpdateAvailableModelsAsync()
         {
+            Debug.WriteLine($"[PollinationsDebug] UpdateAvailableModelsAsync for provider: {SelectedProvider}");
             var providerType = ProviderByName(SelectedProvider);
+
             if (providerType != null && Activator.CreateInstance(providerType) is ILLMProvider provider)
             {
                 try
                 {
+                    Debug.WriteLine($"[PollinationsDebug] Calling GetAvailableModelsAsync on {provider.Name}...");
                     var models = await provider.GetAvailableModelsAsync();
-                    AvailableModels = models?.ToArray() ?? Array.Empty<LLMModelInfo>();
+
+                    var modelArray = models?.ToArray() ?? Array.Empty<LLMModelInfo>();
+                    Debug.WriteLine($"[PollinationsDebug] Models loaded: {modelArray.Length}");
+
+                    AvailableModels = modelArray;
                     ValidateSelectedModel();
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Failed to load models for {provider.Name}: {ex.Message}");
+                    Debug.WriteLine($"[PollinationsDebug] Failed to load models for {provider.Name}: {ex}");
                     AvailableModels = Array.Empty<LLMModelInfo>();
                 }
+            }
+            else
+            {
+                Debug.WriteLine($"[PollinationsDebug] Could not instantiate provider or provider is null.");
             }
         }
 
         private void ValidateSelectedModel()
         {
-            var currentModelName = _localSettings.Values.ContainsKey(ModelKey) ? _localSettings.Values[ModelKey]?.ToString() : null;
+            string specificKey = GetPerProviderModelKey();
+
+            var currentModelName = _localSettings.Values.ContainsKey(specificKey)
+                ? _localSettings.Values[specificKey]?.ToString()
+                : null;
+
             var match = AvailableModels.FirstOrDefault(m => m.Name == currentModelName);
 
-            // Jeśli zapamiętany model nie istnieje w nowym dostawcy, wybierz pierwszy dostępny
-            if (match == null && AvailableModels.Length > 0)
+            if (match != null)
+            {
+                SelectedModel = match;
+            }
+            else if (AvailableModels.Length > 0)
             {
                 SelectedModel = AvailableModels[0];
             }
@@ -121,8 +143,6 @@ namespace Fairmark.Intelligence
                 {
                     _localSettings.Values[ProviderKey] = value;
                     OnPropertyChanged(nameof(SelectedProvider));
-
-                    // Odśwież modele asynchronicznie - to zaktualizuje AvailableModels i SelectedModel
                     _ = UpdateAvailableModelsAsync();
                 }
             }
@@ -132,18 +152,25 @@ namespace Fairmark.Intelligence
         {
             get
             {
-                var modelName = _localSettings.Values.ContainsKey(ModelKey) ? _localSettings.Values[ModelKey]?.ToString() : null;
+                string specificKey = GetPerProviderModelKey();
+
+                var modelName = _localSettings.Values.ContainsKey(specificKey)
+                    ? _localSettings.Values[specificKey]?.ToString()
+                    : null;
+
                 return AvailableModels.FirstOrDefault(m => m.Name == modelName) ?? AvailableModels.FirstOrDefault();
             }
             set
             {
+                string specificKey = GetPerProviderModelKey();
+
                 if (value != null)
                 {
-                    _localSettings.Values[ModelKey] = value.Name;
+                    _localSettings.Values[specificKey] = value.Name;
                 }
                 else
                 {
-                    _localSettings.Values[ModelKey] = string.Empty;
+                    _localSettings.Values[specificKey] = string.Empty;
                 }
                 OnPropertyChanged(nameof(SelectedModel));
             }
@@ -151,7 +178,10 @@ namespace Fairmark.Intelligence
 
         public bool IsAIEnabled
         {
-            get => _localSettings.Values.TryGetValue(AIEnabledKey, out object aiObj) && aiObj is bool b && b;
+            get {
+                //return _localSettings.Values.TryGetValue(AIEnabledKey, out object aiObj) && aiObj is bool b && b;
+                return false;
+            }
             set
             {
                 _localSettings.Values[AIEnabledKey] = value;

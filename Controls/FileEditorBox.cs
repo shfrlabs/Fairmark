@@ -237,12 +237,6 @@ namespace Fairmark.Controls
             _innerBox.SelectionStart = start + instext.Length;
             _innerBox.SelectionLength = 0;
         }
-
-        /// <summary>
-        /// Toggles markdown formatting on the selected text or the current word.
-        /// If no selection, applies formatting to the word where cursor is positioned.
-        /// Detects existing formatting even if only the content (not markers) is selected.
-        /// </summary>
         private void ToggleMarkdownFormatting(string marker)
         {
             if (_innerBox == null) return;
@@ -254,33 +248,27 @@ namespace Fairmark.Controls
             if (start < 0 || start > text.Length) start = text.Length;
             if (length < 0 || start + length > text.Length) length = text.Length - start;
 
-            // If no selection, select the current word
             if (length == 0)
             {
                 var wordBounds = GetWordBounds(text, start);
                 start = wordBounds.start;
                 length = wordBounds.length;
 
-                // If cursor is at whitespace/empty, don't format
                 if (length == 0)
                     return;
             }
 
             string selectedText = text.Substring(start, length);
 
-            // Check if content is already formatted (look for markers around selected content)
             var formatInfo = DetectFormattingAround(text, start, length, marker);
 
             if (formatInfo.isFormatted)
             {
-                // Remove formatting - delete markers before and after
                 int markerStart = formatInfo.markerStart;
                 int markerEnd = formatInfo.markerEnd;
                 int contentLength = formatInfo.contentLength;
 
-                // Remove end markers first (to not mess up indices)
                 text = text.Remove(markerEnd, marker.Length);
-                // Then remove start markers
                 text = text.Remove(markerStart, marker.Length);
 
                 Text = text;
@@ -289,7 +277,6 @@ namespace Fairmark.Controls
             }
             else
             {
-                // Add formatting
                 string wrappedText = marker + selectedText + marker;
                 text = text.Remove(start, length).Insert(start, wrappedText);
 
@@ -298,31 +285,23 @@ namespace Fairmark.Controls
                 _innerBox.SelectionLength = length;
             }
         }
-
-        /// <summary>
-        /// Gets the bounds of the word at the given position
-        /// </summary>
         private (int start, int length) GetWordBounds(string text, int cursorPos)
         {
             if (string.IsNullOrEmpty(text) || cursorPos < 0 || cursorPos > text.Length)
                 return (cursorPos, 0);
 
-            // If cursor is at a space or punctuation, return zero length
             if (cursorPos < text.Length && (char.IsWhiteSpace(text[cursorPos]) || char.IsPunctuation(text[cursorPos])))
             {
-                // Check if we're between word characters (at a space)
                 if (cursorPos > 0 && char.IsLetterOrDigit(text[cursorPos - 1]))
                     return (cursorPos, 0);
             }
 
-            // Find start of word
             int wordStart = cursorPos;
             while (wordStart > 0 && (char.IsLetterOrDigit(text[wordStart - 1]) || text[wordStart - 1] == '_'))
             {
                 wordStart--;
             }
 
-            // Find end of word
             int wordEnd = cursorPos;
             while (wordEnd < text.Length && (char.IsLetterOrDigit(text[wordEnd]) || text[wordEnd] == '_'))
             {
@@ -331,20 +310,13 @@ namespace Fairmark.Controls
 
             return (wordStart, wordEnd - wordStart);
         }
-
-        /// <summary>
-        /// Detects if content is already wrapped with the given markdown marker
-        /// </summary>
         private (bool isFormatted, int markerStart, int markerEnd, int contentLength) DetectFormattingAround(string text, int contentStart, int contentLength, string marker)
         {
-            // Check if there are markers before and after the content
             int markerLen = marker.Length;
 
-            // Check before
             bool hasMarkerBefore = contentStart >= markerLen &&
                                    text.Substring(contentStart - markerLen, markerLen) == marker;
 
-            // Check after
             bool hasMarkerAfter = contentStart + contentLength + markerLen <= text.Length &&
                                   text.Substring(contentStart + contentLength, markerLen) == marker;
 
@@ -353,7 +325,6 @@ namespace Fairmark.Controls
                 return (true, contentStart - markerLen, contentStart + contentLength, contentLength);
             }
 
-            // Also check if selection already includes the markers
             if (contentLength >= 2 * markerLen)
             {
                 string selectedText = text.Substring(contentStart, contentLength);
@@ -365,10 +336,6 @@ namespace Fairmark.Controls
 
             return (false, 0, 0, 0);
         }
-
-        /// <summary>
-        /// Adds a prefix to the beginning of the current line(s)
-        /// </summary>
         private void InsertLinePrefix(string prefix)
         {
             if (_innerBox == null) return;
@@ -382,21 +349,18 @@ namespace Fairmark.Controls
             if (selectionLength < 0) selectionLength = 0;
             if (start + selectionLength > text.Length) selectionLength = text.Length - start;
 
-            // Find line start
             int lineStart = start;
             while (lineStart > 0 && text[lineStart - 1] != '\n')
             {
                 lineStart--;
             }
 
-            // Find line end
             int lineEnd = start + selectionLength;
             while (lineEnd < text.Length && text[lineEnd] != '\n')
             {
                 lineEnd++;
             }
 
-            // If there's a selection spanning multiple lines, process all lines
             if (selectionLength > 0 && text.Substring(start, selectionLength).Contains('\n'))
             {
                 lineStart = start;
@@ -423,7 +387,6 @@ namespace Fairmark.Controls
             }
             else
             {
-                // Single line - check if prefix already exists
                 string lineContent = text.Substring(lineStart, lineEnd - lineStart);
                 string newLine = ProcessLinePrefix(lineContent, prefix);
 
@@ -436,22 +399,15 @@ namespace Fairmark.Controls
                 }
             }
         }
-
-        /// <summary>
-        /// Processes a single line to add/remove/replace prefix
-        /// For headings, removes old heading level before adding new one
-        /// </summary>
         private string ProcessLinePrefix(string line, string prefix)
         {
             if (string.IsNullOrWhiteSpace(line))
                 return line;
 
-            // Check if this is a heading prefix (# followed by space)
             bool isHeadingPrefix = prefix.StartsWith("#") && prefix.EndsWith(" ");
             
             if (isHeadingPrefix)
             {
-                // Remove any existing heading prefix first
                 string trimmedLine = line.TrimStart();
                 int hashCount = 0;
                 while (hashCount < trimmedLine.Length && trimmedLine[hashCount] == '#')
@@ -459,35 +415,27 @@ namespace Fairmark.Controls
                     hashCount++;
                 }
 
-                // If line starts with #'s followed by space, it's a heading
                 if (hashCount > 0 && hashCount < trimmedLine.Length && trimmedLine[hashCount] == ' ')
                 {
-                    // Remove the old heading
                     trimmedLine = trimmedLine.Substring(hashCount + 1);
                     
-                    // Check if new prefix is same level as old - toggle off
                     if (prefix == new string('#', hashCount) + " ")
                     {
                         return trimmedLine;
                     }
                     
-                    // Replace with new heading level
                     return prefix + trimmedLine;
                 }
 
-                // Line doesn't have a heading yet - add it
                 return prefix + line;
             }
 
-            // Non-heading prefix (bullet, quote)
             if (line.StartsWith(prefix))
             {
-                // Remove prefix (toggle off)
                 return line.Substring(prefix.Length);
             }
             else
             {
-                // Add prefix
                 return prefix + line;
             }
         }
@@ -509,13 +457,11 @@ namespace Fairmark.Controls
 
             bool newHasSelection = _innerBox.SelectionLength > 0;
             
-            // Only update if selection state changed
             if (newHasSelection != HasSelection)
             {
                 HasSelection = newHasSelection;
             }
 
-            // Update Cut/Copy availability based on selection
             CutCommand?.RaiseCanExecuteChanged();
             CopyCommand?.RaiseCanExecuteChanged();
         }

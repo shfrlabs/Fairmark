@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using System.Diagnostics;
 
 namespace Fairmark.AI.Providers
 {
@@ -22,6 +23,18 @@ namespace Fairmark.AI.Providers
         public string Name => _loader.GetString("Provider_Pollinations");
         private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
+        public string LastUsedModel
+        {
+            get
+            {
+                string current = _localSettings.Values["pollinationsLastModel"] as string;
+                return current;
+            }
+            set
+            {
+                _localSettings.Values["pollinationsLastModel"] = value?.Trim();
+            }
+        }
         public string ApiKey
         {
             get
@@ -31,7 +44,7 @@ namespace Fairmark.AI.Providers
             }
             set
             {
-                _localSettings.Values["pollinationsKey"] = value;
+                _localSettings.Values["pollinationsKey"] = value?.Trim();
             }
         }
 
@@ -41,7 +54,13 @@ namespace Fairmark.AI.Providers
 
         public async Task<IEnumerable<LLMModelInfo>> GetAvailableModelsAsync()
         {
-            if (_cachedModels != null) return _cachedModels;
+            Debug.WriteLine($"[PollinationsDebug] GetAvailableModelsAsync started.");
+
+            if (_cachedModels != null)
+            {
+                Debug.WriteLine($"[PollinationsDebug] Returning cached models. Count: {_cachedModels.Count}");
+                return _cachedModels;
+            }
 
             await _modelLock.WaitAsync();
             try
@@ -49,21 +68,26 @@ namespace Fairmark.AI.Providers
                 if (_cachedModels != null) return _cachedModels;
 
                 var fetchedModels = new List<LLMModelInfo>();
+                string requestUrl = $"{BaseUrl}/models";
 
-                // Pollinations models endpoint often returns a simple array of strings
-                using var request = new HttpRequestMessage(HttpMethod.Get, $"{BaseUrl}/models");
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+                Debug.WriteLine($"[PollinationsDebug] Fetching models from: {requestUrl}");
+
+                using var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", string.IsNullOrWhiteSpace(ApiKey) ? "dummy" : ApiKey);
 
                 using var response = await _httpClient.SendAsync(request);
 
+                Debug.WriteLine($"[PollinationsDebug] Models response status: {response.StatusCode}");
+
                 if (!response.IsSuccessStatusCode)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Pollinations /models failed: {response.StatusCode}");
-                    // Fallback to default if API fails
-                    return new[] { new LLMModelInfo { Name = "error", Description = "🔑" } };
+                    Debug.WriteLine($"[PollinationsDebug] Failed to fetch models. Status: {response.StatusCode}. Reason: {response.ReasonPhrase}");
+                    return new[] { new LLMModelInfo { Name = "error", Description = "🔑 Error fetching models" } };
                 }
 
                 var json = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"[PollinationsDebug] Models raw JSON: {json}");
+
                 using var doc = JsonDocument.Parse(json);
 
                 if (doc.RootElement.ValueKind == JsonValueKind.Array)
@@ -73,7 +97,6 @@ namespace Fairmark.AI.Providers
                         string modelName = null;
                         string description = null;
 
-                        // HANDLE BOTH FORMATS: ["gpt-4"] OR [{"name": "gpt-4", ...}]
                         if (element.ValueKind == JsonValueKind.String)
                         {
                             modelName = element.GetString();
@@ -95,18 +118,23 @@ namespace Fairmark.AI.Providers
                         }
                     }
                 }
+                else
+                {
+                    Debug.WriteLine($"[PollinationsDebug] Unexpected JSON root kind: {doc.RootElement.ValueKind}");
+                }
 
-                // If list is empty (parsing failed), add default
                 if (fetchedModels.Count == 0)
                 {
+                    Debug.WriteLine("[PollinationsDebug] Parsed model list is empty. Adding fallback.");
                     fetchedModels.Add(new LLMModelInfo { Name = "openai", Description = "OpenAI" });
                 }
 
+                Debug.WriteLine($"[PollinationsDebug] Successfully cached {fetchedModels.Count} models.");
                 _cachedModels = fetchedModels;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Pollinations Model Fetch Error: {ex.Message}");
+                Debug.WriteLine($"[PollinationsDebug] Model Fetch Exception: {ex}");
                 return new[] { new LLMModelInfo { Name = "openai", Description = "OpenAI (Fallback)" } };
             }
             finally
@@ -121,34 +149,43 @@ namespace Fairmark.AI.Providers
         {
             if (string.IsNullOrEmpty(modelName)) modelName = "openai";
 
+            Debug.WriteLine($"[PollinationsDebug] StreamChat started. Model: {modelName}");
+
+            var messages = BuildMessages(chatHistory);
             var requestPayload = new
             {
                 model = modelName,
-                messages = BuildMessages(chatHistory),
+                messages = messages,
                 stream = true
             };
 
             var jsonPayload = JsonSerializer.Serialize(requestPayload);
+            string url = $"{BaseUrl}/openai/chat/completions";
 
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}/openai/chat/completions");
+            Debug.WriteLine($"[PollinationsDebug] POST URL: {url}");
+            Debug.WriteLine($"[PollinationsDebug] Payload Preview (Truncated): {jsonPayload.Substring(0, Math.Min(jsonPayload.Length, 200))}...");
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", !string.IsNullOrWhiteSpace(ApiKey) ? ApiKey : "");
+            System.Diagnostics.Debug.WriteLine($"[Pollinations] Using Key: '{request.Headers.Authorization.Parameter}'");
+            request.Headers.TryAddWithoutValidation("Origin", "FairmarkApp");
 
             HttpResponseMessage response = null;
             string connectionError = null;
 
-            // 1. Próba wysłania żądania (bez yield w catch)
             try
             {
+                Debug.WriteLine("[PollinationsDebug] Sending request...");
                 response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                Debug.WriteLine($"[PollinationsDebug] Response headers received. Status: {response.StatusCode}");
             }
             catch (Exception ex)
             {
-                // Zapisujemy błąd, ale nie robimy tu yield return
                 connectionError = $"Failed to connect: {ex.Message}";
+                Debug.WriteLine($"[PollinationsDebug] Connection Exception: {ex}");
             }
 
-            // 2. Obsługa błędu połączenia (poza blokiem catch)
             if (connectionError != null)
             {
                 yield return new LLMStreamedNote
@@ -159,27 +196,41 @@ namespace Fairmark.AI.Providers
                 yield break;
             }
 
-            // 3. Obsługa błędu HTTP (np. 404, 500)
             if (!response.IsSuccessStatusCode)
             {
-                yield return new LLMStreamedNote { Title = "API Error", ContentPart = $"API returned {response.StatusCode}" };
+                string errorContent = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"[PollinationsDebug] HTTP Error Content: {errorContent}");
+
+                yield return new LLMStreamedNote { Title = "API Error", ContentPart = $"API returned {response.StatusCode}: {errorContent}" };
                 response.Dispose();
                 yield break;
             }
 
-            // 4. Czytanie strumienia
             using (response)
             using (var stream = await response.Content.ReadAsStreamAsync())
             using (var reader = new StreamReader(stream))
             {
+                Debug.WriteLine("[PollinationsDebug] Starting to read stream...");
+
                 while (!reader.EndOfStream && !cancellationToken.IsCancellationRequested)
                 {
                     var line = await reader.ReadLineAsync();
 
-                    if (string.IsNullOrWhiteSpace(line) || !line.StartsWith("data: ")) continue;
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+
+                    if (!line.StartsWith("data: "))
+                    {
+                        Debug.WriteLine($"[PollinationsDebug] Skipping non-data line: {line}");
+                        continue;
+                    }
 
                     var data = line.Substring(6).Trim();
-                    if (data == "[DONE]") break;
+                    if (data == "[DONE]")
+                    {
+                        Debug.WriteLine("[PollinationsDebug] Received [DONE] signal.");
+                        break;
+                    }
 
                     string content = null;
                     try
@@ -196,9 +247,14 @@ namespace Fairmark.AI.Providers
                                 }
                             }
                         }
+                        else
+                        {
+                            Debug.WriteLine($"[PollinationsDebug] JSON parsed but no valid content found in choices: {data}");
+                        }
                     }
-                    catch
+                    catch (Exception jsonEx)
                     {
+                        Debug.WriteLine($"[PollinationsDebug] JSON Parse Error for line: '{data}'. Error: {jsonEx.Message}");
                         continue;
                     }
 
@@ -207,8 +263,10 @@ namespace Fairmark.AI.Providers
                         yield return new LLMStreamedNote { Title = "Pollinations AI", ContentPart = content };
                     }
                 }
+                Debug.WriteLine("[PollinationsDebug] Stream loop finished.");
             }
         }
+
         public IAsyncEnumerable<LLMStreamedNote> StreamCreateNote(string promptOrDocument, string modelName = null, CancellationToken cancellationToken = default)
         {
             var chatHistory = new List<LLMChatMessage>
@@ -231,7 +289,7 @@ namespace Fairmark.AI.Providers
         {
             return chatHistory.Select(msg => new
             {
-                role = msg.Role.ToString().ToLowerInvariant(), // "user" or "assistant"
+                role = msg.Role.ToString().ToLowerInvariant(),
                 content = msg.Content
             }).Cast<object>().ToList();
         }

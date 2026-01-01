@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Fairmark.Intelligence.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Fairmark.Intelligence.Models;
+using Windows.Storage;
 
 namespace Fairmark.Intelligence.Providers
 {
@@ -11,14 +12,24 @@ namespace Fairmark.Intelligence.Providers
     {
         public string Name => "Debug provider 2";
         public string ApiKey { get => ""; set => Debug.WriteLine("Tried to write debug provider api key"); }
+        private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
+        public string LastUsedModel
+        {
+            get
+            {
+                string current = _localSettings.Values["debug2LastModel"] as string;
+                return current;
+            }
+            set
+            {
+                _localSettings.Values["debug2LastModel"] = value?.Trim();
+            }
+        }
 
-
-        // Implementacja Task<IEnumerable<...>>
         public async Task<IEnumerable<LLMModelInfo>> GetAvailableModelsAsync()
         {
             Debug.WriteLine("GetAvailableModelsAsync called");
 
-            // Symulacja opóźnienia sieciowego
             await Task.Delay(100);
 
             return new List<LLMModelInfo>
@@ -27,7 +38,6 @@ namespace Fairmark.Intelligence.Providers
             };
         }
 
-        // Implementacja IAsyncEnumerable dla czatu
         public async IAsyncEnumerable<LLMStreamedNote> StreamChat(
             IEnumerable<LLMChatMessage> chatHistory,
             string modelName = null,
@@ -44,7 +54,6 @@ namespace Fairmark.Intelligence.Providers
             {
                 if (cancellationToken.IsCancellationRequested) yield break;
 
-                // Używamy await zamiast .Wait(), co jest możliwe dzięki IAsyncEnumerable
                 await Task.Delay(100, cancellationToken);
 
                 yield return new LLMStreamedNote
@@ -62,7 +71,6 @@ namespace Fairmark.Intelligence.Providers
         {
             Debug.WriteLine($"StreamCreateNote called. promptOrDocument: {promptOrDocument}, modelName: {modelName}");
 
-            // Tworzymy historię czatu, aby zasymulować logikę podobną do prawdziwych providerów
             var history = new List<LLMChatMessage>
             {
                 new LLMChatMessage { Role = LLMChatRole.User, Content = promptOrDocument }

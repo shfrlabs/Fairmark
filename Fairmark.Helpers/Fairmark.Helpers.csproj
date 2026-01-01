@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AnnouncementHelper.cs" />
     <Compile Include="EmojiHelper.cs" />
     <Compile Include="GridLengthAnimationHelper.cs" />
     <Compile Include="ImageFolderHelper.cs" />

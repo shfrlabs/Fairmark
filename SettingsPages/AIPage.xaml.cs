@@ -3,6 +3,8 @@ using Fairmark.Intelligence;
 using Fairmark.Intelligence.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +14,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Fairmark.SettingsPages
 {
-    public sealed partial class AIPage : Page
+    public sealed partial class AIPage : Page, INotifyPropertyChanged
     {
         private CancellationTokenSource _currentCancellationTokenSource;
-        // Add this field to your AIPage class
         private readonly Windows.ApplicationModel.Resources.ResourceLoader _loader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+        public event PropertyChangedEventHandler PropertyChanged;
         public AIPage()
         {
             this.InitializeComponent();
@@ -27,28 +29,46 @@ namespace Fairmark.SettingsPages
                     frame.RequestedTheme = e.Theme;
                 }
             };
-            ais?.RefreshModels();
+            if (ais != null)
+            {
+                ais.PropertyChanged += Ais_PropertyChanged;
+                ais.RefreshModels();
+            }
+        }
+
+        private void Ais_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AISettings.SelectedProvider))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(currentProvider)));
+                Debug.WriteLine($"[AIPage] Provider changed. UI updated to: {currentProvider?.Name}");
+            }
         }
 
         public AISettings ais => App.AISettings;
-        public ILLMProvider currentProvider => ais.ProviderByName(ais.SelectedProvider) is Type providerType
-            ? Activator.CreateInstance(providerType) as ILLMProvider
-            : null;
+        public ILLMProvider currentProvider
+        {
+            get
+            {
+                var providerType = ais.ProviderByName(ais.SelectedProvider);
+                return providerType != null ? Activator.CreateInstance(providerType) as ILLMProvider : null;
+            }
+        }
 
         private async void Send_Click(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("[PollinationsDebug] Send_Click triggered.");
+
             var textBox = this.FindName("TextBox") as TextBox ?? FindTextBoxInPage();
             var responseBlock = this.FindName("Response") as TextBlock;
-            
-            if (textBox == null || responseBlock == null)
-                return;
+
+            if (textBox == null || responseBlock == null) return;
 
             string userInput = textBox.Text?.Trim();
-            if (string.IsNullOrEmpty(userInput))
-                return;
+            if (string.IsNullOrEmpty(userInput)) return;
 
             Send.IsEnabled = false;
-            responseBlock.Text = _loader.GetString("AIPage_Status_Processing"); //
+            responseBlock.Text = _loader.GetString("AIPage_Status_Processing");
 
             _currentCancellationTokenSource?.Cancel();
             _currentCancellationTokenSource = new CancellationTokenSource();
@@ -56,36 +76,32 @@ namespace Fairmark.SettingsPages
             try
             {
                 var selectedModel = ais.SelectedModel;
-                var selectedProvider = ais.SelectedProvider;
+                var selectedProviderName = ais.SelectedProvider;
 
-                if (string.IsNullOrEmpty(selectedProvider) || selectedModel == null)
-                {
-                    responseBlock.Text = _loader.GetString("AIPage_Error_NoSelection"); //
-                    return;
-                }
-
-                var providerType = ais.ProviderByName(selectedProvider);
+                var providerType = ais.ProviderByName(selectedProviderName);
                 if (providerType == null || !(Activator.CreateInstance(providerType) is ILLMProvider provider))
                 {
-                    responseBlock.Text = _loader.GetString("AIPage_Error_Instantiation"); //
+                    responseBlock.Text = _loader.GetString("AIPage_Error_Instantiation");
                     return;
                 }
 
-                // ... chat logic and streaming ...
+                Debug.WriteLine($"[AIPage] Sending with Provider: {provider.Name}");
+                Debug.WriteLine($"[AIPage] API Key Length: {(provider.ApiKey?.Length ?? 0)}");
+
+                var chatHistory = new List<LLMChatMessage>
+                {
+                    new LLMChatMessage { Role = LLMChatRole.User, Content = userInput }
+                };
+
+                await StreamResponseAsync(provider, chatHistory, selectedModel?.Name, responseBlock, _currentCancellationTokenSource.Token);
 
                 if (!_currentCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    responseBlock.Text += _loader.GetString("AIPage_Status_Completed"); //
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                responseBlock.Text += _loader.GetString("AIPage_Status_Cancelled"); //
             }
             catch (Exception ex)
             {
-                // Use string.Format to inject the exception message into the localized template
-                responseBlock.Text = string.Format(_loader.GetString("AIPage_Error_Generic"), ex.Message); //
+                responseBlock.Text = string.Format(_loader.GetString("AIPage_Error_Generic"), ex.Message);
             }
             finally
             {

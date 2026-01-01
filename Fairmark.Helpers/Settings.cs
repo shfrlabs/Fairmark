@@ -154,7 +154,7 @@ namespace Fairmark.Helpers
                 {
                     return b;
                 }
-                return 0; // Default to first option (Left side-by-side)
+                return 0;
             }
             set
             {

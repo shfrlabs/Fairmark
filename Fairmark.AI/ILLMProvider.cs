@@ -10,6 +10,7 @@ namespace Fairmark.Intelligence
     {
         string Name { get; }
         string ApiKey { get; set; }
+        string LastUsedModel { get; set; }
         Task<IEnumerable<LLMModelInfo>> GetAvailableModelsAsync();
 
         IAsyncEnumerable<LLMStreamedNote> StreamSummarizeNote(

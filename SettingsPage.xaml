@@ -38,11 +38,11 @@
                         <FontIcon Glyph="&#xE790;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem x:Uid="AINavViewItem" Tag="AI">
+                <!--<controls:NavigationViewItem x:Uid="AINavViewItem" Tag="AI">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF4A5;" />
                     </controls:NavigationViewItem.Icon>
-                </controls:NavigationViewItem>
+                </controls:NavigationViewItem>-->
                 <controls:NavigationViewItem x:Uid="FeaturesNavViewItem" Tag="Features">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE74C;" />

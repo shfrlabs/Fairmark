@@ -24,10 +24,10 @@
     <PackageCertificateKeyFile>Fairmark_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>F:\FairmarkFinalStore</AppxPackageDir>
+    <AppxPackageDir>C:\Users\Bruno\Desktop\</AppxPackageDir>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <AppInstallerUri>https://shef3r.dev/FairmarkBeta.appinstaller</AppInstallerUri>
     <HoursBetweenUpdateChecks>1</HoursBetweenUpdateChecks>
   </PropertyGroup>
