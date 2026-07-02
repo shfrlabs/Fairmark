@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
-using CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
+﻿using CommunityToolkit.WinUI.Controls;
 using Fairmark.Converters;
 using Fairmark.Helpers;
 using Fairmark.Models;
@@ -61,7 +60,12 @@ namespace Fairmark
                 theme.H4FontSize = baseSize * 1.2;
                 theme.H5FontSize = baseSize * 1.1;
                 theme.H6FontSize = baseSize;
-                theme.HeadingForeground = MarkBlock.Foreground;
+                theme.H1Foreground = MarkBlock.Foreground;
+                theme.H2Foreground = MarkBlock.Foreground;
+                theme.H3Foreground = MarkBlock.Foreground;
+                theme.H4Foreground = MarkBlock.Foreground;
+                theme.H5Foreground = MarkBlock.Foreground;
+                theme.H6Foreground = MarkBlock.Foreground;
                 config.Themes = theme;
                 MarkBlock.Config = config;
             }
@@ -74,7 +78,12 @@ namespace Fairmark
                 MarkBlock.Config.Themes.H4FontSize = baseSize * 1.2;
                 MarkBlock.Config.Themes.H5FontSize = baseSize * 1.1;
                 MarkBlock.Config.Themes.H6FontSize = baseSize;
-                MarkBlock.Config.Themes.HeadingForeground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H1Foreground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H2Foreground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H3Foreground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H4Foreground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H5Foreground = MarkBlock.Foreground;
+                MarkBlock.Config.Themes.H6Foreground = MarkBlock.Foreground;
             }
 
             string original = MarkBlock.Text;

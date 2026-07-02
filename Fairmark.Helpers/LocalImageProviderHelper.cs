@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+﻿using CommunityToolkit.WinUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

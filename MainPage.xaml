@@ -64,7 +64,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                     <Image Source="Assets/StoreLogo.png" Width="20" Height="20" VerticalAlignment="Center" Margin="15,0,0,0"/>
                 </StackPanel>
-                <AppBarButton Width="48" Grid.Column="2" CornerRadius="4" Height="44" VerticalAlignment="Center" Margin="-1,0,0,0" x:Uid="MoreButton" Click="TopMore_Click" x:Name="TopMore">
+                <AppBarButton Width="48" Grid.Column="2" CornerRadius="4" Height="44" VerticalAlignment="Center" Margin="-1,-1,0,2" x:Uid="MoreButton" Click="TopMore_Click" x:Name="TopMore">
                     <AppBarButton.Icon>
                         <SymbolIcon Symbol="More" Margin="0,-1,0,1"/>
                     </AppBarButton.Icon>
@@ -102,12 +102,12 @@
                 </AppBarButton>
                 <AppBarToggleButton Grid.Column="4" CornerRadius="4" Height="44" Width="50" x:Name="Search" x:Uid="FindButton" Click="Search_Click">
                     <AppBarToggleButton.Icon>
-                        <SymbolIcon Symbol="Find" Margin="0,-1,0,1"/>
+                        <SymbolIcon Symbol="Find"/>
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
                 <AppBarToggleButton x:Uid="FilesButton" CornerRadius="4" Height="44" Grid.Column="5" Width="50" x:Name="Explorer" Click="Explorer_Click">
                     <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xEC50;" Margin="0,-1,0,1" />
+                        <FontIcon Glyph="&#xEC50;" HorizontalAlignment="Center"/>
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
             </Grid>
@@ -144,7 +144,7 @@
                         <SymbolIcon Symbol="ClosePane" Margin="0,-3,0,3"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="235">
+                <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,-50,0,0" Width="230">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -184,7 +184,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Grid Grid.Row="0" Margin="0,-50,-5,0">
+                    <Grid Grid.Row="0" x:Name="sortbtns">
                         <CommandBar HorizontalAlignment="Right">
                             <AppBarButton x:Uid="FilterBtn" FontSize="10" x:Name="Filter" Click="Filter_Click" LabelPosition="Collapsed" HorizontalAlignment="Right" Margin="0,0,5,0" Height="40" Width="40">
                                 <AppBarButton.Icon>
@@ -251,7 +251,7 @@
                             
                         </CommandBar>
                     </Grid>
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="2" x:Name="notecontrols">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>

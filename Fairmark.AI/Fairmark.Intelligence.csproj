@@ -123,7 +123,6 @@
   <ItemGroup>
     <Compile Include="AISettings.cs" />
     <Compile Include="ILLMProvider.cs" />
-    <Compile Include="Keys.cs" />
     <Compile Include="Models\LLMChatMessage.cs" />
     <Compile Include="Models\LLMModelInfo.cs" />
     <Compile Include="Models\LLMStreamedNote.cs" />

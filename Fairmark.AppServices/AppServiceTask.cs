@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -75,7 +75,7 @@ namespace Fairmark.AppServices
         {
             try
             {
-                (string Id, string Name, string Emoji, Color[] Colors, bool IsPinned, DateTimeOffset? LastModified)[] values = await Fairmark.Helpers.NoteCollectionHelper.GetNoteListAsync();
+                var values = await Fairmark.Helpers.NoteCollectionHelper.GetNoteListAsync();
                 List<FairmarkNoteItem> noteItems = new List<FairmarkNoteItem>();
 
                 Debug.WriteLine(values.Count());
@@ -92,19 +92,18 @@ namespace Fairmark.AppServices
                     });
                 }
 
-                var sortedNoteItems = noteItems.OrderByDescending(note => note.LastModified.Value.Ticks).ToList();
+                var sortedNoteItems = noteItems.OrderByDescending(note => note.LastModified?.Ticks ?? 0).ToList();
 
                 foreach (var item in sortedNoteItems)
                 {
-                    Debug.WriteLine(item.Name + ": " + item.LastModified.Value.Ticks);
+                    Debug.WriteLine(item.Name + ": " + (item.LastModified?.Ticks ?? 0));
                 }
 
-                Debug.Write(System.Text.Json.JsonSerializer.Serialize(sortedNoteItems[0]));
                 return System.Text.Json.JsonSerializer.Serialize(sortedNoteItems);
             }
-            catch
+            catch (Exception ex)
             {
-                Debug.WriteLine("Failed to get note list.");
+                Debug.WriteLine($"Failed to get note list: {ex.Message}");
                 return "[]";
             }
         }
